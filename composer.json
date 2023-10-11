@@ -1,0 +1,17 @@
+{
+    "name": "mantax559/laravel-helpers",
+    "description": "Laravel Helpers",
+    "autoload": {
+        "psr-4": {
+            "Mantax559\\LaravelHelpers\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "mantax559"
+        }
+    ],
+    "require": {
+        "laravel/framework": "^9.0"
+    }
+}
