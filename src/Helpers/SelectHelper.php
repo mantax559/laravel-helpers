@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Support;
+namespace Mantax559\LaravelHelpers\Helpers;
 
 use Illuminate\Support\Collection;
 

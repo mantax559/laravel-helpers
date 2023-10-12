@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Support\Database;
+namespace Mantax559\LaravelHelpers\Helpers;
 
-class Table
+class TableHelper
 {
     public static function getName(string $model): string
     {

@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Support;
-
-use App\Support\Database\Table;
+namespace Mantax559\LaravelHelpers\Helpers;
 
 class SessionHelper
 {
     public static function getUrlKey(string $model): string
     {
-        return Table::getName($model) . '_page_url';
+        return TableHelper::getName($model) . '_page_url';
     }
 
     public static function setDefaultUrlIfEmpty(string $model, string $route): void

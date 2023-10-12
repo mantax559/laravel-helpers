@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Traits;
+namespace Mantax559\LaravelHelpers\Traits;
 
 use Illuminate\Contracts\Support\MessageBag;
 use Illuminate\Support\Facades\View;

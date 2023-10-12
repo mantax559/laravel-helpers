@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Providers;
+namespace Mantax559\LaravelHelpers\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
-class PackageServiceProvider extends ServiceProvider
+class AppServiceProvider extends ServiceProvider
 {
     private const CONFIG_FILE = __DIR__.'/../config/laravel-helpers.php';
 

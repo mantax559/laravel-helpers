@@ -1,9 +1,9 @@
 <?php
 
-namespace App\View\Components\Forms;
+namespace Mantax559\LaravelHelpers\View\Components\Forms;
 
-use App\Traits\HandlesValidationErrors;
-use App\View\Components\Component;
+use Mantax559\LaravelHelpers\Traits\HandlesValidationErrors;
+use Mantax559\LaravelHelpers\View\Components\Component;
 
 abstract class FormComponent extends Component
 {

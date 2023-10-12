@@ -1,8 +1,8 @@
 <?php
 
-namespace App\View\Components\Forms;
+namespace Mantax559\LaravelHelpers\View\Components\Forms;
 
-use App\View\Components\Component;
+use Mantax559\LaravelHelpers\View\Components\Component;
 
 class Error extends Component
 {

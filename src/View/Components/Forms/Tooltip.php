@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components\Forms;
+namespace Mantax559\LaravelHelpers\View\Components\Forms;
 
 class Tooltip extends FormComponent
 {

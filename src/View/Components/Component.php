@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components;
+namespace Mantax559\LaravelHelpers\View\Components;
 
 use Closure;
 use Illuminate\Contracts\Foundation\Application;
