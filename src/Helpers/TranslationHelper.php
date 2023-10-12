@@ -2,8 +2,6 @@
 
 namespace App\Support;
 
-use App\Enums\TranslationStatusEnum;
-
 class TranslationHelper
 {
     public static function getMostAccurate($model, string $idKey, bool $withDescription = false, array $parentModelNames = []): array
@@ -11,18 +9,18 @@ class TranslationHelper
         if (!empty($model->translation)) {
             $modelTranslation = $model->translation;
         } else {
-            $modelTranslation = $model->translations->where('translation_status', TranslationStatusEnum::Confirmed)->first();
+            $modelTranslation = $model->translations->where('translation_status', config('laravel-helpers.translations_enum.confirmed'))->first();
 
             if (empty($modelTranslation)) {
-                $modelTranslation = $model->translations->where('translation_status', TranslationStatusEnum::Manual)->first();
+                $modelTranslation = $model->translations->where('translation_status', config('laravel-helpers.translations_enum.manual'))->first();
             }
 
             if (empty($modelTranslation)) {
-                $modelTranslation = $model->translations->where('translation_status', TranslationStatusEnum::External)->first();
+                $modelTranslation = $model->translations->where('translation_status', config('laravel-helpers.translations_enum.external'))->first();
             }
 
             if (empty($modelTranslation)) {
-                $modelTranslation = $model->translations->where('translation_status', TranslationStatusEnum::Auto)->first();
+                $modelTranslation = $model->translations->where('translation_status', config('laravel-helpers.translations_enum.auto'))->first();
             }
         }
 

@@ -164,7 +164,7 @@ class ValidationHelper
             if ($withTranslationStatus) {
                 $rule[$locale . '.translation_status'] = [
                     'nullable',
-                    new Enum(TranslationStatusEnum::class),
+                    new Enum(config('laravel-helpers.translations_enum.class')),
                 ];
             }
 
