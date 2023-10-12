@@ -6,7 +6,7 @@ class SessionHelper
 {
     public static function getUrlKey(string $model): string
     {
-        return TableHelper::getName($model) . '_page_url';
+        return TableHelper::getName($model).'_page_url';
     }
 
     public static function setDefaultUrlIfEmpty(string $model, string $route): void

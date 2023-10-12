@@ -40,7 +40,7 @@ class ValidationHelper
     {
         return [
             self::getRequiredRule($isRequired),
-            'max:' . self::MAX_STRING_LENGTH,
+            'max:'.self::MAX_STRING_LENGTH,
         ];
     }
 
@@ -48,8 +48,8 @@ class ValidationHelper
     {
         return [
             self::getRequiredRule($isRequired),
-            'min:' . $min,
-            'max:' . self::MAX_TEXT_LENGTH,
+            'min:'.$min,
+            'max:'.self::MAX_TEXT_LENGTH,
         ];
     }
 
@@ -66,7 +66,7 @@ class ValidationHelper
         return [
             self::getRequiredRule($isRequired),
             'numeric',
-            'min:' . $lowestNumber,
+            'min:'.$lowestNumber,
         ];
     }
 
@@ -75,7 +75,7 @@ class ValidationHelper
         return [
             self::getRequiredRule($isRequired),
             'integer',
-            'min:' . $lowestNumber,
+            'min:'.$lowestNumber,
         ];
     }
 
@@ -86,8 +86,8 @@ class ValidationHelper
             'date',
         ];
 
-        if (!empty($after)) {
-            $rules = array_merge($rules, ['after:' . $after]);
+        if (! empty($after)) {
+            $rules = array_merge($rules, ['after:'.$after]);
         }
 
         return $rules;
@@ -98,9 +98,9 @@ class ValidationHelper
         return [
             self::getRequiredRule($isRequired),
             'image',
-            'max:' . self::MAX_FILE_SIZE,
-            'dimensions:min_width=' . self::MIN_IMAGE_DIMENSION . ',min_height=' . self::MIN_IMAGE_DIMENSION,
-            'mimes:' . self::ACCEPT_IMAGE_EXTENSIONS,
+            'max:'.self::MAX_FILE_SIZE,
+            'dimensions:min_width='.self::MIN_IMAGE_DIMENSION.',min_height='.self::MIN_IMAGE_DIMENSION,
+            'mimes:'.self::ACCEPT_IMAGE_EXTENSIONS,
         ];
     }
 
@@ -108,8 +108,8 @@ class ValidationHelper
     {
         return [
             self::getRequiredRule($isRequired),
-            'max:' . self::MAX_FILE_SIZE,
-            'mimes:' . self::ACCEPT_FILE_EXTENSIONS,
+            'max:'.self::MAX_FILE_SIZE,
+            'mimes:'.self::ACCEPT_FILE_EXTENSIONS,
         ];
     }
 
@@ -118,8 +118,8 @@ class ValidationHelper
         return [
             self::getRequiredRule(is_more($minRules, 0)),
             'array',
-            'min:' . $minRules,
-            'max:' . ($maxRules ?? self::MAX_ARRAY),
+            'min:'.$minRules,
+            'max:'.($maxRules ?? self::MAX_ARRAY),
         ];
     }
 
@@ -150,7 +150,7 @@ class ValidationHelper
     {
         return [
             self::getRequiredRule($isRequired),
-            'max:' . self::MAX_STRING_LENGTH,
+            'max:'.self::MAX_STRING_LENGTH,
             new Enum($enum),
         ];
     }
@@ -162,25 +162,25 @@ class ValidationHelper
             $rule = [];
 
             if ($withTranslationStatus) {
-                $rule[$locale . '.translation_status'] = [
+                $rule[$locale.'.translation_status'] = [
                     'nullable',
                     new Enum(config('laravel-helpers.translations_enum.class')),
                 ];
             }
 
             if ($withDescription) {
-                $rule[$locale . '.title'] = [
-                    'required_with:' . $locale . '.description',
-                    'max:' . self::MAX_STRING_LENGTH,
+                $rule[$locale.'.title'] = [
+                    'required_with:'.$locale.'.description',
+                    'max:'.self::MAX_STRING_LENGTH,
                 ];
 
-                $rule[$locale . '.description'] = [
+                $rule[$locale.'.description'] = [
                     'nullable',
                 ];
             } else {
-                $rule[$locale . '.title'] = [
+                $rule[$locale.'.title'] = [
                     'nullable',
-                    'max:' . self::MAX_STRING_LENGTH,
+                    'max:'.self::MAX_STRING_LENGTH,
                 ];
             }
 
@@ -196,7 +196,7 @@ class ValidationHelper
 
         foreach ($fields as $fieldLine => $fieldItem) {
             if (cmprstr($field, $fieldItem)) {
-                return ((int)$line + 1) . ' ' . __($fieldLine);
+                return ((int) $line + 1).' '.__($fieldLine);
             }
         }
 

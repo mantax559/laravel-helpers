@@ -11,12 +11,12 @@ class SelectHelper
         return collect([
             [
                 'id' => '1',
-                'text' => __('Taip')
+                'text' => __('Taip'),
             ],
             [
                 'id' => '0',
-                'text' => __('Ne')
-            ]
+                'text' => __('Ne'),
+            ],
         ]);
     }
 
@@ -25,16 +25,16 @@ class SelectHelper
         return collect([
             [
                 'id' => 'success',
-                'text' => __('Sėkmingas pranešimas')
+                'text' => __('Sėkmingas pranešimas'),
             ],
             [
                 'id' => 'warning',
-                'text' => __('Įspėjimas')
+                'text' => __('Įspėjimas'),
             ],
             [
                 'id' => 'error',
-                'text' => __('Klaida')
-            ]
+                'text' => __('Klaida'),
+            ],
         ]);
     }
 
@@ -43,12 +43,12 @@ class SelectHelper
         return collect([
             [
                 'id' => '1',
-                'text' => __('Atrakinta')
+                'text' => __('Atrakinta'),
             ],
             [
                 'id' => '0',
-                'text' => __('Užrakinta')
-            ]
+                'text' => __('Užrakinta'),
+            ],
         ]);
     }
 }

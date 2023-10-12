@@ -25,7 +25,7 @@ abstract class FormComponent extends Component
     ) {
         parent::__construct('form');
 
-        $this->id = !empty($this->id) ? $this->id : $this->convertNameToId($name);
+        $this->id = ! empty($this->id) ? $this->id : $this->convertNameToId($name);
         $this->placeholder = $placeholder ?? ($title ?? null);
         $this->value = old($this->convertBracketsToDots($name), $value) ?? null;
         $this->autocomplete = $this->autocomplete ? 'on' : 'off';

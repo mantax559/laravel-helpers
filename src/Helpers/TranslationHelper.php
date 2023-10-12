@@ -6,7 +6,7 @@ class TranslationHelper
 {
     public static function getMostAccurate($model, string $idKey, bool $withDescription = false, array $parentModelNames = []): array
     {
-        if (!empty($model->translation)) {
+        if (! empty($model->translation)) {
             $modelTranslation = $model->translation;
         } else {
             $modelTranslation = $model->translations->where('translation_status', config('laravel-helpers.translations_enum.confirmed'))->first();
@@ -29,11 +29,11 @@ class TranslationHelper
         foreach ($parentModelNames as $parentModelName) {
             $parentModel = $parentModel->$parentModelName;
             if (empty($parentModel->translation)) {
-                $parentModelTitle = '<i><span class="text-secondary">' . __('Nėra vertimo') . '</span></i>';
+                $parentModelTitle = '<i><span class="text-secondary">'.__('Nėra vertimo').'</span></i>';
             } else {
                 $parentModelTitle = $parentModel->title;
             }
-            $fullTitle = $parentModelTitle . ' <i class="fas fa-angle-right text-secondary px-2"></i> ' . $fullTitle;
+            $fullTitle = $parentModelTitle.' <i class="fas fa-angle-right text-secondary px-2"></i> '.$fullTitle;
         }
 
         $data = [

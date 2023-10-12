@@ -5,7 +5,9 @@ namespace Mantax559\LaravelHelpers\Helpers;
 class RedirectHelper
 {
     public const SaveAndStay = 'save_and_stay';
+
     public const SaveAndClose = 'save_and_close';
+
     public const FileRemove = 'file_remove';
 
     public static function getUrl(string $model, string $action = self::SaveAndClose): string

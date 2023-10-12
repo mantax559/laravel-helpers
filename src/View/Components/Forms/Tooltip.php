@@ -6,8 +6,8 @@ class Tooltip extends FormComponent
 {
     public function __construct(
         string $title,
-        ?string $class = null,
-        ?string $position = null,
+        string $class = null,
+        string $position = null,
         public ?string $icon = null,
     ) {
         $this->icon = $this->icon ?? config('laravel-helpers.css.form.tooltip.icon');

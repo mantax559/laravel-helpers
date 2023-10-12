@@ -5,13 +5,13 @@ namespace Mantax559\LaravelHelpers\View\Components\Forms;
 class Textarea extends FormComponent
 {
     public function __construct(
-        ?string $name = null,
-        ?string $class = null,
-        ?string $id = null,
-        ?string $value = null,
-        ?string $title = null,
-        ?string $placeholder = null,
-        ?string $tooltip = null,
+        string $name = null,
+        string $class = null,
+        string $id = null,
+        string $value = null,
+        string $title = null,
+        string $placeholder = null,
+        string $tooltip = null,
         bool $autocomplete = false,
         bool $autofocus = false,
         bool $disabled = false,
