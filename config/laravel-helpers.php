@@ -12,7 +12,6 @@ return [
     'css' => [
         'form' => [
             'error' => [
-                'bag' => 'default',
                 'inline' => [
                     'div' => 'invalid-feedback',
                 ]

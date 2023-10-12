@@ -4,8 +4,6 @@ namespace App\View\Components\Forms;
 
 class Textarea extends FormComponent
 {
-    public string $locale;
-
     public function __construct(
         ?string $name = null,
         ?string $class = null,
@@ -20,8 +18,9 @@ class Textarea extends FormComponent
         bool $required = true,
         public bool $ckeditor = true,
         public int $rows = 2,
+        public ?string $locale = null,
     ) {
-        $this->locale = app()->getLocale();
+        $this->locale = $this->locale ?? app()->getLocale();
 
         parent::__construct(
             inputAttributes: [
