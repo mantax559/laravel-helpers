@@ -1,10 +1,4 @@
-@props(['icon', 'class', 'title',])
-
-<i class="{{ $icon }} {{ $class ?? 'text-secondary' }}"
-   data-toggle="tooltip"
-   data-placement="left"
-   title="{{ $title }}">
-</i>
+<i {{ $attributes->merge($inputAttributes)->class([$class, $icon]) }}></i>
 
 @once
     @push('scripts')

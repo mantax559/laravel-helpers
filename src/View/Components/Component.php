@@ -41,4 +41,9 @@ abstract class Component extends BaseComponent
 
         return $name;
     }
+
+    protected function mergeClasses(array $classes): string
+    {
+        return format_string(implode(' ', $classes));
+    }
 }

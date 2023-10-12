@@ -12,14 +12,15 @@ return [
     'css' => [
         'form' => [
             'error' => [
+                'bag' => 'default',
                 'inline' => [
-                    'input' => 'is-invalid',
                     'div' => 'invalid-feedback',
                 ]
             ],
             'tooltip' => [
                 'color' => 'text-secondary',
                 'icon' => 'fas fa-question-circle',
+                'position' => 'top',
             ],
             'textarea' => [
                 'wrap' => 'form-group mb-0',
