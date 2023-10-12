@@ -7,21 +7,19 @@ use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    private const CONFIG_FILE = __DIR__.'/../../config/laravel-helpers.php';
+    private const CONFIG_FILE = __DIR__ . '/../../config/laravel-helpers.php';
 
-    private const PATH_VIEWS = __DIR__.'/../../resources/views';
+    private const PATH_VIEWS = __DIR__ . '/../../resources/views';
 
     public function boot(): void
     {
-        if ($this->app->runningInConsole()) {
-            $this->publishes([
-                self::CONFIG_FILE => config_path('laravel-helpers.php'),
-            ], 'config');
-        }
+        $this->publishes([
+            self::CONFIG_FILE => config_path('laravel-helpers.php'),
+        ], 'config');
 
         $this->loadViewsFrom(self::PATH_VIEWS, 'laravel-helpers');
 
-        $this->registerComponents()->registerComponentsPublishers();
+        $this->registerComponents();
     }
 
     public function register(): void
@@ -31,20 +29,7 @@ class AppServiceProvider extends ServiceProvider
 
     private function registerComponents(): self
     {
-        Blade::componentNamespace('App\\View\\Components\\Forms', 'form');
-
-        return $this;
-    }
-
-    public function registerComponentsPublishers(): self
-    {
-        $this->publishes([
-            self::PATH_VIEWS => resource_path('views/vendor/laravel-helpers'),
-        ], 'components');
-
-        $this->publishes([
-            self::PATH_VIEWS . '/form' => resource_path('views/vendor/laravel-helpers/form'),
-        ], 'form-components');
+        Blade::componentNamespace('Mantax559\\LaravelHelpers\\View\\Components\\Forms', 'form');
 
         return $this;
     }
