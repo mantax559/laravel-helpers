@@ -14,18 +14,18 @@ return [
             'error' => [
                 'inline' => [
                     'div' => 'invalid-feedback',
-                ]
+                ],
+            ],
+            'textarea' => [
+                'wrap' => 'form-group mb-0',
+                'label' => 'text-secondary mb-1',
+                'input' => 'form-control',
             ],
             'tooltip' => [
                 'color' => 'text-secondary',
                 'icon' => 'fas fa-question-circle',
                 'position' => 'top',
             ],
-            'textarea' => [
-                'wrap' => 'form-group mb-0',
-                'label' => 'text-secondary mb-1',
-                'input' => 'form-control',
-            ]
-        ]
+        ],
     ],
 ];
