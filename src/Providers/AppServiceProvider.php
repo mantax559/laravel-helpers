@@ -13,7 +13,7 @@ class PackageServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        if (function_exists('config_path')) {
+        if ($this->app->runningInConsole()) {
             $this->publishes([
                 self::CONFIG_FILE => config_path('laravel-helpers.php'),
             ], 'config');
@@ -36,11 +36,6 @@ class PackageServiceProvider extends ServiceProvider
         return $this;
     }
 
-    /**
-     * Register the publishers of the component resources.
-     *
-     * @return $this
-     */
     public function registerComponentsPublishers(): self
     {
         $this->publishes([

@@ -3,6 +3,7 @@
   "description": "Laravel Helpers",
   "type": "library",
   "license": "MIT",
+  "keywords": [],
   "authors": [
     {
       "name": "mantax559"
@@ -20,15 +21,10 @@
       "src/helpers.php"
     ]
   },
-  "autoload-dev": {
-    "psr-4": {
-      "Mantax559\\LaravelHelpers\\Tests\\": "tests"
-    }
-  },
   "extra": {
     "laravel": {
       "providers": [
-        "Mantax559\\LaravelHelpers\\PackageServiceProvider"
+        "Mantax559\\LaravelHelpers\\Providers\\AppServiceProvider"
       ]
     }
   },
