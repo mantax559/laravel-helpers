@@ -11,10 +11,20 @@ return [
 
     'css' => [
         'form' => [
-            'error' => 'invalid-feedback',
-            'input-group' => 'form-group mb-0',
+            'error' => [
+                'inline' => [
+                    'input' => 'is-invalid',
+                    'div' => 'invalid-feedback',
+                ]
+            ],
+            'tooltip' => [
+                'color' => 'text-secondary',
+                'icon' => 'fas fa-question-circle',
+            ],
             'textarea' => [
-                'label' => 'text-secondary mb-1'
+                'wrap' => 'form-group mb-0',
+                'label' => 'text-secondary mb-1',
+                'input' => 'form-control',
             ]
         ]
     ],

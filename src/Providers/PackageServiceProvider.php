@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\View\Components\Forms\Textarea;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 

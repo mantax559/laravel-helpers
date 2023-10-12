@@ -1,6 +1,5 @@
 <?php
 
-use Ausi\SlugGenerator\SlugGenerator;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 
@@ -69,7 +68,7 @@ if (!function_exists('percentage')) {
 if (!function_exists('slugify')) {
     function slugify($string): string
     {
-        return (new SlugGenerator())->generate((string)$string);
+        //return (new SlugGenerator())->generate((string)$string);
     }
 }
 

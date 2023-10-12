@@ -30,4 +30,15 @@ abstract class Component extends BaseComponent
     {
         return rtrim(str_replace(['[', ']'], ['.', ''], $name), '.');
     }
+
+    protected function convertNameToId(string $name): string
+    {
+        $name = str_replace([']'], '', $name);
+        $name = str_replace(['['], '_', $name);
+        $name = preg_replace('/[^a-zA-Z1-9_]/', '', $name);
+        $name = str_replace(['_'], ' ', $name);
+        $name = format_string(format_string($name, 2), 7);
+
+        return $name;
+    }
 }

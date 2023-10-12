@@ -1,30 +1,22 @@
-@props(['class', 'title', 'tooltip', 'id', 'placeholder', 'name', 'rows', 'autocompleteOff', 'autofocus','disabled', 'required', 'value', 'ckeditor'])
-
-<div {{ $attributes->class([config('laravel-helpers.css.form.textarea.group'), $class ?? null]) }}>
+<div {{ $attributes->class([config('laravel-helpers.css.form.textarea.wrap'), $class ?? null]) }}>
 
     @isset($title)
         <label for="{{ $id ?? make_unique_id($name) }}" class="{{ config('laravel-helpers.css.form.textarea.label') }}">{{ $title }}</label>
     @endisset
 
-    @isset($tooltip)
+    {{--@isset($tooltip)
         <x-tooltip title="{{ $tooltip }}"></x-tooltip>
-    @endisset
+    @endisset--}}
 
-    <textarea class="form-control @error(name_to_old($name)) is-invalid @enderror"
-              id="{{ $id ?? make_unique_id($name) }}"
-              placeholder="{{ $placeholder ?? ($title ?? __('Įveskite...')) }}"
-              name="{{ $name }}"
-              rows="{{ $rows ?? 2 }}"
-              @isset($autocompleteOff) autocomplete="off" @endisset
-              {{ isset($autofocus) ? 'autofocus' : null }}
-              {{ isset($disabled) ? 'disabled' : null }}
-              {{ isset($required) ? 'required' : null }}>
-              {!! old(name_to_old($name), $value) !!}
-    </textarea>
+    <textarea {{ $attributes->merge($inputAttributes)
+                 ->class([
+                    config('laravel-helpers.css.form.textarea.input'),
+                    config('laravel-helpers.css.form.error.inline.div') => $hasError($name)
+                 ])}}>{{ $value }}</textarea>
 
-    @error(name_to_old($name))
-    <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
+    @if($hasError($name))
+        <x-form::error :name="$name"/>
+    @endif
 </div>
 
 @isset($ckeditor)

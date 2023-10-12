@@ -5,9 +5,7 @@ namespace App\View\Components\Forms;
 class Textarea extends FormComponent
 {
     public function __construct(
-        public bool $ckeditor = true,
-        public int $rows = 2,
-        string $name,
+        string $name = null,
         string $class = null,
         string $id = null,
         string $value = null,
@@ -18,19 +16,24 @@ class Textarea extends FormComponent
         bool $autofocus = false,
         bool $disabled = false,
         bool $required = true,
+        public bool $ckeditor = true,
+        public int $rows = 2,
     ) {
         parent::__construct(
-            $name,
-            $class,
-            $id,
-            $value,
-            $title,
-            $placeholder,
-            $tooltip,
-            $autocomplete,
-            $autofocus,
-            $disabled,
-            $required
+            inputAttributes: [
+                'rows' => $rows,
+            ],
+            name: $name,
+            class: $class,
+            id: $id,
+            value: $value,
+            title: $title,
+            placeholder: $placeholder,
+            tooltip: $tooltip,
+            autocomplete: $autocomplete,
+            autofocus: $autofocus,
+            disabled: $disabled,
+            required: $required
         );
     }
 }
