@@ -7,9 +7,9 @@ use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    private const CONFIG_FILE = __DIR__.'/../config/laravel-helpers.php';
+    private const CONFIG_FILE = __DIR__.'/../../config/laravel-helpers.php';
 
-    private const PATH_VIEWS = __DIR__.'/../resources/views';
+    private const PATH_VIEWS = __DIR__.'/../../resources/views';
 
     public function boot(): void
     {
