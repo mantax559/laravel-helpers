@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'home_route' => route('home'),
+    'homepage' => redirect('/'),
 
     'random_id_length' => 15,
 
