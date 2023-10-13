@@ -16,9 +16,9 @@ class Checkbox extends FormComponent
         string $id = null,
         string $value = null,
         string $title = null,
-        array $checked = null,
         bool $disabled = false,
         bool $required = false,
+        string|array $checked = null,
     ) {
         $type = $type ?? self::TYPE_CHECKBOX;
 
@@ -31,9 +31,9 @@ class Checkbox extends FormComponent
             id: $id,
             value: $value,
             title: $title,
-            selected: $checked,
             disabled: $disabled,
-            required: $required
+            required: $required,
+            checked: $checked,
         );
     }
 

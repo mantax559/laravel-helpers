@@ -10,7 +10,6 @@ class Select extends FormComponent
         string $name,
         string $class = null,
         string $id = null,
-        string $selected = null,
         string $title = null,
         string $placeholder = null,
         string $tooltip = null,
@@ -19,6 +18,7 @@ class Select extends FormComponent
         bool $autofocus = false,
         bool $disabled = false,
         bool $required = false,
+        public string|array|null $selected = null,
         public ?string $wireModel = null,
         public ?string $wireModelDefer = null,
         public ?string $api = null,
@@ -35,7 +35,6 @@ class Select extends FormComponent
             name: $name,
             class: $class,
             id: $id,
-            selected: $selected,
             title: $title,
             placeholder: $placeholder,
             tooltip: $tooltip,
@@ -43,7 +42,7 @@ class Select extends FormComponent
             append: $append,
             autofocus: $autofocus,
             disabled: $disabled,
-            required: $required
+            required: $required,
         );
     }
 }
