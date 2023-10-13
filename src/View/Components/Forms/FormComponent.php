@@ -35,8 +35,7 @@ abstract class FormComponent extends Component
             $this->placeholder = $this->placeholder ?? ($this->title ?? null);
         }
 
-        $this->name = $this->name ?? (!empty($this->title) ? $this->convertTitleToName($this->title) : null);
-        $this->id = $this->id ?? $this->getRandomId();
+        $this->id = !empty($this->id) ? $this->id : $this->getRandomId();
         $this->value = old($this->convertBracketsToDots($this->name), $this->value) ?? null;
 
         $values = [

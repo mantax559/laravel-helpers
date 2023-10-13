@@ -7,7 +7,7 @@ class Textarea extends FormComponent
     public string $locale;
 
     public function __construct(
-        string $name = null,
+        string $name,
         string $class = null,
         string $id = null,
         string $value = null,
