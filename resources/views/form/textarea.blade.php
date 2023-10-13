@@ -1,4 +1,4 @@
-<x-form::input-group :name="$name" :class="$class" :prepend="$prepend" :append="$append">
+<x-form::input-group :name="$name" :class="$class" :append="$append">
 
     @isset($title)
         <x-form::label :id="$id" :title="$title" :required="$required"/>
@@ -8,8 +8,7 @@
         <x-form::tooltip :title="$tooltip"/>
     @endisset
 
-    <textarea class="{{ config('laravel-helpers.css.form.textarea.class') }}"
-        {{ $attributes->merge($inputAttributes)->class([config('laravel-helpers.css.form.textarea.class'), config('laravel-helpers.css.form.error.inline.input') => $hasError($name)]) }}>
+    <textarea {{ $attributes->merge($inputAttributes)->class([config('laravel-helpers.css.form.textarea.class'), config('laravel-helpers.css.form.error.inline.input') => $hasError($name)]) }}>
         {{ $value }}
     </textarea>
 </x-form::input-group>

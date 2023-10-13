@@ -19,7 +19,6 @@ abstract class FormComponent extends Component
         public ?string $placeholder = null,
         public ?string $tooltip = null,
         public ?string $autocomplete = null,
-        public ?string $prepend = null,
         public ?string $append = null,
         public bool $autofocus = false,
         public bool $disabled = false,

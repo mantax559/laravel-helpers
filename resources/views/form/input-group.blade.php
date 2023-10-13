@@ -1,8 +1,4 @@
 <div class="{{ $class }}">
-    @isset($prepend)
-        {!! $prepend !!}
-    @endisset
-
     {{ $slot }}
 
     @if($hasError($name))
