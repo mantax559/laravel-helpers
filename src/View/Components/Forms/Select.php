@@ -35,7 +35,7 @@ class Select extends FormComponent
             name: $name,
             class: $class,
             id: $id,
-            value: $selected,
+            selected: $selected,
             title: $title,
             placeholder: $placeholder,
             tooltip: $tooltip,

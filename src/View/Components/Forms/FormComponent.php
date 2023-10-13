@@ -25,6 +25,7 @@ abstract class FormComponent extends Component
         public ?string $tooltip = null,
         public ?string $autocomplete = null,
         public ?string $append = null,
+        public ?array $selected = [],
         public ?bool $autofocus = null,
         public ?bool $disabled = null,
         public ?bool $required = null,
@@ -37,6 +38,7 @@ abstract class FormComponent extends Component
 
         $this->id = !empty($this->id) ? $this->id : $this->getRandomId();
         $this->value = old($this->convertBracketsToDots($this->name), $this->value) ?? null;
+        $this->selected = cmprstr($this->selected, $this->value) ?? null;
 
         $values = [
             'name' => $this->name,
@@ -45,6 +47,7 @@ abstract class FormComponent extends Component
             'id' => $this->id,
             'value' => $this->value,
             'title' => $this->title,
+            'selected' => $this->selected,
             'placeholder' => $this->placeholder,
             'autocomplete' => $this->autocomplete,
             'autofocus' => $this->autofocus,
