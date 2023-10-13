@@ -1,22 +1,17 @@
-<div class="{{ $class }}">
-
+<x-form::input-group :name="$name" :prepend="$prepend" :append="$append">
     @isset($title)
         <label for="{{ $id }}" class="{{ config('laravel-helpers.css.form.textarea.label') }}">{{ $title }}</label>
     @endisset
 
     @isset($tooltip)
-        <x-form::tooltip title="{{ $tooltip }}"/>
+        <x-form::tooltip :title="$tooltip"/>
     @endisset
 
     <textarea {{ $attributes->merge($inputAttributes)->class([
                     config('laravel-helpers.css.form.textarea.input'),
                     config('laravel-helpers.css.form.error.inline.input') => $hasError($name)
              ])}}>{{ $value }}</textarea>
-
-    @if($hasError($name))
-        <x-form::error name="{{ $name }}"/>
-    @endif
-</div>
+</x-form::input-group>
 
 @if($ckeditor)
     @push('scripts')
