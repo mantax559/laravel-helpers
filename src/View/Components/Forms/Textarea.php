@@ -17,7 +17,7 @@ class Textarea extends FormComponent
         string $append = null,
         bool $autofocus = false,
         bool $disabled = false,
-        bool $required = true,
+        bool $required = false,
         int $rows = 2,
         public bool $ckeditor = false,
         public ?string $locale = null,

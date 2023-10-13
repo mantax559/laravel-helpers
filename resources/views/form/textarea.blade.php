@@ -1,12 +1,6 @@
 <x-form::input-group :name="$name" :class="$class" :prepend="$prepend" :append="$append">
-    @isset($title)
-        <label for="{{ $id }}" class="{{ config('laravel-helpers.css.form.textarea.label') }}">
-            {{ $title }}
-            @if($required)
-                <span class="text-danger">*</span>
-            @endif
-        </label>
-    @endisset
+    
+    <x-form::label :id="$id" :title="$title" :required="$required"/>
 
     @isset($tooltip)
         <x-form::tooltip :title="$tooltip"/>

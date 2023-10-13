@@ -23,7 +23,7 @@ abstract class FormComponent extends Component
         public ?string $append = null,
         public bool $autofocus = false,
         public bool $disabled = false,
-        public bool $required = true,
+        public bool $required = false,
     ) {
         parent::__construct('form');
 

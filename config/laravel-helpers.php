@@ -16,8 +16,10 @@ return [
             'input-group' => [
                 'class' => 'mb-0'
             ],
+            'label' => [
+                'class' => 'text-secondary mb-1',
+            ],
             'textarea' => [
-                'label' => 'text-secondary mb-1',
                 'input' => 'form-control',
             ],
             'tooltip' => [
