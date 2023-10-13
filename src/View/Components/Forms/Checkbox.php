@@ -10,8 +10,8 @@ class Checkbox extends FormComponent
      * @throws Exception
      */
     public function __construct(
-        string $name,
         string $type,
+        string $name = null,
         string $class = null,
         string $id = null,
         string $checked = null,

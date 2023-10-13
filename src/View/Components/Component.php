@@ -28,6 +28,11 @@ abstract class Component extends BaseComponent
         return rtrim(str_replace(['[', ']'], ['.', ''], $name), '.');
     }
 
+    protected function convertTitleToName(string $name): string
+    {
+        return str_replace('/\s+/', '_', format_string($name, 3));
+    }
+
     protected function getRandomId(): string
     {
         $length = config('laravel-helpers.random_id_length');
