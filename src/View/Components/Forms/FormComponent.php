@@ -26,7 +26,7 @@ abstract class FormComponent extends Component
         parent::__construct('form');
 
         $this->class = $this->mergeClasses([
-            config('laravel-helpers.css.form.textarea.input'),
+            $this->class,
             $this->hasError($this->name) ? config('laravel-helpers.css.form.error.inline.input') : null,
         ]);
         $this->id = ! empty($this->id) ? $this->id : $this->getRandomId();

@@ -1,4 +1,4 @@
-<i class="{{ $class }}" {{ $attributes->merge($inputAttributes) }}></i>
+<i class="{{ $class }}" title="{{ $title }}" data-toggle="tooltip" data-placement="{{ $position }}"></i>
 
 @once
     @push('scripts')
