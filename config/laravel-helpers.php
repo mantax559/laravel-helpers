@@ -5,6 +5,12 @@ return [
 
     'random_id_length' => 15,
 
+    'select2' => [
+        'minimum_results_for_search' => 20,
+        'data_cache_duration_seconds' => 60,
+        'pagination_per_query' => 50,
+    ],
+
     'form' => [
         'error' => [
             'input_class' => 'is-invalid',
@@ -19,7 +25,6 @@ return [
         ],
         'select' => [
             'class' => 'form-select',
-            'minimum_results_for_search' => 20,
         ],
         'textarea' => [
             'class' => 'form-control',

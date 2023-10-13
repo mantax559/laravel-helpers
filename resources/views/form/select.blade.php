@@ -22,7 +22,7 @@
     }
 
     @if(!empty($data))
-        @if(is_more_or_equal(config('laravel-helpers.form.select.minimum_results_for_search'), count($data)))
+        @if(is_more_or_equal(config('laravel-helpers.select2.minimum_results_for_search'), count($data)))
             settings.minimumResultsForSearch = Infinity;
         @endif
         settings.data = @json($data);
@@ -87,7 +87,7 @@
         }
 
         @if(!empty($data))
-            @if(is_more_or_equal(config('laravel-helpers.form.select.minimum_results_for_search'), count($data)))
+            @if(is_more_or_equal(config('laravel-helpers.select2.minimum_results_for_search'), count($data)))
                 settings.minimumResultsForSearch = Infinity;
             @endif
             settings.data = @json($data);
