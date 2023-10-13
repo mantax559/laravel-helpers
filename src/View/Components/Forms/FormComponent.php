@@ -27,10 +27,6 @@ abstract class FormComponent extends Component
     ) {
         parent::__construct('form');
 
-        $this->class = $this->mergeClasses([
-            $this->class,
-            $this->hasError($this->name) ? config('laravel-helpers.css.form.error.inline.input') : null,
-        ]);
         $this->id = ! empty($this->id) ? $this->id : $this->getRandomId();
         $this->placeholder = $this->placeholder ?? ($this->title ?? null);
         $this->value = old($this->convertBracketsToDots($this->name), $this->value) ?? null;
