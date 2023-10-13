@@ -9,9 +9,14 @@ abstract class FormComponent extends Component
 {
     use HandlesValidationErrors;
 
+    protected const TYPE_CHECKBOX = 'checkbox';
+
+    protected const TYPE_RADIO = 'radio';
+
     public function __construct(
         public array $inputAttributes = [],
         public ?string $name = null,
+        public ?string $type = null,
         public ?string $class = null,
         public ?string $id = null,
         public ?string $value = null,
@@ -20,41 +25,44 @@ abstract class FormComponent extends Component
         public ?string $tooltip = null,
         public ?string $autocomplete = null,
         public ?string $append = null,
-        public bool $autofocus = false,
-        public bool $disabled = false,
-        public bool $required = false,
+        public ?bool $autofocus = null,
+        public ?bool $disabled = null,
+        public ?bool $required = null,
     ) {
         parent::__construct('form');
 
-        $this->id = ! empty($this->id) ? $this->id : $this->getRandomId();
-        $this->placeholder = $this->placeholder ?? ($this->title ?? null);
+        if (!cmprstr($this->type, self::TYPE_CHECKBOX) && !cmprstr($this->type, self::TYPE_RADIO)) {
+            $this->placeholder = $this->placeholder ?? ($this->title ?? null);
+        }
+
+        $this->id = !empty($this->id) ? $this->id : $this->getRandomId();
         $this->value = old($this->convertBracketsToDots($this->name), $this->value) ?? null;
-        $this->autocomplete = ! empty($this->autocomplete) ? 'on' : 'off';
+        $this->autocomplete = !empty($this->autocomplete) ? ($this->autocomplete ? 'on' : 'off') : null;
 
-        $this->inputAttributes = array_merge(
-            $this->inputAttributes,
-            [
-                'name' => $this->name,
-                'class' => $this->class,
-                'id' => $this->id,
-                'value' => $this->value,
-                'title' => $this->title,
-                'placeholder' => $this->placeholder,
-                'tooltip' => $this->tooltip,
-                'autocomplete' => $this->autocomplete,
-            ]
-        );
+        $values = [
+            'name' => $this->name,
+            'type' => $this->type,
+            'class' => $this->class,
+            'id' => $this->id,
+            'value' => $this->value,
+            'title' => $this->title,
+            'placeholder' => $this->placeholder,
+            'tooltip' => $this->tooltip,
+            'autocomplete' => $this->autocomplete,
+            'autofocus' => $this->autofocus,
+            'disabled' => $this->disabled,
+            'required' => $this->required,
+        ];
 
-        if ($this->autofocus) {
-            $this->inputAttributes['autofocus'] = 'autofocus';
+        foreach ($values as $attribute => $value) {
+            $this->addToInputAttributesIfNotEmpty($attribute, $value);
         }
+    }
 
-        if ($this->disabled) {
-            $this->inputAttributes['disabled'] = 'disabled';
-        }
-
-        if ($this->required) {
-            $this->inputAttributes['required'] = 'required';
+    private function addToInputAttributesIfNotEmpty(string $key, bool|string|array|null $value): void
+    {
+        if ($value) {
+            $this->inputAttributes[$key] = $value;
         }
     }
 }
