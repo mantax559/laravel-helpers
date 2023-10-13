@@ -11,69 +11,71 @@
 </x-form::input-group>
 
 {{-- TODO: Hardcode --}}
-<script type="text/javascript">
-    settings = {
-        multiple: {{ $multiple ? 'true' : 'false' }},
-        theme: 'bootstrap-5',
-        language: '{{ $locale }}',
-        width: '100%',
-        placeholder: '{{ $placeholder }}',
-        allowClear: {{ $multiple && !$required ? 'true' : 'false' }},
-    }
+@if(isset($wireModel) || isset($wireModelDefer))
+    <script type="text/javascript">
+        settings = {
+            multiple: {{ $multiple ? 'true' : 'false' }},
+            theme: 'bootstrap-5',
+            language: '{{ $locale }}',
+            width: '100%',
+            placeholder: '{{ $placeholder }}',
+            allowClear: {{ $multiple && !$required ? 'true' : 'false' }},
+        }
 
-    @if(!empty($data))
-        @if(is_more_or_equal(config('laravel-helpers.select2.minimum_results_for_search'), count($data)))
-            settings.minimumResultsForSearch = Infinity;
+        @if(!empty($data))
+            @if(is_more_or_equal(config('laravel-helpers.select2.minimum_results_for_search'), count($data)))
+                settings.minimumResultsForSearch = Infinity;
+            @endif
+            settings.data = @json($data);
+        @elseif(!empty($api))
+            settings.ajax = {
+                url: '{{ $api }}',
+                type: 'post',
+                dataType: 'json',
+                delay: 100,
+                data: function (params) {
+                    return {
+                        query: params.term,
+                        page: params.page || 1,
+                        _token: '{{ csrf_token() }}',
+                    };
+                },
+                cache: true
+            };
         @endif
-        settings.data = @json($data);
-    @elseif(!empty($api))
-        settings.ajax = {
-            url: '{{ $api }}',
-            type: 'post',
-            dataType: 'json',
-            delay: 100,
-            data: function (params) {
-                return {
-                    query: params.term,
-                    page: params.page || 1,
-                    _token: '{{ csrf_token() }}',
-                };
-            },
-            cache: true
-        };
-    @endif
 
-    $('#{{ $id }}').select2(settings).val(null).trigger('change');
+        $('#{{ $id }}').select2(settings).val(null).trigger('change');
 
-    @if(!empty($value) || cmprstr($value, 0) || isset($disabled))
-        $('#{{ $id }}').prop('disabled', true);
-        @if(!empty($value) || cmprstr($value, 0))
-            values = @json($value);
-            @if(isset($data))
-                $('#{{ $id }}').val(values).trigger('change').prop('disabled', false);
-            @elseif(isset($api))
-                data = new FormData();
-                data.append('values', values);
-                data.append('_token', '{{ csrf_token() }}');
+        @if(!empty($value) || cmprstr($value, 0) || isset($disabled))
+            $('#{{ $id }}').prop('disabled', true);
+            @if(!empty($value) || cmprstr($value, 0))
+                values = @json($value);
+                @if(isset($data))
+                    $('#{{ $id }}').val(values).trigger('change').prop('disabled', false);
+                @elseif(isset($api))
+                    data = new FormData();
+                    data.append('values', values);
+                    data.append('_token', '{{ csrf_token() }}');
 
-                $.ajax({
-                    url: '{{ $api }}',
-                    type: 'post',
-                    dataType: 'json',
-                    data: data,
-                    cache: false,
-                    processData: false,
-                    contentType: false,
-                }).then(function (data) {
-                    data.forEach(function (item) {
-                        $('#{{ $id }}').append(new Option(item.text, item.id, true, true));
+                    $.ajax({
+                        url: '{{ $api }}',
+                        type: 'post',
+                        dataType: 'json',
+                        data: data,
+                        cache: false,
+                        processData: false,
+                        contentType: false,
+                    }).then(function (data) {
+                        data.forEach(function (item) {
+                            $('#{{ $id }}').append(new Option(item.text, item.id, true, true));
+                        });
+                        $('#{{ $id }}').prop('disabled', false);
                     });
-                    $('#{{ $id }}').prop('disabled', false);
-                });
+                @endif
             @endif
         @endif
-    @endif
-</script>
+    </script>
+@endif
 
 @push('scripts')
     <script type="text/javascript">

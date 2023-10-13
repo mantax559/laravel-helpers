@@ -4,6 +4,8 @@ namespace Mantax559\LaravelHelpers\View\Components\Forms;
 
 class Textarea extends FormComponent
 {
+    public string $locale;
+
     public function __construct(
         string $name,
         string $class = null,
@@ -19,7 +21,6 @@ class Textarea extends FormComponent
         bool $required = false,
         public int $rows = 2,
         public bool $ckeditor = false,
-        public ?string $locale = null,
     ) {
         $this->locale = $this->locale ?? app()->getLocale();
 

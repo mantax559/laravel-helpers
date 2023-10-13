@@ -4,6 +4,8 @@ namespace Mantax559\LaravelHelpers\View\Components\Forms;
 
 class Select extends FormComponent
 {
+    public string $locale;
+
     public function __construct(
         string $name,
         string $class = null,
