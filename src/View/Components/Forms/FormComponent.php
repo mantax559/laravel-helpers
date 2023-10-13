@@ -37,7 +37,6 @@ abstract class FormComponent extends Component
 
         $this->id = !empty($this->id) ? $this->id : $this->getRandomId();
         $this->value = old($this->convertBracketsToDots($this->name), $this->value) ?? null;
-        $this->autocomplete = !empty($this->autocomplete) ? ($this->autocomplete ? 'on' : 'off') : null;
 
         $values = [
             'name' => $this->name,
@@ -47,7 +46,6 @@ abstract class FormComponent extends Component
             'value' => $this->value,
             'title' => $this->title,
             'placeholder' => $this->placeholder,
-            'tooltip' => $this->tooltip,
             'autocomplete' => $this->autocomplete,
             'autofocus' => $this->autofocus,
             'disabled' => $this->disabled,
