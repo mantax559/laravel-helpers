@@ -30,7 +30,7 @@ abstract class Component extends BaseComponent
 
     protected function convertTitleToName(string $name): string
     {
-        return str_replace('/\s+/', '_', format_string($name, 3));
+        return preg_replace('/\s+/', '_', format_string($name, 3));
     }
 
     protected function getRandomId(): string

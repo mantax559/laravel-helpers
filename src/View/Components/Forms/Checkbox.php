@@ -10,7 +10,7 @@ class Checkbox extends FormComponent
      * @throws Exception
      */
     public function __construct(
-        string $type,
+        string $type = null,
         string $name = null,
         string $class = null,
         string $id = null,
@@ -19,6 +19,8 @@ class Checkbox extends FormComponent
         bool $disabled = false,
         bool $required = false,
     ) {
+        $type = $type ?? self::TYPE_CHECKBOX;
+
         $this->validateType($type);
 
         parent::__construct(
@@ -35,7 +37,7 @@ class Checkbox extends FormComponent
 
     private function validateType(string $type): void
     {
-        $availableTypes = array_values([self::TYPE_CHECKBOX, self::TYPE_RADIO]);
+        $availableTypes = array_flip([self::TYPE_CHECKBOX, self::TYPE_RADIO]);
 
         if (!isset($availableTypes[$type])) {
             throw new Exception("Checkbox type cannot be '$type'!");
