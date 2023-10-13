@@ -207,30 +207,6 @@ if (! function_exists('file_last_modified')) {
     }
 }
 
-if (! function_exists('make_unique_id')) {
-    function make_unique_id(string $id): string
-    {
-        $id = str_replace([']'], '', $id);
-        $id = str_replace(['['], '_', $id);
-        $id = preg_replace('/[^a-zA-Z1-9_]/', '', $id);
-        $id = str_replace(['_'], ' ', $id);
-        $id = lcfirst(mb_ucwords($id));
-        $id = preg_replace('/\s+/', '', $id);
-
-        return $id;
-    }
-}
-
-if (! function_exists('name_to_old')) {
-    function name_to_old(string $name): string
-    {
-        $name = str_replace([']'], '', $name);
-        $name = str_replace(['['], '.', $name);
-
-        return $name;
-    }
-}
-
 // Arrays
 if (! function_exists('unique_multidim_array')) {
     function unique_multidim_array($data, $first_key, $second_key): array

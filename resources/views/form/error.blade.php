@@ -1,5 +1,5 @@
 @error("$name*", $bag)
-    <div class="{{ config('laravel-helpers.css.form.error.inline.div') }}">
+    <div class="{{ config('laravel-helpers.form.error.message_class') }}">
         {{ $message }}
     </div>
 @enderror

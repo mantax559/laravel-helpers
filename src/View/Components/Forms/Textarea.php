@@ -17,7 +17,7 @@ class Textarea extends FormComponent
         bool $autofocus = false,
         bool $disabled = false,
         bool $required = false,
-        int $rows = 2,
+        public int $rows = 2,
         public bool $ckeditor = false,
         public ?string $locale = null,
     ) {
@@ -25,7 +25,7 @@ class Textarea extends FormComponent
 
         parent::__construct(
             inputAttributes: [
-                'rows' => $rows,
+                'rows' => $this->rows,
             ],
             name: $name,
             class: $class,

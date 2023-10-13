@@ -15,9 +15,9 @@ class Tooltip extends Component
         parent::__construct('form');
 
         $this->class = $this->mergeClasses([
-            $class ?? config('laravel-helpers.css.form.tooltip.color'),
-            $icon ?? config('laravel-helpers.css.form.tooltip.icon'),
+            $class ?? config('laravel-helpers.form.tooltip.class'),
+            $icon ?? config('laravel-helpers.form.tooltip.icon'),
         ]);
-        $this->position = $position ?? config('laravel-helpers.css.form.tooltip.position');
+        $this->position = $position ?? config('laravel-helpers.form.tooltip.position');
     }
 }
