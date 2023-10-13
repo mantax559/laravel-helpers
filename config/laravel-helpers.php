@@ -14,7 +14,7 @@ return [
                 ],
             ],
             'input-group' => [
-                'class' => 'form-group mb-0'
+                'class' => 'mb-0'
             ],
             'textarea' => [
                 'label' => 'text-secondary mb-1',

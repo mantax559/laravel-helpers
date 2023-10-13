@@ -1,13 +1,18 @@
-<x-form::input-group :name="$name" :prepend="$prepend" :append="$append">
+<x-form::input-group :name="$name" :class="$class" :prepend="$prepend" :append="$append">
     @isset($title)
-        <label for="{{ $id }}" class="{{ config('laravel-helpers.css.form.textarea.label') }}">{{ $title }}</label>
+        <label for="{{ $id }}" class="{{ config('laravel-helpers.css.form.textarea.label') }}">
+            {{ $title }}
+            @if($required)
+                <span class="text-danger">*</span>
+            @endif
+        </label>
     @endisset
 
     @isset($tooltip)
         <x-form::tooltip :title="$tooltip"/>
     @endisset
 
-    <textarea class="{{ $class }}" {{ $attributes->merge($inputAttributes)}}>{{ $value }}</textarea>
+    <textarea class="{{ config('laravel-helpers.css.form.textarea.input') }}" {{ $attributes->merge($inputAttributes)}}>{{ $value }}</textarea>
 </x-form::input-group>
 
 @if($ckeditor)
