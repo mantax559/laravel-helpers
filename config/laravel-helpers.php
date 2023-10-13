@@ -9,11 +9,12 @@ return [
         'form' => [
             'error' => [
                 'inline' => [
+                    'input' => 'is-invalid',
                     'div' => 'invalid-feedback',
                 ],
             ],
             'textarea' => [
-                'wrap' => 'form-group mb-0',
+                'group' => 'form-group mb-0',
                 'label' => 'text-secondary mb-1',
                 'input' => 'form-control',
             ],

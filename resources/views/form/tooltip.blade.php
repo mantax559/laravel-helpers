@@ -1,4 +1,4 @@
-<i {{ $attributes->merge($inputAttributes)->class([$class, $icon]) }}></i>
+<i {{ $attributes->merge($inputAttributes)->class($class) }}></i>
 
 @once
     @push('scripts')

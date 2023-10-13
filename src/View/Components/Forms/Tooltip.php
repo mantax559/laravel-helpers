@@ -8,16 +8,17 @@ class Tooltip extends FormComponent
         string $class = null,
         string $title = null,
         string $position = null,
-        public ?string $icon = null,
+        string $icon = null,
     ) {
-        $this->icon = $this->icon ?? config('laravel-helpers.css.form.tooltip.icon');
-
         parent::__construct(
             inputAttributes: [
                 'data-toggle' => 'tooltip',
                 'data-placement' => $position ?? config('laravel-helpers.css.form.tooltip.position'),
             ],
-            class: $class ?? config('laravel-helpers.css.form.tooltip.color'),
+            class: $this->mergeClasses([
+                $class ?? config('laravel-helpers.css.form.tooltip.color'),
+                $icon ?? config('laravel-helpers.css.form.tooltip.icon'),
+            ]),
             title: $title,
         );
     }

@@ -1,4 +1,4 @@
-<div {{ $attributes->class($class) }}>
+<div class="{{ $class }}">
 
     @isset($title)
         <label for="{{ $id }}" class="{{ config('laravel-helpers.css.form.textarea.label') }}">{{ $title }}</label>
@@ -10,7 +10,7 @@
 
     <textarea {{ $attributes->merge($inputAttributes)->class([
                     config('laravel-helpers.css.form.textarea.input'),
-                    config('laravel-helpers.css.form.error.inline.div') => $hasError($name)
+                    config('laravel-helpers.css.form.error.inline.input') => $hasError($name)
              ])}}>{{ $value }}</textarea>
 
     @if($hasError($name))

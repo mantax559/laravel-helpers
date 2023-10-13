@@ -18,7 +18,7 @@ abstract class FormComponent extends Component
         public ?string $title = null,
         public ?string $placeholder = null,
         public ?string $tooltip = null,
-        public bool $autocomplete = false,
+        public ?string $autocomplete = null,
         public bool $autofocus = false,
         public bool $disabled = false,
         public bool $required = true,
@@ -28,7 +28,7 @@ abstract class FormComponent extends Component
         $this->id = ! empty($this->id) ? $this->id : $this->getRandomId();
         $this->placeholder = $this->placeholder ?? ($this->title ?? null);
         $this->value = old($this->convertBracketsToDots($this->name), $this->value) ?? null;
-        $this->autocomplete = $this->autocomplete ? 'on' : 'off';
+        $this->autocomplete = ! empty($this->autocomplete) ? 'on' : 'off';
 
         $this->inputAttributes = array_merge(
             $this->inputAttributes,
@@ -45,15 +45,15 @@ abstract class FormComponent extends Component
         );
 
         if ($this->autofocus) {
-            $this->inputAttributes['autofocus'] = true;
+            $this->inputAttributes['autofocus'] = 'autofocus';
         }
 
         if ($this->disabled) {
-            $this->inputAttributes['disabled'] = true;
+            $this->inputAttributes['disabled'] = 'disabled';
         }
 
         if ($this->required) {
-            $this->inputAttributes['required'] = true;
+            $this->inputAttributes['required'] = 'required';
         }
     }
 }
