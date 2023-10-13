@@ -38,9 +38,11 @@ abstract class FormComponent extends Component
         }
 
         $this->id = !empty($this->id) ? $this->id : $this->getRandomId();
-        $this->value = old($this->convertBracketsToDots($this->name), $this->value) ?? null;
-        $this->selected = old($this->convertBracketsToDots($this->name), $this->selected) ?? null;
-        $this->checked = old($this->convertBracketsToDots($this->name), $this->checked) ?? null;
+
+        $oldName = $this->convertBracketsToDots($this->name);
+        $this->value = old($oldName, $this->value) ?? null;
+        $this->selected = old($oldName, $this->selected) ?? null;
+        $this->checked = old($oldName, $this->checked) ?? null;
 
         $values = [
             'name' => $this->name,
