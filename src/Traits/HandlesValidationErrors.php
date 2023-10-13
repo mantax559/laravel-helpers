@@ -11,8 +11,6 @@ use function request;
 
 trait HandlesValidationErrors
 {
-    public bool $showErrors;
-
     protected function getErrorBag(string $bag = 'default'): MessageBag
     {
         $bags = View::shared('errors', fn () => request()->session()->get('errors', new ViewErrorBag));

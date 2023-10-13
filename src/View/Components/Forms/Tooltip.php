@@ -5,8 +5,8 @@ namespace Mantax559\LaravelHelpers\View\Components\Forms;
 class Tooltip extends FormComponent
 {
     public function __construct(
-        string $title,
         string $class = null,
+        string $title = null,
         string $position = null,
         public ?string $icon = null,
     ) {

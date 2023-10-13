@@ -12,11 +12,8 @@ use Illuminate\View\Component as BaseComponent;
 
 abstract class Component extends BaseComponent
 {
-    protected string $namespace;
-
-    public function __construct(string $namespace)
+    public function __construct(protected string $namespace)
     {
-        $this->namespace = $namespace;
     }
 
     public function render(): View|Factory|Htmlable|string|Closure|Application
@@ -31,15 +28,11 @@ abstract class Component extends BaseComponent
         return rtrim(str_replace(['[', ']'], ['.', ''], $name), '.');
     }
 
-    protected function convertNameToId(string $name): string
+    protected function getRandomId(): string
     {
-        $name = str_replace([']'], '', $name);
-        $name = str_replace(['['], '_', $name);
-        $name = preg_replace('/[^a-zA-Z1-9_]/', '', $name);
-        $name = str_replace(['_'], ' ', $name);
-        $name = format_string(format_string($name, 2), 7);
+        $length = config('laravel-helpers.random_id_length');
 
-        return $name;
+        return str_shuffle(substr(str_repeat(md5(mt_rand()), 2 + $length / 32), 0, $length));
     }
 
     protected function mergeClasses(array $classes): string

@@ -16,7 +16,7 @@ class RedirectHelper
             $sessionKey = SessionHelper::getUrlKey($model);
 
             if (session()->missing($sessionKey)) {
-                return route('other.dashboard.index');
+                return config('laravel-helpers.home_route');
             } else {
                 return session($sessionKey);
             }

@@ -1,13 +1,9 @@
 <?php
 
 return [
-    'translations_enum' => [
-        'class' => null,
-        'confirmed' => null,
-        'manual' => null,
-        'external' => null,
-        'auto' => null,
-    ],
+    'home_route' => route('home'),
+
+    'random_id_length' => 15,
 
     'css' => [
         'form' => [

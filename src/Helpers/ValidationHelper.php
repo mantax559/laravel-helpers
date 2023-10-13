@@ -155,41 +155,6 @@ class ValidationHelper
         ];
     }
 
-    public static function getTranslationRule(bool $withDescription = false, bool $withTranslationStatus = false): array
-    {
-        $rules = [];
-        foreach (array_keys(config('app.languages')) as $locale) {
-            $rule = [];
-
-            if ($withTranslationStatus) {
-                $rule[$locale.'.translation_status'] = [
-                    'nullable',
-                    new Enum(config('laravel-helpers.translations_enum.class')),
-                ];
-            }
-
-            if ($withDescription) {
-                $rule[$locale.'.title'] = [
-                    'required_with:'.$locale.'.description',
-                    'max:'.self::MAX_STRING_LENGTH,
-                ];
-
-                $rule[$locale.'.description'] = [
-                    'nullable',
-                ];
-            } else {
-                $rule[$locale.'.title'] = [
-                    'nullable',
-                    'max:'.self::MAX_STRING_LENGTH,
-                ];
-            }
-
-            $rules += $rule;
-        }
-
-        return $rules;
-    }
-
     public static function getWithValidator(string $attribute, array $fields): ?string
     {
         [$field, $line] = explode('.', $attribute);
