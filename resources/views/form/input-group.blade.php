@@ -1,4 +1,4 @@
-<div class="{{ config('laravel-helpers.css.form.input-group.class') }}">
+<div class="{{ $class }}">
     @isset($prepend)
         {!! $prepend !!}
     @endisset

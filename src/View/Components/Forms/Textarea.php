@@ -18,8 +18,8 @@ class Textarea extends FormComponent
         bool $autofocus = false,
         bool $disabled = false,
         bool $required = true,
+        int $rows = 2,
         public bool $ckeditor = false,
-        public int $rows = 2,
         public ?string $locale = null,
     ) {
         $this->locale = $this->locale ?? app()->getLocale();

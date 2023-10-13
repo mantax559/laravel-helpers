@@ -10,7 +10,7 @@ abstract class FormComponent extends Component
     use HandlesValidationErrors;
 
     public function __construct(
-        public array $inputAttributes,
+        public array $inputAttributes = [],
         public ?string $name = null,
         public ?string $class = null,
         public ?string $id = null,
