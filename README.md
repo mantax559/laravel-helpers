@@ -18,6 +18,11 @@ You can optionally publish the config file with:
 
     php artisan vendor:publish --provider="Mantax559\LaravelHelpers\AppServiceProvider" --tag=config
 
+### Tests
+You can run tests with the command:
+
+    vendor/bin/phpunit
+
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE) for more information.

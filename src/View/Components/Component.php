@@ -10,7 +10,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Str;
 use Illuminate\View\Component as BaseComponent;
 
-class Component extends BaseComponent
+abstract class Component extends BaseComponent
 {
     public function __construct(protected string $namespace)
     {

@@ -8,9 +8,9 @@ class HelpersTest extends TestCase
 {
     public function test_mb_ucfirst()
     {
-        $this->assertEquals('Aceis', mb_ucfirst('aceis'));
-        $this->assertEquals('Ąčęėįš', mb_ucfirst('ąčęėįš'));
-        $this->assertEquals('Ктуальная', mb_ucfirst('ктуальная'));
+        $this->assertEquals('Aceis aceis', mb_ucfirst('aceis aceis'));
+        $this->assertEquals('Ąčęėįš ąčęėįš', mb_ucfirst('ąčęėįš ąčęėįš'));
+        $this->assertEquals('Ктуальная ктуальнаЯ', mb_ucfirst('ктуальная ктуальнаЯ'));
     }
 
     public function test_mb_ucwords()
@@ -45,8 +45,8 @@ class HelpersTest extends TestCase
 
     public function test_percentage()
     {
-        $this->assertEquals('123456789.5432%', percentage(123456789.54321));
-        $this->assertEquals('123456789.54%', percentage(123456789.54321, 2));
+        $this->assertEquals('123456789.5432%', percentage(123456789.54321, 4));
+        $this->assertEquals('123456789.54%', percentage(123456789.54321));
     }
 
     public function test_slugify()
