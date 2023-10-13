@@ -7,10 +7,7 @@
         <x-form::tooltip :title="$tooltip"/>
     @endisset
 
-    <textarea {{ $attributes->merge($inputAttributes)->class([
-                    config('laravel-helpers.css.form.textarea.input'),
-                    config('laravel-helpers.css.form.error.inline.input') => $hasError($name)
-             ])}}>{{ $value }}</textarea>
+    <textarea class="{{ $class }}" {{ $attributes->merge($inputAttributes)}}>{{ $value }}</textarea>
 </x-form::input-group>
 
 @if($ckeditor)

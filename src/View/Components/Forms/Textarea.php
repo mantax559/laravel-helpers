@@ -27,7 +27,7 @@ class Textarea extends FormComponent
                 'rows' => $rows,
             ],
             name: $name,
-            class: $this->mergeClasses([config('laravel-helpers.css.form.textarea.group'), $class]),
+            class: $class,
             id: $id,
             value: $value,
             title: $title,

@@ -15,5 +15,7 @@ class InputGroup extends Component
         public ?string $append = null,
     ) {
         parent::__construct('form');
+
+        $this->name = $this->convertBracketsToDots($name);
     }
 }

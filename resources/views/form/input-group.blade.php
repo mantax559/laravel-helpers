@@ -6,7 +6,7 @@
     {{ $slot }}
 
     @if($hasError($name))
-        <x-form::error name="{{ $name }}"/>
+        <x-form::error :name="$name"/>
     @endif
 
     @isset($append)
