@@ -10,6 +10,8 @@
     @endif
 
     @isset($append)
-        {!! $append !!}
+        <div class="{{ config('laravel-helpers.css.form.input-group.append') }}">
+            {!! $append !!}
+        </div>
     @endisset
 </div>

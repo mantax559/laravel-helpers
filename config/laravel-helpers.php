@@ -14,13 +14,14 @@ return [
                 ],
             ],
             'input-group' => [
-                'class' => 'mb-0'
+                'class' => 'mb-0',
+                'append' => 'form-text'
             ],
             'label' => [
                 'class' => 'text-secondary mb-1',
             ],
             'textarea' => [
-                'input' => 'form-control',
+                'class' => 'form-control',
             ],
             'tooltip' => [
                 'color' => 'text-secondary',

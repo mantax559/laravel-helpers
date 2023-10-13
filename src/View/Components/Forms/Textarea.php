@@ -5,7 +5,7 @@ namespace Mantax559\LaravelHelpers\View\Components\Forms;
 class Textarea extends FormComponent
 {
     public function __construct(
-        string $name = null,
+        string $name,
         string $class = null,
         string $id = null,
         string $value = null,
