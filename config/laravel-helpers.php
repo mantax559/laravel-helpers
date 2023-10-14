@@ -35,6 +35,14 @@ return [
         'select' => [
             'class' => 'form-select',
         ],
+        'tabs' => [
+            'name' => 'tab',
+            'class' => 'nav nav-tabs',
+            'item_class' => 'nav-item',
+            'link_class' => 'nav-link',
+            'content_class' => 'tab-content',
+            'panel_class' => 'tab-pane fade',
+        ],
         'textarea' => [
             'class' => 'form-control',
         ],
