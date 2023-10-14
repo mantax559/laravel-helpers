@@ -25,7 +25,7 @@ class Select2Helper
                         'id' => $item->id,
                         'text' => $item->$key,
                     ];
-                })->when(!isset($sort), function ($query) use ($sort) {
+                })->when(! isset($sort), function ($query) {
                     $query->sortBy('text');
                 });
 
@@ -38,12 +38,12 @@ class Select2Helper
             $data = Cache::get($cacheKey);
         }
 
-        if (!empty($validated['values'])) {
+        if (! empty($validated['values'])) {
             $data = $data->whereIn(
                 'id',
                 explode(',', $validated['values']),
             );
-        } elseif (!empty($validated['query'])) {
+        } elseif (! empty($validated['query'])) {
             $data = $data->filter(function ($item) use ($validated) {
                 return stristr($item['text'], $validated['query']);
             });
@@ -51,7 +51,7 @@ class Select2Helper
 
         $data = array_values($data->toArray());
 
-        if (!empty($validated['values']) || empty($validated['page'])) {
+        if (! empty($validated['values']) || empty($validated['page'])) {
             return $data;
         } else {
             return $this->addPagination($data, $validated['page']);
@@ -85,7 +85,7 @@ class Select2Helper
         return [
             'results' => $result,
             'pagination' => [
-                'more' => !cmprint($page, $totalPages),
+                'more' => ! cmprint($page, $totalPages),
             ],
         ];
     }

@@ -23,9 +23,11 @@ return [
         ],
         'input' => [
             'class' => 'form-control',
+            'label_class' => 'input-group-text',
+            'group_class' => 'input-group',
         ],
         'input_group' => [
-            'append_class' => 'form-text'
+            'append_class' => 'form-text',
         ],
         'label' => [
             'class' => 'text-secondary mb-1',

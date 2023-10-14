@@ -41,7 +41,7 @@ class Checkbox extends FormComponent
     {
         $availableTypes = array_flip([self::TYPE_CHECKBOX, self::TYPE_RADIO]);
 
-        if (!isset($availableTypes[$type])) {
+        if (! isset($availableTypes[$type])) {
             throw new Exception("Checkbox type cannot be '$type'!");
         }
     }

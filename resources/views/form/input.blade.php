@@ -10,6 +10,10 @@
 
     <input {{ $attributes->merge($inputAttributes)->class([config('laravel-helpers.form.input.class'), config('laravel-helpers.form.error.input_class') => $hasError($name)]) }} />
 
+    @isset($label)
+        <div class="{{ config('laravel-helpers.form.input.label_class') }}">{{ $label }}</div>
+    @endisset
+
 </x-form::input-group>
 
 @if(cmprstr($type, 'numeric'))

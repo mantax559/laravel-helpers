@@ -40,7 +40,7 @@ class Input extends FormComponent
             ],
             name: $name,
             type: $type,
-            class: $class,
+            class: $label ? $this->mergeClasses([$class, config('laravel-helpers.form.input.group_class')]) : $class,
             id: $id,
             value: $value,
             title: $title,
@@ -59,7 +59,7 @@ class Input extends FormComponent
     {
         $availableTypes = array_flip([self::TYPE_TEXT, self::TYPE_DATE, self::TYPE_DATETIME, self::TYPE_NUMERIC, self::TYPE_INTEGER]);
 
-        if (!isset($availableTypes[$type])) {
+        if (! isset($availableTypes[$type])) {
             throw new Exception("Input type cannot be '$type'!");
         }
     }
