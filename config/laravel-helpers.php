@@ -32,6 +32,17 @@ return [
         'label' => [
             'class' => 'text-secondary mb-1',
         ],
+        'modal' => [
+            'class' => 'modal fade',
+            'dialog_class' => 'modal-dialog',
+            'content_class' => 'modal-content shadow',
+            'header_class' => 'modal-header',
+            'title_class' => 'modal-title',
+            'body_class' => 'modal-body py-0 mb-2',
+            'footer_class' => 'modal-footer btn-group',
+            'close_button_class' => 'btn btn-lg btn-default',
+            'submit_button_class' => 'btn btn-lg',
+        ],
         'select' => [
             'class' => 'form-select',
         ],
