@@ -9,6 +9,7 @@ class Tabs extends Component
     public array $tabs = [];
 
     public function __construct(
+        public ?string $class = null,
         public ?string $title1 = null,
         public ?string $title2 = null,
         public ?string $title3 = null,
@@ -27,7 +28,6 @@ class Tabs extends Component
         public ?string $content7 = null,
         public ?string $content8 = null,
         public ?string $content9 = null,
-        public ?string $class = null,
     ) {
         parent::__construct('form');
 

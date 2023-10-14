@@ -19,12 +19,21 @@ class Modal extends Component
     ) {
         parent::__construct('form');
 
-        if ($submitText) {
-            $this->buttonAttributes = [
-                'class' => $this->mergeClasses([config('laravel-helpers.form.modal.submit_button_class'), 'btn-' . (cmprstr($method, 'DELETE') ? 'danger' : (isset($submit) ? 'primary' : 'default'))]),
-                'name' => $this->submitName,
-                'value' => $this->submitValue,
-            ];
+        $this->buttonAttributes = [
+            'class' => $this->mergeClasses([
+                config('laravel-helpers.form.modal.submit_button_class'),
+                'btn-' . (cmprstr($method, 'DELETE') ? 'danger' : 'primary')
+            ]),
+        ];
+
+        $this->addAttributesToButton('name', $this->submitName);
+        $this->addAttributesToButton('value', $this->submitValue);
+    }
+
+    private function addAttributesToButton(string $key, string $value): void
+    {
+        if ($value) {
+            $this->buttonAttributes[$key] = $key;
         }
     }
 }
