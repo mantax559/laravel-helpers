@@ -9,8 +9,14 @@ class Label extends Component
     public function __construct(
         public string $id,
         public string $title,
+        public ?string $class = null,
         public bool $required = false,
     ) {
         parent::__construct('form');
+
+        $this->class = $this->mergeClasses([
+            $this->class,
+            config('laravel-helpers.form.label.class'),
+        ]);
     }
 }

@@ -13,7 +13,9 @@ return [
 
     'form' => [
         'checkbox' => [
-
+            'class' => 'form-check-input',
+            'label_class' => 'form-check-label',
+            'group_class' => 'form-check',
         ],
         'error' => [
             'input_class' => 'is-invalid',
