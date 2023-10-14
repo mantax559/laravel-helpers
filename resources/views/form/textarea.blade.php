@@ -11,6 +11,7 @@
     <textarea {{ $attributes->merge($inputAttributes)->class([config('laravel-helpers.form.textarea.class'), config('laravel-helpers.form.error.input_class') => $hasError($name)]) }}>
         {{ $value }}
     </textarea>
+
 </x-form::input-group>
 
 @if($ckeditor)

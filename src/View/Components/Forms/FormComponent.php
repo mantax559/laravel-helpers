@@ -13,6 +13,16 @@ abstract class FormComponent extends Component
 
     protected const TYPE_RADIO = 'radio';
 
+    protected const TYPE_TEXT = 'text';
+
+    protected const TYPE_DATE = 'date';
+
+    protected const TYPE_DATETIME = 'datetime';
+
+    protected const TYPE_NUMERIC = 'numeric';
+
+    protected const TYPE_INTEGER = 'integer';
+
     public string $locale;
 
     public function __construct(
@@ -48,7 +58,7 @@ abstract class FormComponent extends Component
 
         $attributes = [
             'name' => $this->name,
-            'type' => $this->type,
+            'type' => $this->getAdjustedType(),
             'id' => $this->id,
             'value' => $this->value,
             'title' => $this->title,
@@ -74,5 +84,20 @@ abstract class FormComponent extends Component
                 $this->inputAttributes[$key] = $value;
             }
         }
+    }
+
+    private function getAdjustedType(): ?string
+    {
+        if ($this->type) {
+            $adjustableTypes = array_flip([self::TYPE_NUMERIC, self::TYPE_INTEGER]);
+
+            if (isset($adjustableTypes[$this->type])) {
+                return self::TYPE_TEXT;
+            }
+
+            return $this->type;
+        }
+
+        return null;
     }
 }

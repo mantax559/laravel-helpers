@@ -2,12 +2,19 @@
 
 namespace Mantax559\LaravelHelpers\View\Components\Forms;
 
-class Select extends FormComponent
+use Exception;
+
+class Input extends FormComponent
 {
+    /**
+     * @throws Exception
+     */
     public function __construct(
         string $name,
+        string $type = null,
         string $class = null,
         string $id = null,
+        string $value = null,
         string $title = null,
         string $placeholder = null,
         string $tooltip = null,
@@ -16,22 +23,26 @@ class Select extends FormComponent
         bool $autofocus = false,
         bool $disabled = false,
         bool $required = false,
-        public string|array|null $selected = null,
+        public ?string $label = null,
         public ?string $wireModel = null,
         public ?string $wireModelDefer = null,
-        public ?string $api = null,
-        public array $data = [],
-        public bool $multiple = false,
+        public ?string $wireKeydownEnter = null,
     ) {
+        $type = $type ?? self::TYPE_TEXT;
+
+        $this->validateType($type);
+
         parent::__construct(
             inputAttributes: [
                 'wire:model' => $this->wireModel,
                 'wire:model.defer' => $this->wireModelDefer,
+                'wire:keydown.enter' => $this->wireKeydownEnter,
             ],
             name: $name,
+            type: $type,
             class: $class,
             id: $id,
-            value: $selected,
+            value: $value,
             title: $title,
             placeholder: $placeholder,
             tooltip: $tooltip,
@@ -42,5 +53,14 @@ class Select extends FormComponent
             required: $required,
             addLocale: true,
         );
+    }
+
+    private function validateType(string $type): void
+    {
+        $availableTypes = array_flip([self::TYPE_TEXT, self::TYPE_DATE, self::TYPE_DATETIME, self::TYPE_NUMERIC, self::TYPE_INTEGER]);
+
+        if (!isset($availableTypes[$type])) {
+            throw new Exception("Input type cannot be '$type'!");
+        }
     }
 }

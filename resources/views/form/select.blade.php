@@ -9,6 +9,7 @@
     @endisset
 
     <select {{ $attributes->merge($inputAttributes)->class([config('laravel-helpers.form.select.class'), config('laravel-helpers.form.error.input_class') => $hasError($name)]) }} />
+
 </x-form::input-group>
 
 {{-- TODO: Hardcode --}}

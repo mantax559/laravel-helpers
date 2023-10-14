@@ -21,6 +21,9 @@ return [
             'input_class' => 'is-invalid',
             'message_class' => 'invalid-feedback',
         ],
+        'input' => [
+            'class' => 'form-control',
+        ],
         'input_group' => [
             'append_class' => 'form-text'
         ],

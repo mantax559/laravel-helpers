@@ -35,7 +35,8 @@ class Textarea extends FormComponent
             append: $append,
             autofocus: $autofocus,
             disabled: $disabled,
-            required: $required
+            required: $required,
+            addLocale: true,
         );
     }
 }
