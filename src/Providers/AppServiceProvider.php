@@ -19,18 +19,11 @@ class AppServiceProvider extends ServiceProvider
 
         $this->loadViewsFrom(self::PATH_VIEWS, 'laravel-helpers');
 
-        $this->registerComponents();
+        Blade::componentNamespace('Mantax559\\LaravelHelpers\\View\\Components\\Forms', 'form');
     }
 
     public function register(): void
     {
         $this->mergeConfigFrom(self::CONFIG_FILE, 'laravel-helpers');
-    }
-
-    private function registerComponents(): self
-    {
-        Blade::componentNamespace('Mantax559\\LaravelHelpers\\View\\Components\\Forms', 'form');
-
-        return $this;
     }
 }

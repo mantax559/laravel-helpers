@@ -4,8 +4,6 @@ namespace Mantax559\LaravelHelpers\View\Components\Forms;
 
 class Select extends FormComponent
 {
-    public string $locale;
-
     public function __construct(
         string $name,
         string $class = null,
@@ -25,8 +23,6 @@ class Select extends FormComponent
         public array $data = [],
         public bool $multiple = false,
     ) {
-        $this->locale = $this->locale ?? app()->getLocale();
-
         parent::__construct(
             inputAttributes: [
                 'wire:model' => $this->wireModel,
@@ -35,6 +31,7 @@ class Select extends FormComponent
             name: $name,
             class: $class,
             id: $id,
+            value: $selected,
             title: $title,
             placeholder: $placeholder,
             tooltip: $tooltip,

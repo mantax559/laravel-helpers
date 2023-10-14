@@ -17,6 +17,5 @@ class InputGroup extends Component
         parent::__construct('form');
 
         $this->name = $this->convertBracketsToDots($name);
-        $this->class = $this->mergeClasses([config('laravel-helpers.form.input_group.class'), $class]);
     }
 }

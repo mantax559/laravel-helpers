@@ -12,12 +12,14 @@ return [
     ],
 
     'form' => [
+        'checkbox' => [
+
+        ],
         'error' => [
             'input_class' => 'is-invalid',
             'message_class' => 'invalid-feedback',
         ],
         'input_group' => [
-            'class' => 'mb-0',
             'append_class' => 'form-text'
         ],
         'label' => [

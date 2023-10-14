@@ -9,8 +9,8 @@ class Tooltip extends Component
     public function __construct(
         public string $title,
         public ?string $class = null,
-        public ?string $position = null,
         public ?string $icon = null,
+        public ?string $position = null,
     ) {
         parent::__construct('form');
 

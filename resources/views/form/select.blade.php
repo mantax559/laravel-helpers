@@ -1,4 +1,5 @@
 <x-form::input-group :name="$name" :class="$class" :append="$append">
+
     @isset($title)
         <x-form::label :id="$id" :title="$title" :required="$required"/>
     @endisset
@@ -46,10 +47,10 @@
 
         $('#{{ $id }}').select2(settings).val(null).trigger('change');
 
-        @if(!empty($selected) || cmprstr($selected, 0) || isset($disabled))
+        @if(!empty($value) || cmprstr($value, 0) || isset($disabled))
             $('#{{ $id }}').prop('disabled', true);
-            @if(!empty($selected) || cmprstr($selected, 0))
-                values = @json($selected);
+            @if(!empty($value) || cmprstr($value, 0))
+                values = @json($value);
                 @if(isset($data))
                     $('#{{ $id }}').val(values).trigger('change').prop('disabled', false);
                 @elseif(isset($api))
@@ -112,10 +113,10 @@
 
         $('#{{ $id }}').select2(settings).val(null).trigger('change');
 
-        @if(!empty($selected) || cmprstr($selected, 0) || isset($disabled))
+        @if(!empty($value) || cmprstr($value, 0) || isset($disabled))
             $('#{{ $id }}').prop('disabled', true);
-            @if(!empty($selected) || cmprstr($selected, 0))
-                values = @json($selected);
+            @if(!empty($value) || cmprstr($value, 0))
+                values = @json($value);
                 @if(isset($data))
                     $('#{{ $id }}').val(values).trigger('change').prop('disabled', false);
                 @elseif(isset($api))
