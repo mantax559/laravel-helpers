@@ -43,6 +43,9 @@ return [
             'close_button_class' => 'btn btn-lg btn-default',
             'submit_button_class' => 'btn btn-lg',
         ],
+        'modal_button' => [
+            'class' => 'btn btn-primary',
+        ],
         'select' => [
             'class' => 'form-select',
         ],
