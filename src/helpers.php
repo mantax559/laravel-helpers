@@ -136,6 +136,7 @@ if (! function_exists('format_string')) {
             5 => preg_replace('/[^0-9+]/', '', $string),
             6 => str_replace(['"', ',', '„', '”'], '', $string),
             7 => preg_replace('/\s+/', '', $string),
+            8 => preg_replace('/[^a-zA-Z]+/', '', $string),
             0 => $string,
         };
 
