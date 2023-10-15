@@ -3,6 +3,7 @@
 namespace Mantax559\LaravelHelpers\View\Components\Forms;
 
 use Exception;
+use Illuminate\Support\Collection;
 
 class Checkbox extends FormComponent
 {
@@ -18,7 +19,7 @@ class Checkbox extends FormComponent
         string $title = null,
         bool $disabled = false,
         bool $required = false,
-        public string|array|null $checked = null,
+        public string|array|Collection|null $checked = null,
     ) {
         $type = $type ?? self::TYPE_CHECKBOX;
 

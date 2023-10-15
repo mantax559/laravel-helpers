@@ -2,6 +2,7 @@
 
 namespace Mantax559\LaravelHelpers\View\Components\Forms;
 
+use Illuminate\Support\Collection;
 use Mantax559\LaravelHelpers\Traits\HandlesValidationErrors;
 use Mantax559\LaravelHelpers\View\Components\Component;
 
@@ -37,13 +38,17 @@ abstract class FormComponent extends Component
         public ?string $tooltip = null,
         public ?string $autocomplete = null,
         public ?string $append = null,
-        public string|array|null $checked = null,
+        public string|array|Collection|null $checked = null,
         public ?bool $autofocus = null,
         public ?bool $disabled = null,
         public ?bool $required = null,
         bool $addLocale = false,
     ) {
         parent::__construct('form');
+
+        if($this->checked instanceof Collection) {
+            $this->checked = $this->checked->toArray();
+        }
 
         $oldName = $this->convertBracketsToDots($this->name);
         if (cmprstr($this->type, self::TYPE_CHECKBOX) || cmprstr($this->type, self::TYPE_RADIO)) {
