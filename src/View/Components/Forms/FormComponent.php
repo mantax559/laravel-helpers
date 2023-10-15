@@ -38,6 +38,7 @@ abstract class FormComponent extends Component
         public ?string $tooltip = null,
         public ?string $autocomplete = null,
         public ?string $append = null,
+        public string|array|Collection|null $selected = null,
         public string|array|Collection|null $checked = null,
         public ?bool $autofocus = null,
         public ?bool $disabled = null,
@@ -50,10 +51,15 @@ abstract class FormComponent extends Component
             $this->checked = $this->checked->toArray();
         }
 
+        if($this->selected instanceof Collection) {
+            $this->selected = $this->selected->toArray();
+        }
+
         $oldName = $this->convertBracketsToDots($this->name);
         if (cmprstr($this->type, self::TYPE_CHECKBOX) || cmprstr($this->type, self::TYPE_RADIO)) {
             $this->checked = old($oldName, $this->checked) ?? null;
         } else {
+            $this->selected = old($oldName, $this->selected) ?? null;
             $this->value = old($oldName, $this->value) ?? null;
             $this->placeholder = $this->placeholder ?? ($this->title ?? null);
         }

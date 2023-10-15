@@ -48,10 +48,10 @@
 
         $('#{{ $id }}').select2(settings).val(null).trigger('change');
 
-        @if(!empty($value) || cmprstr($value, 0) || $disabled)
+        @if(!empty($selected) || cmprstr($selected, 0) || $disabled)
             $('#{{ $id }}').prop('disabled', true);
-            @if(!empty($value) || cmprstr($value, 0))
-                values = @json($value);
+            @if(!empty($selected) || cmprstr($selected, 0))
+                values = @json($selected);
                 @if($collection->isNotEmpty())
                     $('#{{ $id }}').val(values).trigger('change').prop('disabled', false);
                 @elseif(isset($api))
@@ -114,10 +114,10 @@
 
         $('#{{ $id }}').select2(settings).val(null).trigger('change');
 
-        @if(!empty($value) || cmprstr($value, 0) || $disabled)
+        @if(!empty($selected) || cmprstr($selected, 0) || $disabled)
             $('#{{ $id }}').prop('disabled', true);
-            @if(!empty($value) || cmprstr($value, 0))
-                values = @json($value);
+            @if(!empty($selected) || cmprstr($selected, 0))
+                values = @json($selected);
                 @if($collection->isNotEmpty())
                     $('#{{ $id }}').val(values).trigger('change').prop('disabled', false);
                 @elseif(isset($api))
