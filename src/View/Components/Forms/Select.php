@@ -2,6 +2,8 @@
 
 namespace Mantax559\LaravelHelpers\View\Components\Forms;
 
+use Illuminate\Support\Collection;
+
 class Select extends FormComponent
 {
     public function __construct(
@@ -20,7 +22,7 @@ class Select extends FormComponent
         public ?string $wireModel = null,
         public ?string $wireModelDefer = null,
         public ?string $api = null,
-        public array $data = [],
+        public ?Collection $collection = null,
         public bool $multiple = false,
     ) {
         parent::__construct(

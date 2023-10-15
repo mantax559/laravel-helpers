@@ -8,7 +8,7 @@
         <x-form::tooltip :title="$tooltip"/>
     @endisset
 
-    <select {{ $attributes->merge($inputAttributes)->class([config('laravel-helpers.form.select.class'), config('laravel-helpers.form.error.input_class') => $hasError($name)]) }} />
+        <select {{ $attributes->merge($inputAttributes)->class([config('laravel-helpers.form.select.class'), config('laravel-helpers.form.error.input_class') => $hasError($name)]) }}></select>
 
 </x-form::input-group>
 
@@ -24,11 +24,11 @@
             allowClear: {{ $multiple && !$required ? 'true' : 'false' }},
         }
 
-        @if(!empty($data))
-            @if(is_more_or_equal(config('laravel-helpers.select2.minimum_results_for_search'), count($data)))
+        @if(!empty($collection))
+            @if(is_more_or_equal(config('laravel-helpers.select2.minimum_results_for_search'), count($collection)))
                 settings.minimumResultsForSearch = Infinity;
             @endif
-            settings.data = @json($data);
+            settings.data = @json($collection);
         @elseif(!empty($api))
             settings.ajax = {
                 url: '{{ $api }}',
@@ -48,11 +48,11 @@
 
         $('#{{ $id }}').select2(settings).val(null).trigger('change');
 
-        @if(!empty($value) || cmprstr($value, 0) || isset($disabled))
+        @if(!empty($value) || cmprstr($value, 0) || $disabled)
             $('#{{ $id }}').prop('disabled', true);
             @if(!empty($value) || cmprstr($value, 0))
                 values = @json($value);
-                @if(isset($data))
+                @if(isset($collection))
                     $('#{{ $id }}').val(values).trigger('change').prop('disabled', false);
                 @elseif(isset($api))
                     data = new FormData();
@@ -90,11 +90,11 @@
             allowClear: {{ $multiple && !$required ? 'true' : 'false' }},
         }
 
-        @if(!empty($data))
-            @if(is_more_or_equal(config('laravel-helpers.select2.minimum_results_for_search'), count($data)))
+        @if(!empty($collection))
+            @if(is_more_or_equal(config('laravel-helpers.select2.minimum_results_for_search'), count($collection)))
                 settings.minimumResultsForSearch = Infinity;
             @endif
-            settings.data = @json($data);
+            settings.data = @json($collection);
         @elseif(!empty($api))
             settings.ajax = {
                 url: '{{ $api }}',
@@ -114,11 +114,11 @@
 
         $('#{{ $id }}').select2(settings).val(null).trigger('change');
 
-        @if(!empty($value) || cmprstr($value, 0) || isset($disabled))
+        @if(!empty($value) || cmprstr($value, 0) || $disabled)
             $('#{{ $id }}').prop('disabled', true);
             @if(!empty($value) || cmprstr($value, 0))
                 values = @json($value);
-                @if(isset($data))
+                @if(isset($collection))
                     $('#{{ $id }}').val(values).trigger('change').prop('disabled', false);
                 @elseif(isset($api))
                     data = new FormData();

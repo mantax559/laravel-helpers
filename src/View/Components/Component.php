@@ -32,7 +32,7 @@ abstract class Component extends BaseComponent
     {
         $length = config('laravel-helpers.random_id_length');
 
-        return str_shuffle(substr(str_repeat(md5(mt_rand()), 2 + $length / 32), 0, $length));
+        return str_shuffle(substr(str_repeat(md5(mt_rand()), round(2 + $length / 32)), 0, $length));
     }
 
     protected function mergeClasses(array $classes): string
