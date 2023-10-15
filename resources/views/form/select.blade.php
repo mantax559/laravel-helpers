@@ -52,7 +52,7 @@
             $('#{{ $id }}').prop('disabled', true);
             @if(!empty($value) || cmprstr($value, 0))
                 values = @json($value);
-                @if(isset($collection))
+                @if($collection->isNotEmpty())
                     $('#{{ $id }}').val(values).trigger('change').prop('disabled', false);
                 @elseif(isset($api))
                     data = new FormData();
@@ -118,7 +118,7 @@
             $('#{{ $id }}').prop('disabled', true);
             @if(!empty($value) || cmprstr($value, 0))
                 values = @json($value);
-                @if(isset($collection))
+                @if($collection->isNotEmpty())
                     $('#{{ $id }}').val(values).trigger('change').prop('disabled', false);
                 @elseif(isset($api))
                     data = new FormData();

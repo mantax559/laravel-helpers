@@ -1,4 +1,4 @@
-<label for="{{ $id }}" class="{{ $class }}">
+<label @isset($id) for="{{ $id }}" @endisset class="{{ $class }}">
     {{ $title }}
     @if($required)
         <span class="text-danger">*</span>

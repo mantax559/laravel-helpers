@@ -23,7 +23,7 @@ abstract class FormComponent extends Component
 
     protected const TYPE_INTEGER = 'integer';
 
-    public string $locale;
+    public ?string $locale;
 
     public function __construct(
         public array $inputAttributes = [],

@@ -7,8 +7,8 @@ use Mantax559\LaravelHelpers\View\Components\Component;
 class Label extends Component
 {
     public function __construct(
-        public string $id,
         public string $title,
+        public ?string $id = null,
         public ?string $class = null,
         public bool $required = false,
     ) {
