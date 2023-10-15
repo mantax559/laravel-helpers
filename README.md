@@ -16,7 +16,7 @@ The package will automatically register its service provider.
 
 You can optionally publish the config file with:
 
-    php artisan vendor:publish --provider="Mantax559\LaravelHelpers\AppServiceProvider" --tag=config
+    php artisan vendor:publish --provider="Mantax559\LaravelHelpers\Providers\AppServiceProvider" --tag=config
 
 ### Tests
 You can run tests with the command:
