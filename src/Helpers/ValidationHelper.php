@@ -44,10 +44,10 @@ class ValidationHelper
         ];
     }
 
-    public static function getTextRule(int $min = 0, bool $isRequired = true): array
+    public static function getTextRule(int $min = 3): array
     {
         return [
-            self::getRequiredRule($isRequired),
+            self::getRequiredRule(is_positive_num($min)),
             'min:'.$min,
             'max:'.self::MAX_TEXT_LENGTH,
         ];
@@ -116,7 +116,7 @@ class ValidationHelper
     public static function getArrayRule(int $minRules = 0, int $maxRules = null): array
     {
         return [
-            self::getRequiredRule(is_more($minRules, 0)),
+            self::getRequiredRule(is_positive_num($minRules)),
             'array',
             'min:'.$minRules,
             'max:'.($maxRules ?? self::MAX_ARRAY),
