@@ -24,7 +24,7 @@
             allowClear: {{ $multiple && !$required ? 'true' : 'false' }},
         }
 
-        @if(!empty($collection))
+        @if($collection->isNotEmpty())
             @if(is_more_or_equal(config('laravel-helpers.select2.minimum_results_for_search'), count($collection)))
                 settings.minimumResultsForSearch = Infinity;
             @endif
@@ -90,7 +90,7 @@
             allowClear: {{ $multiple && !$required ? 'true' : 'false' }},
         }
 
-        @if(!empty($collection))
+        @if($collection->isNotEmpty())
             @if(is_more_or_equal(config('laravel-helpers.select2.minimum_results_for_search'), count($collection)))
                 settings.minimumResultsForSearch = Infinity;
             @endif
