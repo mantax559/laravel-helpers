@@ -64,7 +64,7 @@ abstract class FormComponent extends Component
             'title' => $this->title,
             'placeholder' => $this->placeholder,
             'autocomplete' => $this->autocomplete,
-            'checked' => $this->checked && ((is_array($this->checked) && in_array($this->value, $this->checked)) || cmprstr($this->value, $this->checked)),
+            'checked' => $this->checked && (is_array($this->checked) ? in_array($this->value, $this->checked) : cmprstr($this->value, $this->checked)),
             'autofocus' => $this->autofocus,
             'disabled' => $this->disabled,
             'required' => $this->required,
