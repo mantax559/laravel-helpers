@@ -47,11 +47,11 @@ abstract class FormComponent extends Component
     ) {
         parent::__construct('form');
 
-        if($this->checked instanceof Collection) {
+        if ($this->checked instanceof Collection) {
             $this->checked = $this->checked->toArray();
         }
 
-        if($this->selected instanceof Collection) {
+        if ($this->selected instanceof Collection) {
             $this->selected = $this->selected->toArray();
         }
 

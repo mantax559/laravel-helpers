@@ -124,21 +124,29 @@ if (! function_exists('trim_ean')) {
 }
 
 if (! function_exists('format_string')) {
-    function format_string($string, int $transform = 0): string
+    function format_string($string, int|array $transforms = 0): string
     {
         $string = escape_html(trim((string) $string));
 
-        $string = match ($transform) {
-            1 => mb_ucfirst(mb_strtolower($string)),
-            2 => mb_ucwords(mb_strtolower($string)),
-            3 => mb_strtolower($string),
-            4 => mb_strtoupper($string),
-            5 => preg_replace('/[^0-9+]/', '', $string),
-            6 => str_replace(['"', ',', '„', '”'], '', $string),
-            7 => preg_replace('/\s+/', '', $string),
-            8 => preg_replace('/[^a-zA-Z]+/', '', $string),
-            0 => $string,
-        };
+        if (! is_array($transforms)) {
+            $transforms = [$transforms];
+        }
+
+        sort($transforms);
+
+        foreach ($transforms as $transform) {
+            $string = match ($transform) {
+                1 => mb_ucfirst(mb_strtolower($string)),
+                2 => mb_ucwords(mb_strtolower($string)),
+                3 => mb_strtolower($string),
+                4 => mb_strtoupper($string),
+                5 => preg_replace('/[^0-9+]/', '', $string),
+                6 => str_replace(['"', ',', '„', '”'], '', $string),
+                7 => preg_replace('/\s+/', '', $string),
+                8 => preg_replace('/[^a-zA-Z]+/', '', $string),
+                0 => $string,
+            };
+        }
 
         return preg_replace('/\s+/', ' ', $string);
     }
