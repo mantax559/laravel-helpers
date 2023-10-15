@@ -57,9 +57,18 @@ class Input extends FormComponent
 
     private function validateType(string $type): void
     {
-        $availableTypes = array_flip([self::TYPE_TEXT, self::TYPE_DATE, self::TYPE_DATETIME, self::TYPE_NUMERIC, self::TYPE_INTEGER]);
+        $availableTypes = array_flip([
+            self::TYPE_TEXT,
+            self::TYPE_DATE,
+            self::TYPE_DATETIME,
+            self::TYPE_NUMERIC,
+            self::TYPE_INTEGER,
+            self::TYPE_EMAIL,
+            self::TYPE_INTEGER,
+            self::TYPE_PASSWORD,
+        ]);
 
-        if (! isset($availableTypes[$type])) {
+        if (!isset($availableTypes[$type])) {
             throw new Exception("Input type cannot be '$type'!");
         }
     }

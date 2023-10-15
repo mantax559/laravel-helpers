@@ -7,7 +7,7 @@
                 </div>
                 <div class="{{ config('laravel-helpers.form.modal.body_class') }}">{!! $slot !!}</div>
                 <div class="{{ config('laravel-helpers.form.modal.footer_class') }}">
-                    <button type="button" class="{{ config('laravel-helpers.form.modal.close_button_class') }}" data-bs-dismiss="modal">X</button>
+                    <button type="button" class="{{ config('laravel-helpers.form.modal.close_button_class') }}" data-bs-dismiss="modal">{{ __('Close') }}</button>
                     @isset($submitText)
                         <button {{ $attributes->merge($buttonAttributes) }}>{{ $submitText }}</button>
                     @endisset

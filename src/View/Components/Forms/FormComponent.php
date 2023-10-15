@@ -24,6 +24,10 @@ abstract class FormComponent extends Component
 
     protected const TYPE_INTEGER = 'integer';
 
+    protected const TYPE_EMAIL = 'email';
+
+    protected const TYPE_PASSWORD = 'password';
+
     public ?string $locale;
 
     public function __construct(
