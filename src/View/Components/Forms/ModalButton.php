@@ -8,7 +8,6 @@ class ModalButton extends Component
 {
     public function __construct(
         public string $id,
-        public string $title,
         public ?string $class = null,
     ) {
         parent::__construct('form');

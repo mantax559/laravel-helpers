@@ -7,8 +7,8 @@ use Mantax559\LaravelHelpers\View\Components\Component;
 class Form extends Component
 {
     public function __construct(
-        public string $action,
         public string $method,
+        public ?string $action = null,
     ) {
         parent::__construct('form');
     }
