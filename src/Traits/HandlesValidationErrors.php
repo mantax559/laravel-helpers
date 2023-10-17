@@ -14,7 +14,7 @@ trait HandlesValidationErrors
 {
     protected function getErrorBag(string $bag = Error::DEFAULT_ERROR_BAG): MessageBag
     {
-        $this->bag = $this->bag ?? config('laravel-helpers.form.error.default_error_bag');
+        $this->bag = $this->bag ?? config('laravel-helpers.component.error.default_error_bag');
 
         $bags = View::shared('errors', fn () => request()->session()->get('errors', new ViewErrorBag));
 
@@ -23,7 +23,7 @@ trait HandlesValidationErrors
 
     public function hasError(string $name, string $bag = Error::DEFAULT_ERROR_BAG): bool
     {
-        $this->bag = $this->bag ?? config('laravel-helpers.form.error.default_error_bag');
+        $this->bag = $this->bag ?? config('laravel-helpers.component.error.default_error_bag');
 
         $name = str_replace(['[', ']'], ['.', ''], Str::before($name, '[]'));
 

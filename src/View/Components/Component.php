@@ -30,9 +30,19 @@ abstract class Component extends BaseComponent
 
     protected function getRandomId(): string
     {
-        $length = config('laravel-helpers.random_id_length') - 1;
-
-        return chr(rand(97,122)) . str_shuffle(substr(str_repeat(md5(mt_rand()), round(2 + $length / 32)), 0, $length));
+        return chr(rand(97, 122)) . substr(
+                str_shuffle(
+                    substr(
+                        str_repeat(
+                            md5(mt_rand()),
+                            round(2 + config('laravel-helpers.component.id_length') / 32)
+                        ),
+                        0,
+                        config('laravel-helpers.component.id_length')
+                    )
+                ),
+                1
+            );
     }
 
     protected function mergeClasses(array $classes): string

@@ -14,7 +14,7 @@ class Error extends Component
     ) {
         parent::__construct('form');
 
-        $this->bag = $this->bag ?? config('laravel-helpers.form.error.default_error_bag');
+        $this->bag = $this->bag ?? config('laravel-helpers.component.error.default_error_bag');
         $this->name = $this->convertBracketsToDots($name);
     }
 }

@@ -7,14 +7,14 @@ return [
         'max_array' => 100,
         'max_file_size' => 4096, // Bytes
         'min_image_dimension' => 200,
-        'min_password_length' => 12,
+        'min_password_length' => 18,
         'accept_image_extensions' => 'apng,avif,gif,jpg,jpeg,jfif,pjpeg,pjp,png,svg,webp',
         'accept_file_extensions' => 'pdf',
     ],
 
-    'homepage' => '/',
-
-    'random_id_length' => 15,
+    'redirect' => [
+        'homepage' => '/',
+    ],
 
     'select2' => [
         'minimum_results_for_search' => 20,
@@ -22,7 +22,8 @@ return [
         'pagination_per_query' => 50,
     ],
 
-    'form' => [
+    'component' => [
+        'id_length' => 15,
         'checkbox' => [
             'class' => 'form-check-input',
             'label_class' => 'form-check-label',
@@ -32,6 +33,10 @@ return [
             'default_error_bag' => 'default',
             'input_class' => 'is-invalid',
             'message_class' => 'invalid-feedback',
+        ],
+        'generate_password_button' => [
+            'class' => 'btn btn-sm btn-primary',
+            'icon' => 'fas fa-key',
         ],
         'input' => [
             'class' => 'form-control',

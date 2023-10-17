@@ -8,10 +8,10 @@
         <x-form::tooltip :title="$tooltip"/>
     @endisset
 
-    <input {{ $attributes->merge($inputAttributes)->class([config('laravel-helpers.form.input.class'), config('laravel-helpers.form.error.input_class') => $hasError($name)]) }} />
+    <input {{ $attributes->merge($inputAttributes)->class([config('laravel-helpers.component.input.class'), config('laravel-helpers.component.error.input_class') => $hasError($name)]) }} />
 
     @isset($label)
-        <div class="{{ config('laravel-helpers.form.input.label_class') }}">{{ $label }}</div>
+        <div class="{{ config('laravel-helpers.component.input.label_class') }}">{{ $label }}</div>
     @endisset
 
 </x-form::input-group>

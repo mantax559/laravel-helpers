@@ -16,7 +16,7 @@ class RedirectHelper
             $sessionKey = SessionHelper::getUrlKey($model);
 
             if (session()->missing($sessionKey)) {
-                return redirect(config('laravel-helpers.homepage'));
+                return redirect(config('laravel-helpers.redirect.homepage'));
             } else {
                 return session($sessionKey);
             }

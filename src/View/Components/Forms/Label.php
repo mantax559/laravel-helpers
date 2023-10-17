@@ -16,7 +16,7 @@ class Label extends Component
 
         $this->class = $this->mergeClasses([
             $this->class,
-            config('laravel-helpers.form.label.class'),
+            config('laravel-helpers.component.label.class'),
         ]);
     }
 }

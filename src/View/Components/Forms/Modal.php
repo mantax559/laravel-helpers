@@ -21,7 +21,7 @@ class Modal extends Component
 
         $this->buttonAttributes = [
             'class' => $this->mergeClasses([
-                config('laravel-helpers.form.modal.submit_button_class'),
+                config('laravel-helpers.component.modal.submit_button_class'),
                 'btn-'.(cmprstr($method, 'DELETE') ? 'danger' : 'primary'),
             ]),
         ];

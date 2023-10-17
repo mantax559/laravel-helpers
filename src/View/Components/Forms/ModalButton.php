@@ -12,6 +12,6 @@ class ModalButton extends Component
     ) {
         parent::__construct('form');
 
-        $this->class = $this->class ?? config('laravel-helpers.form.modal_button.class');
+        $this->class = $this->class ?? config('laravel-helpers.component.modal_button.class');
     }
 }

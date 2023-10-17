@@ -40,7 +40,7 @@ class Input extends FormComponent
             ],
             name: $name,
             type: $type,
-            class: $label ? $this->mergeClasses([$class, config('laravel-helpers.form.input.group_class')]) : $class,
+            class: $label ? $this->mergeClasses([$class, config('laravel-helpers.component.input.group_class')]) : $class,
             id: $id,
             value: $value,
             title: $title,

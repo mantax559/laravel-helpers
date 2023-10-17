@@ -41,7 +41,7 @@ class Tabs extends Component
         $this->addTabToTabs($title8, $content8);
         $this->addTabToTabs($title9, $content9);
 
-        $this->class = $this->mergeClasses([$class, config('laravel-helpers.form.tabs.class')]);
+        $this->class = $this->mergeClasses([$class, config('laravel-helpers.component.tabs.class')]);
     }
 
     private function addTabToTabs(string $title, string $content): void
