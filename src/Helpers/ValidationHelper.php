@@ -23,20 +23,20 @@ class ValidationHelper
         ];
     }
 
-    public static function getStringRule(bool $isRequired = true): array
+    public static function getStringRule(bool $isRequired = true, ?int $max = null): array
     {
         return [
             self::getRequiredRule($isRequired),
-            'max:'.config('laravel-helpers.validation.max_string_length'),
+            'max:'.$max ?? config('laravel-helpers.validation.max_string_length'),
         ];
     }
 
-    public static function getTextRule(int $min = 3): array
+    public static function getTextRule(int $min = 3, ?int $max = null): array
     {
         return [
             self::getRequiredRule(is_positive_num($min)),
             'min:'.$min,
-            'max:'.config('laravel-helpers.validation.max_text_length'),
+            'max:'.$max ?? config('laravel-helpers.validation.max_text_length'),
         ];
     }
 
@@ -142,16 +142,12 @@ class ValidationHelper
         ];
     }
 
-    public static function getEmailRule($unique, bool $isRequired = true): array
+    public static function getEmailRule(bool $isRequired = true): array
     {
         $rule = [
             self::getRequiredRule($isRequired),
             'email:rfc,dns',
         ];
-
-        if (! empty($after)) {
-            $rule = self::mergeRules([$rule, ['unique:'.$unique]]);
-        }
 
         return $rule;
     }
