@@ -11,11 +11,6 @@ use Illuminate\Validation\Rules\Password;
 
 class ValidationHelper
 {
-    public static function mergeRules(array $rules): array
-    {
-        return array_merge($rules);
-    }
-
     public static function getRequiredRules(bool $isRequired = true): array
     {
         return [
@@ -74,7 +69,7 @@ class ValidationHelper
         ];
 
         if (! empty($after)) {
-            $rule = self::mergeRules([$rule, ['after:'.$after]]);
+            $rule = array_merge([$rule, ['after:'.$after]]);
         }
 
         return $rule;

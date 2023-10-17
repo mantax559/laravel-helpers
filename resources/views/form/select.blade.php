@@ -76,6 +76,10 @@
                 @endif
             @endif
         @endif
+
+        $('#{{ $id }}').on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+        });
     </script>
 @endif
 
@@ -142,6 +146,10 @@
                 @endif
             @endif
         @endif
+
+        $('#{{ $id }}').on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+        });
 
         @if(isset($wireModel) || isset($wireModelDefer))
             $(document).ready(function () {
