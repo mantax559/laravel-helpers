@@ -1,6 +1,17 @@
 <?php
 
 return [
+    'validation' => [
+        'max_string_length' => 255,
+        'max_text_length' => 1000,
+        'max_array' => 100,
+        'max_file_size' => 4096, // Bytes
+        'min_image_dimension' => 200,
+        'min_password_length' => 12,
+        'accept_image_extensions' => 'apng,avif,gif,jpg,jpeg,jfif,pjpeg,pjp,png,svg,webp',
+        'accept_file_extensions' => 'pdf',
+    ],
+
     'homepage' => '/',
 
     'random_id_length' => 15,
@@ -18,6 +29,7 @@ return [
             'group_class' => 'form-check',
         ],
         'error' => [
+            'default_error_bag' => 'default',
             'input_class' => 'is-invalid',
             'message_class' => 'invalid-feedback',
         ],

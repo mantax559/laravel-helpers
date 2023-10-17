@@ -7,24 +7,11 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
+use Illuminate\Validation\Rules\Password;
 
 class ValidationHelper
 {
-    private const MAX_STRING_LENGTH = 255;
-
-    private const MAX_TEXT_LENGTH = 1000;
-
-    private const MAX_ARRAY = 100;
-
-    private const MAX_FILE_SIZE = 4096;
-
-    private const MIN_IMAGE_DIMENSION = 200;
-
-    private const ACCEPT_IMAGE_EXTENSIONS = 'apng,avif,gif,jpg,jpeg,jfif,pjpeg,pjp,png,svg,webp';
-
-    private const ACCEPT_FILE_EXTENSIONS = 'pdf';
-
-    public static function getMultipleRules(array $rules): array
+    public static function mergeRules(array $rules): array
     {
         return array_merge($rules);
     }
@@ -40,7 +27,7 @@ class ValidationHelper
     {
         return [
             self::getRequiredRule($isRequired),
-            'max:'.self::MAX_STRING_LENGTH,
+            'max:'.config('laravel-helpers.validation.max_string_length'),
         ];
     }
 
@@ -49,7 +36,7 @@ class ValidationHelper
         return [
             self::getRequiredRule(is_positive_num($min)),
             'min:'.$min,
-            'max:'.self::MAX_TEXT_LENGTH,
+            'max:'.config('laravel-helpers.validation.max_text_length'),
         ];
     }
 
@@ -81,16 +68,16 @@ class ValidationHelper
 
     public static function getDateRule(bool $isRequired = true, string $after = null): array
     {
-        $rules = [
+        $rule = [
             self::getRequiredRule($isRequired),
             'date',
         ];
 
         if (! empty($after)) {
-            $rules = array_merge($rules, ['after:'.$after]);
+            $rule = self::mergeRules([$rule, ['after:'.$after]]);
         }
 
-        return $rules;
+        return $rule;
     }
 
     public static function getImageRule(bool $isRequired = true): array
@@ -98,9 +85,9 @@ class ValidationHelper
         return [
             self::getRequiredRule($isRequired),
             'image',
-            'max:'.self::MAX_FILE_SIZE,
-            'dimensions:min_width='.self::MIN_IMAGE_DIMENSION.',min_height='.self::MIN_IMAGE_DIMENSION,
-            'mimes:'.self::ACCEPT_IMAGE_EXTENSIONS,
+            'max:'.config('laravel-helpers.validation.max_file_size'),
+            'dimensions:min_width='.config('laravel-helpers.validation.min_image_dimension').',min_height='.config('laravel-helpers.validation.min_image_dimension'),
+            'mimes:'.config('laravel-helpers.validation.accept_image_extensions'),
         ];
     }
 
@@ -108,8 +95,8 @@ class ValidationHelper
     {
         return [
             self::getRequiredRule($isRequired),
-            'max:'.self::MAX_FILE_SIZE,
-            'mimes:'.self::ACCEPT_FILE_EXTENSIONS,
+            'max:'.config('laravel-helpers.validation.max_file_size'),
+            'mimes:'.config('laravel-helpers.validation.accept_file_extensions'),
         ];
     }
 
@@ -119,7 +106,7 @@ class ValidationHelper
             self::getRequiredRule(is_positive_num($minRules)),
             'array',
             'min:'.$minRules,
-            'max:'.($maxRules ?? self::MAX_ARRAY),
+            'max:'.($maxRules ?? config('laravel-helpers.validation.max_array')),
         ];
     }
 
@@ -150,8 +137,35 @@ class ValidationHelper
     {
         return [
             self::getRequiredRule($isRequired),
-            'max:'.self::MAX_STRING_LENGTH,
+            'max:'.config('laravel-helpers.validation.max_string_length'),
             new Enum($enum),
+        ];
+    }
+
+    public static function getEmailRule($unique, bool $isRequired = true): array
+    {
+        $rule = [
+            self::getRequiredRule($isRequired),
+            'email:rfc,dns',
+        ];
+
+        if (! empty($after)) {
+            $rule = self::mergeRules([$rule, ['unique:'.$unique]]);
+        }
+
+        return $rule;
+    }
+
+    public static function getPasswordRule(bool $isRequired = true): array
+    {
+        return [
+            self::getRequiredRule($isRequired),
+            'confirmed',
+            Password::min(config('laravel-helpers.validation.min_password_length'))
+                ->mixedCase()
+                ->numbers()
+                ->symbols()
+                ->uncompromised(),
         ];
     }
 

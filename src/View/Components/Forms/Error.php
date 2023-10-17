@@ -10,10 +10,11 @@ class Error extends Component
 
     public function __construct(
         public string $name,
-        public string $bag = self::DEFAULT_ERROR_BAG,
+        public ?string $bag = null,
     ) {
         parent::__construct('form');
 
+        $this->bag = $this->bag ?? config('laravel-helpers.form.error.default_error_bag');
         $this->name = $this->convertBracketsToDots($name);
     }
 }
