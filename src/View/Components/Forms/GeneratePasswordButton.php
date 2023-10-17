@@ -6,6 +6,8 @@ use Mantax559\LaravelHelpers\View\Components\Component;
 
 class GeneratePasswordButton extends Component
 {
+    public string $id;
+
     public function __construct(
         public string $buttonText,
         public string $buttonSuccessText,
