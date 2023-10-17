@@ -16,31 +16,31 @@ class ValidationHelper
         return array_merge($rules);
     }
 
-    public static function getRequiredRule(bool $isRequired = true): array
-    {
-        return [
-            $isRequired ? 'required' : 'nullable',
-        ];
-    }
-
-    public static function getStringRule(bool $isRequired = true, ?int $max = null): array
+    public static function getRequiredRules(bool $isRequired = true): array
     {
         return [
             self::getRequiredRule($isRequired),
-            'max:'.$max ?? config('laravel-helpers.validation.max_string_length'),
         ];
     }
 
-    public static function getTextRule(int $min = 3, ?int $max = null): array
+    public static function getStringRules(bool $isRequired = true, int $max = 0): array
+    {
+        return [
+            self::getRequiredRule($isRequired),
+            'max:'.(is_positive_num($max) ? $max : config('laravel-helpers.validation.max_string_length')),
+        ];
+    }
+
+    public static function getTextRules(int $min = 3, int $max = 0): array
     {
         return [
             self::getRequiredRule(is_positive_num($min)),
             'min:'.$min,
-            'max:'.$max ?? config('laravel-helpers.validation.max_text_length'),
+            'max:'.(is_positive_num($max) ? $max : config('laravel-helpers.validation.max_string_length')),
         ];
     }
 
-    public static function getBooleanRule(bool $isRequired = true): array
+    public static function getBooleanRules(bool $isRequired = true): array
     {
         return [
             self::getRequiredRule($isRequired),
@@ -48,7 +48,7 @@ class ValidationHelper
         ];
     }
 
-    public static function getNumericRule(int $lowestNumber = 0, bool $isRequired = true): array
+    public static function getNumericRules(int $lowestNumber = 0, bool $isRequired = true): array
     {
         return [
             self::getRequiredRule($isRequired),
@@ -57,7 +57,7 @@ class ValidationHelper
         ];
     }
 
-    public static function getIntegerRule(int $lowestNumber = 0, bool $isRequired = true): array
+    public static function getIntegerRules(int $lowestNumber = 0, bool $isRequired = true): array
     {
         return [
             self::getRequiredRule($isRequired),
@@ -66,7 +66,7 @@ class ValidationHelper
         ];
     }
 
-    public static function getDateRule(bool $isRequired = true, string $after = null): array
+    public static function getDateRules(bool $isRequired = true, string $after = null): array
     {
         $rule = [
             self::getRequiredRule($isRequired),
@@ -80,7 +80,7 @@ class ValidationHelper
         return $rule;
     }
 
-    public static function getImageRule(bool $isRequired = true): array
+    public static function getImageRules(bool $isRequired = true): array
     {
         return [
             self::getRequiredRule($isRequired),
@@ -91,7 +91,7 @@ class ValidationHelper
         ];
     }
 
-    public static function getFileRule(bool $isRequired = true): array
+    public static function getFileRules(bool $isRequired = true): array
     {
         return [
             self::getRequiredRule($isRequired),
@@ -100,7 +100,7 @@ class ValidationHelper
         ];
     }
 
-    public static function getArrayRule(int $minRules = 0, int $maxRules = null): array
+    public static function getArrayRules(int $minRules = 0, int $maxRules = null): array
     {
         return [
             self::getRequiredRule(is_positive_num($minRules)),
@@ -110,7 +110,7 @@ class ValidationHelper
         ];
     }
 
-    public static function getInArrayRule(Collection|array $values, bool $isRequired = true): array
+    public static function getInArrayRules(Collection|array $values, bool $isRequired = true): array
     {
         return [
             self::getRequiredRule($isRequired),
@@ -118,7 +118,7 @@ class ValidationHelper
         ];
     }
 
-    public static function getModelRule(Builder|string $model, bool $isRequired = true): array
+    public static function getModelRules(Builder|string $model, bool $isRequired = true): array
     {
         if ($model instanceof Builder) {
             $model = $model->pluck('id');
@@ -133,7 +133,7 @@ class ValidationHelper
         ];
     }
 
-    public static function getEnumRule($enum, bool $isRequired = true): array
+    public static function getEnumRules($enum, bool $isRequired = true): array
     {
         return [
             self::getRequiredRule($isRequired),
@@ -142,7 +142,7 @@ class ValidationHelper
         ];
     }
 
-    public static function getEmailRule(bool $isRequired = true): array
+    public static function getEmailRules(bool $isRequired = true): array
     {
         $rule = [
             self::getRequiredRule($isRequired),
@@ -152,7 +152,7 @@ class ValidationHelper
         return $rule;
     }
 
-    public static function getPasswordRule(bool $isRequired = true): array
+    public static function getPasswordRules(bool $isRequired = true): array
     {
         return [
             self::getRequiredRule($isRequired),
@@ -184,5 +184,10 @@ class ValidationHelper
     public static function throwValidationException(string $method): void
     {
         throw new Exception(__('The method ":method" is not described in the validation rules!', ['method' => $method]));
+    }
+
+    private static function getRequiredRule(bool $isRequired = true): string
+    {
+        return $isRequired ? 'required' : 'nullable';
     }
 }

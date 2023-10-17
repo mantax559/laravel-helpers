@@ -68,7 +68,7 @@ class Input extends FormComponent
             self::TYPE_PASSWORD,
         ]);
 
-        if (!isset($availableTypes[$type])) {
+        if (! isset($availableTypes[$type])) {
             throw new Exception("Input type cannot be '$type'!");
         }
     }
