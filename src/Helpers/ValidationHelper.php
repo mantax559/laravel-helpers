@@ -31,7 +31,7 @@ class ValidationHelper
         return [
             self::getRequiredRule(is_positive_num($min)),
             'min:'.$min,
-            'max:'.(is_positive_num($max) ? $max : config('laravel-helpers.validation.max_string_length')),
+            'max:'.(is_positive_num($max) ? $max : config('laravel-helpers.validation.max_text_length')),
         ];
     }
 
