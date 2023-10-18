@@ -9,10 +9,10 @@ class Modal extends Component
     public array $buttonAttributes = [];
 
     public function __construct(
-        public string $action,
-        public string $method,
         public string $id,
         public string $title,
+        public ?string $action = null,
+        public ?string $method = null,
         public ?string $submitText = null,
         public ?string $submitName = null,
         public ?string $submitValue = null,
