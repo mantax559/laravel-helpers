@@ -21,9 +21,13 @@ class Select extends FormComponent
         public ?string $wireModel = null,
         public ?string $wireModelDefer = null,
         public ?string $api = null,
-        public ?Collection $collection = null,
+        public Collection|array|null $collection = null,
         public bool $multiple = false,
     ) {
+        if (empty($this->collection) || is_array($this->collection)) {
+            $this->collection = collect($this->collection);
+        }
+
         parent::__construct(
             inputAttributes: [
                 'wire:model' => $this->wireModel,

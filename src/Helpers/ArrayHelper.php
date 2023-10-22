@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Helpers;
+namespace Mantax559\LaravelHelpers\Helpers;
 
 class ArrayHelper
 {

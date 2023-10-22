@@ -11,18 +11,18 @@ use Illuminate\Validation\Rules\Password;
 
 class ValidationHelper
 {
-    public static function getRequiredRules(bool $isRequired = true): array
+    public static function getRequiredRules(string|bool $required = null): array
     {
         return [
-            self::getRequiredRule($isRequired),
+            self::getRequiredRule($required),
         ];
     }
 
-    public static function getStringRules(bool $isRequired = true, int $max = 0): array
+    public static function getStringRules(string|bool $required = null, int $max = 0): array
     {
         return [
-            self::getRequiredRule($isRequired),
-            'max:'.(is_positive_num($max) ? $max : config('laravel-helpers.validation.max_string_length')),
+            self::getRequiredRule($required),
+            'max:' . (is_positive_num($max) ? $max : config('laravel-helpers.validation.max_string_length')),
         ];
     }
 
@@ -30,68 +30,68 @@ class ValidationHelper
     {
         return [
             self::getRequiredRule(is_positive_num($min)),
-            'min:'.$min,
-            'max:'.(is_positive_num($max) ? $max : config('laravel-helpers.validation.max_text_length')),
+            'min:' . $min,
+            'max:' . (is_positive_num($max) ? $max : config('laravel-helpers.validation.max_text_length')),
         ];
     }
 
-    public static function getBooleanRules(bool $isRequired = true): array
+    public static function getBooleanRules(string|bool $required = null): array
     {
         return [
-            self::getRequiredRule($isRequired),
+            self::getRequiredRule($required),
             'boolean',
         ];
     }
 
-    public static function getNumericRules(int $lowestNumber = 0, bool $isRequired = true): array
+    public static function getNumericRules(int $lowestNumber = 0, string|bool $required = null): array
     {
         return [
-            self::getRequiredRule($isRequired),
+            self::getRequiredRule($required),
             'numeric',
-            'min:'.$lowestNumber,
+            'min:' . $lowestNumber,
         ];
     }
 
-    public static function getIntegerRules(int $lowestNumber = 0, bool $isRequired = true): array
+    public static function getIntegerRules(int $lowestNumber = 0, string|bool $required = null): array
     {
         return [
-            self::getRequiredRule($isRequired),
+            self::getRequiredRule($required),
             'integer',
-            'min:'.$lowestNumber,
+            'min:' . $lowestNumber,
         ];
     }
 
-    public static function getDateRules(bool $isRequired = true, string $after = null): array
+    public static function getDateRules(string|bool $required = null, string $after = null): array
     {
         $rule = [
-            self::getRequiredRule($isRequired),
+            self::getRequiredRule($required),
             'date',
         ];
 
-        if (! empty($after)) {
-            $rule = array_merge([$rule, ['after:'.$after]]);
+        if (!empty($after)) {
+            $rule = array_merge([$rule, ['after:' . $after]]);
         }
 
         return $rule;
     }
 
-    public static function getImageRules(bool $isRequired = true): array
+    public static function getImageRules(string|bool $required = null): array
     {
         return [
-            self::getRequiredRule($isRequired),
+            self::getRequiredRule($required),
             'image',
-            'max:'.config('laravel-helpers.validation.max_file_size'),
-            'dimensions:min_width='.config('laravel-helpers.validation.min_image_dimension').',min_height='.config('laravel-helpers.validation.min_image_dimension'),
-            'mimes:'.config('laravel-helpers.validation.accept_image_extensions'),
+            'max:' . config('laravel-helpers.validation.max_file_size'),
+            'dimensions:min_width=' . config('laravel-helpers.validation.min_image_dimension') . ',min_height=' . config('laravel-helpers.validation.min_image_dimension'),
+            'mimes:' . config('laravel-helpers.validation.accept_image_extensions'),
         ];
     }
 
-    public static function getFileRules(bool $isRequired = true): array
+    public static function getFileRules(string|bool $required = null): array
     {
         return [
-            self::getRequiredRule($isRequired),
-            'max:'.config('laravel-helpers.validation.max_file_size'),
-            'mimes:'.config('laravel-helpers.validation.accept_file_extensions'),
+            self::getRequiredRule($required),
+            'max:' . config('laravel-helpers.validation.max_file_size'),
+            'mimes:' . config('laravel-helpers.validation.accept_file_extensions'),
         ];
     }
 
@@ -100,20 +100,20 @@ class ValidationHelper
         return [
             self::getRequiredRule(is_positive_num($minRules)),
             'array',
-            'min:'.$minRules,
-            'max:'.($maxRules ?? config('laravel-helpers.validation.max_array')),
+            'min:' . $minRules,
+            'max:' . ($maxRules ?? config('laravel-helpers.validation.max_array')),
         ];
     }
 
-    public static function getInArrayRules(Collection|array $values, bool $isRequired = true): array
+    public static function getInArrayRules(Collection|array $values, string|bool $required = null): array
     {
         return [
-            self::getRequiredRule($isRequired),
+            self::getRequiredRule($required),
             Rule::in($values),
         ];
     }
 
-    public static function getModelRules(Builder|string $model, bool $isRequired = true): array
+    public static function getModelRules(Builder|string $model, string|bool $required = null): array
     {
         if ($model instanceof Builder) {
             $model = $model->pluck('id');
@@ -122,35 +122,35 @@ class ValidationHelper
         }
 
         return [
-            self::getRequiredRule($isRequired),
+            self::getRequiredRule($required),
             'integer',
             Rule::in($model),
         ];
     }
 
-    public static function getEnumRules($enum, bool $isRequired = true): array
+    public static function getEnumRules($enum, string|bool $required = null): array
     {
         return [
-            self::getRequiredRule($isRequired),
-            'max:'.config('laravel-helpers.validation.max_string_length'),
+            self::getRequiredRule($required),
+            'max:' . config('laravel-helpers.validation.max_string_length'),
             new Enum($enum),
         ];
     }
 
-    public static function getEmailRules(bool $isRequired = true): array
+    public static function getEmailRules(string|bool $required = null): array
     {
         $rule = [
-            self::getRequiredRule($isRequired),
+            self::getRequiredRule($required),
             'email:rfc,dns',
         ];
 
         return $rule;
     }
 
-    public static function getPasswordRules(bool $isRequired = true): array
+    public static function getPasswordRules(string|bool $required = null): array
     {
         return [
-            self::getRequiredRule($isRequired),
+            self::getRequiredRule($required),
             'confirmed',
             Password::min(config('laravel-helpers.validation.min_password_length'))
                 ->mixedCase()
@@ -166,7 +166,7 @@ class ValidationHelper
 
         foreach ($fields as $fieldLine => $fieldItem) {
             if (cmprstr($field, $fieldItem)) {
-                return ((int) $line + 1).' '.__($fieldLine);
+                return ((int)$line + 1) . ' ' . __($fieldLine);
             }
         }
 
@@ -181,8 +181,14 @@ class ValidationHelper
         throw new Exception(__('The method ":method" is not described in the validation rules!', ['method' => $method]));
     }
 
-    private static function getRequiredRule(bool $isRequired = true): string
+    private static function getRequiredRule(string|bool $required = null): string
     {
-        return $isRequired ? 'required' : 'nullable';
+        if (is_bool($required)) {
+            return $required;
+        } elseif (is_string($required)) {
+            return 'required_if:' . $required;
+        } else {
+            return 'required';
+        }
     }
 }
