@@ -183,10 +183,10 @@ class ValidationHelper
 
     private static function getRequiredRule(string|bool $required = null): string
     {
-        if (is_bool($required)) {
-            return $required;
-        } elseif (is_string($required)) {
+        if (is_string($required)) {
             return 'required_if:' . $required;
+        } elseif (is_bool($required) && !$required) {
+            return 'nullable';
         } else {
             return 'required';
         }
