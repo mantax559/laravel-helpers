@@ -59,6 +59,7 @@ class Input extends FormComponent
     {
         $availableTypes = array_flip([
             self::TYPE_TEXT,
+            self::TYPE_HIDDEN,
             self::TYPE_DATE,
             self::TYPE_DATETIME,
             self::TYPE_NUMERIC,

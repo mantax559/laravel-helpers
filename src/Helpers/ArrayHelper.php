@@ -54,4 +54,17 @@ class ArrayHelper
 
         return $array;
     }
+
+    public static function renameKey(string $oldKeyName, string $newKeyName, array $array): array
+    {
+        return array_map(
+            function ($item) use ($oldKeyName, $newKeyName) {
+                $value = $item[$oldKeyName];
+                unset($item[$oldKeyName]);
+                $item[$newKeyName] = $value;
+                return $item;
+            },
+            $array
+        );
+    }
 }

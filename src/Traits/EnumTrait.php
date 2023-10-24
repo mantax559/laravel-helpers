@@ -2,6 +2,8 @@
 
 namespace Mantax559\LaravelHelpers\Traits;
 
+use Exception;
+
 trait EnumTrait
 {
     public static function getArray(): array
@@ -27,5 +29,16 @@ trait EnumTrait
         }
 
         return $array;
+    }
+
+    public static function getEnumByString(string $string): self
+    {
+        foreach (self::cases() as $value) {
+            if (cmprstr($value->value, $string)) {
+                return $value;
+            }
+        }
+
+        throw new Exception("$string is not a valid backing value for enum " . self::class);
     }
 }
