@@ -124,7 +124,7 @@ if (! function_exists('trim_ean')) {
 }
 
 if (! function_exists('format_string')) {
-    function format_string($string, int|array $transforms = 0): string
+    function format_string($string, int|array $transforms = 0): ?string
     {
         $string = escape_html(trim((string) $string));
 
@@ -148,7 +148,13 @@ if (! function_exists('format_string')) {
             };
         }
 
-        return preg_replace('/\s+/', ' ', $string);
+        $string = preg_replace('/\s+/', ' ', $string);
+
+        if (empty($string)) {
+            return null;
+        }
+
+        return $string;
     }
 }
 

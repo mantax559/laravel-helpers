@@ -22,7 +22,7 @@ class ValidationHelper
     {
         return [
             self::getRequiredRule($required),
-            'max:' . (is_positive_num($max) ? $max : config('laravel-helpers.validation.max_string_length')),
+            'max:'.(is_positive_num($max) ? $max : config('laravel-helpers.validation.max_string_length')),
         ];
     }
 
@@ -30,8 +30,8 @@ class ValidationHelper
     {
         return [
             self::getRequiredRule(is_positive_num($min)),
-            'min:' . $min,
-            'max:' . (is_positive_num($max) ? $max : config('laravel-helpers.validation.max_text_length')),
+            'min:'.$min,
+            'max:'.(is_positive_num($max) ? $max : config('laravel-helpers.validation.max_text_length')),
         ];
     }
 
@@ -48,7 +48,7 @@ class ValidationHelper
         return [
             self::getRequiredRule($required),
             'numeric',
-            'min:' . $lowestNumber,
+            'min:'.$lowestNumber,
         ];
     }
 
@@ -57,7 +57,7 @@ class ValidationHelper
         return [
             self::getRequiredRule($required),
             'integer',
-            'min:' . $lowestNumber,
+            'min:'.$lowestNumber,
         ];
     }
 
@@ -68,8 +68,8 @@ class ValidationHelper
             'date',
         ];
 
-        if (!empty($after)) {
-            $rule = array_merge([$rule, ['after:' . $after]]);
+        if (! empty($after)) {
+            $rule = array_merge([$rule, ['after:'.$after]]);
         }
 
         return $rule;
@@ -80,9 +80,9 @@ class ValidationHelper
         return [
             self::getRequiredRule($required),
             'image',
-            'max:' . config('laravel-helpers.validation.max_file_size'),
-            'dimensions:min_width=' . config('laravel-helpers.validation.min_image_dimension') . ',min_height=' . config('laravel-helpers.validation.min_image_dimension'),
-            'mimes:' . config('laravel-helpers.validation.accept_image_extensions'),
+            'max:'.config('laravel-helpers.validation.max_file_size'),
+            'dimensions:min_width='.config('laravel-helpers.validation.min_image_dimension').',min_height='.config('laravel-helpers.validation.min_image_dimension'),
+            'mimes:'.config('laravel-helpers.validation.accept_image_extensions'),
         ];
     }
 
@@ -90,8 +90,8 @@ class ValidationHelper
     {
         return [
             self::getRequiredRule($required),
-            'max:' . config('laravel-helpers.validation.max_file_size'),
-            'mimes:' . config('laravel-helpers.validation.accept_file_extensions'),
+            'max:'.config('laravel-helpers.validation.max_file_size'),
+            'mimes:'.config('laravel-helpers.validation.accept_file_extensions'),
         ];
     }
 
@@ -100,8 +100,8 @@ class ValidationHelper
         return [
             self::getRequiredRule(is_positive_num($minRules)),
             'array',
-            'min:' . $minRules,
-            'max:' . ($maxRules ?? config('laravel-helpers.validation.max_array')),
+            'min:'.$minRules,
+            'max:'.($maxRules ?? config('laravel-helpers.validation.max_array')),
         ];
     }
 
@@ -132,7 +132,7 @@ class ValidationHelper
     {
         return [
             self::getRequiredRule($required),
-            'max:' . config('laravel-helpers.validation.max_string_length'),
+            'max:'.config('laravel-helpers.validation.max_string_length'),
             new Enum($enum),
         ];
     }
@@ -166,7 +166,7 @@ class ValidationHelper
 
         foreach ($fields as $fieldLine => $fieldItem) {
             if (cmprstr($field, $fieldItem)) {
-                return ((int)$line + 1) . ' ' . __($fieldLine);
+                return ((int) $line + 1).' '.__($fieldLine);
             }
         }
 
@@ -184,8 +184,8 @@ class ValidationHelper
     private static function getRequiredRule(string|bool $required = null): string
     {
         if (is_string($required)) {
-            return 'required_if:' . $required;
-        } elseif (is_bool($required) && !$required) {
+            return 'required_if:'.$required;
+        } elseif (is_bool($required) && ! $required) {
             return 'nullable';
         } else {
             return 'required';

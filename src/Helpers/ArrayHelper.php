@@ -45,7 +45,7 @@ class ArrayHelper
         $lines = str_getcsv($csvContent, "\n");
         $keys = str_getcsv($lines[0], $separator);
 
-        for ($i = 1; $i < count($lines); ++$i) {
+        for ($i = 1; $i < count($lines); $i++) {
             $array[] = array_combine(
                 $keys,
                 str_getcsv($lines[$i], "\t")
@@ -62,6 +62,7 @@ class ArrayHelper
                 $value = $item[$oldKeyName];
                 unset($item[$oldKeyName]);
                 $item[$newKeyName] = $value;
+
                 return $item;
             },
             $array

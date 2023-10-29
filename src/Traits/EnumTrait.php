@@ -39,6 +39,6 @@ trait EnumTrait
             }
         }
 
-        throw new Exception("$string is not a valid backing value for enum " . self::class);
+        throw new Exception("$string is not a valid backing value for enum ".self::class);
     }
 }
