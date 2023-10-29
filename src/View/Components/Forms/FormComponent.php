@@ -16,6 +16,8 @@ abstract class FormComponent extends Component
 
     protected const TYPE_TEXT = 'text';
 
+    protected const TYPE_HIDDEN = 'hidden';
+
     protected const TYPE_DATE = 'date';
 
     protected const TYPE_DATETIME = 'datetime';
