@@ -33,7 +33,7 @@ class Modal extends Component
     private function addAttributesToButton(string $key, ?string $value): void
     {
         if ($value) {
-            $this->buttonAttributes[$key] = $key;
+            $this->buttonAttributes[$key] = $value;
         }
     }
 }

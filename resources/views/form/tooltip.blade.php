@@ -1,4 +1,4 @@
-<i class="{{ $class }}" title="{{ $title }}" data-toggle="tooltip" data-placement="{{ $position }}"></i>
+<i @isset($id) id="{{ $id }}" @endisset class="{{ $class }}" title="{{ $title }}" data-toggle="tooltip" data-placement="{{ $position }}"></i>
 
 @once
     @push('scripts')

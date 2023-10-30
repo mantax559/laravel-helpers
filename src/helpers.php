@@ -45,9 +45,9 @@ if (! function_exists('external_code_decode')) {
 }
 
 if (! function_exists('price')) {
-    function price($price, int $decimals = 2): string
+    function price($price, string $currency = 'EUR', int $decimals = 2): string
     {
-        return number_format((float) $price, $decimals, '.', '').'€';
+        return number_format((float) $price, $decimals, '.', '').' '.$currency;
     }
 }
 

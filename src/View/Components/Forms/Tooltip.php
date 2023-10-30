@@ -9,6 +9,7 @@ class Tooltip extends Component
     public function __construct(
         public string $title,
         public ?string $class = null,
+        public ?string $id = null,
         public ?string $icon = null,
         public ?string $position = null,
     ) {
