@@ -69,7 +69,7 @@ class ValidationHelper
         ];
 
         if (! empty($after)) {
-            $rule = array_merge([$rule, ['after:'.$after]]);
+            $rule = array_merge($rule, [$after]);
         }
 
         return $rule;
@@ -86,12 +86,12 @@ class ValidationHelper
         ];
     }
 
-    public static function getFileRules(string|bool $required = null): array
+    public static function getFileRules(string|bool $required = null, string $extensions = null): array
     {
         return [
             self::getRequiredRule($required),
             'max:'.config('laravel-helpers.validation.max_file_size'),
-            'mimes:'.config('laravel-helpers.validation.accept_file_extensions'),
+            'mimes:'.($extensions ?? config('laravel-helpers.validation.accept_file_extensions')),
         ];
     }
 
@@ -160,6 +160,25 @@ class ValidationHelper
         ];
     }
 
+    public static function getUniqueRules(string $table, mixed $ignore, string|bool $required = null): array
+    {
+        return [
+            self::getRequiredRule($required),
+            Rule::unique($table)->ignore($ignore),
+        ];
+    }
+
+    public static function mergeRules(...$array): array
+    {
+        $rules = [];
+
+        foreach ($array as $item) {
+            $rules = array_merge($rules, $item);
+        }
+
+        return array_values(array_unique($rules));
+    }
+
     public static function getWithValidator(string $attribute, array $fields): ?string
     {
         [$field, $line] = explode('.', $attribute);
@@ -184,7 +203,7 @@ class ValidationHelper
     private static function getRequiredRule(string|bool $required = null): string
     {
         if (is_string($required)) {
-            return 'required_if:'.$required;
+            return $required;
         } elseif (is_bool($required) && ! $required) {
             return 'nullable';
         } else {
