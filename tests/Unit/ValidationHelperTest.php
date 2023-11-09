@@ -8,6 +8,7 @@ use Orchestra\Testbench\TestCase;
 class ValidationHelperTest extends TestCase
 {
     private string $requiredCondition;
+    private string $afterCondition;
 
     protected function setUp(): void
     {
@@ -26,6 +27,7 @@ class ValidationHelperTest extends TestCase
         ]);
 
         $this->requiredCondition = 'required_if:is_active,false';
+        $this->dateCondition = 'after_or_equal:due_date';
     }
 
     public function test_get_required_rules()
@@ -187,37 +189,75 @@ class ValidationHelperTest extends TestCase
             'nullable',
             'integer',
             'min:0',
-        ], ValidationHelper::getNumericRules($this->requiredCondition));
+        ], ValidationHelper::getIntegerRules($this->requiredCondition));
 
         $this->assertEquals([
             'nullable',
             'integer',
             'min:0',
-        ], ValidationHelper::getNumericRules(false));
+        ], ValidationHelper::getIntegerRules(false));
 
         $this->assertEquals([
             'required',
             'integer',
             'min:0',
-        ], ValidationHelper::getNumericRules(true));
+        ], ValidationHelper::getIntegerRules(true));
 
         $this->assertEquals([
             $this->requiredCondition,
             'nullable',
             'integer',
             'min:15',
-        ], ValidationHelper::getNumericRules($this->requiredCondition, 15));
+        ], ValidationHelper::getIntegerRules($this->requiredCondition, 15));
 
         $this->assertEquals([
             'nullable',
             'integer',
             'min:15',
-        ], ValidationHelper::getNumericRules(false, 15));
+        ], ValidationHelper::getIntegerRules(false, 15));
 
         $this->assertEquals([
             'required',
             'integer',
             'min:15',
-        ], ValidationHelper::getNumericRules(true, 15));
+        ], ValidationHelper::getIntegerRules(true, 15));
+    }
+
+    public function test_get_date_rules()
+    {
+        $this->assertEquals([
+            $this->requiredCondition,
+            'nullable',
+            'date',
+        ], ValidationHelper::getDateRules($this->requiredCondition));
+
+        $this->assertEquals([
+            'nullable',
+            'date',
+        ], ValidationHelper::getDateRules(false));
+
+        $this->assertEquals([
+            'required',
+            'date',
+        ], ValidationHelper::getDateRules(true));
+
+        $this->assertEquals([
+            $this->requiredCondition,
+            'nullable',
+            'date',
+            $this->dateCondition,
+        ], ValidationHelper::getDateRules($this->requiredCondition, $this->dateCondition));
+
+        $this->assertEquals([
+            'nullable',
+            'date',
+            $this->dateCondition,
+        ], ValidationHelper::getDateRules(false, $this->dateCondition));
+
+        $this->assertEquals([
+            'required',
+            'date',
+            $this->dateCondition,
+        ], ValidationHelper::getDateRules(true, $this->dateCondition));
     }
 }

@@ -65,15 +65,15 @@ class ValidationHelper
         );
     }
 
-    public static function getDateRules(string|bool $required = null, string $after = null): array
+    public static function getDateRules(string|bool $required = null, string $condition = null): array
     {
         $rule = self::mergeRules(
             self::getRequiredRules($required),
             'date',
         );
 
-        if (! empty($after)) {
-            $rule = self::mergeRules($rule, $after);
+        if (! empty($condition)) {
+            $rule = self::mergeRules($rule, $condition);
         }
 
         return $rule;
