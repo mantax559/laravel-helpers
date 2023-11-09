@@ -329,4 +329,54 @@ class ValidationHelperTest extends TestCase
             'mimes:xlsx',
         ], ValidationHelper::getFileRules(true, 'xlsx'));
     }
+
+    public function test_get_array_rules()
+    {
+        $this->assertEquals([
+            'nullable',
+            'array',
+            'min:0',
+            'max:' . config('laravel-helpers.validation.max_array'),
+        ], ValidationHelper::getArrayRules());
+
+        $this->assertEquals([
+            'nullable',
+            'array',
+            'min:0',
+            'max:' . config('laravel-helpers.validation.max_array'),
+        ], ValidationHelper::getArrayRules());
+
+        $this->assertEquals([
+            'required',
+            'array',
+            'min:4',
+            'max:8',
+        ], ValidationHelper::getArrayRules(4, 8));
+
+        $this->assertEquals([
+            'required',
+            'array',
+            'min:4',
+            'max:8',
+        ], ValidationHelper::getArrayRules(4, 8));
+    }
+
+    public function test_get_email_rules()
+    {
+        $this->assertEquals([
+            $this->requiredCondition,
+            'nullable',
+            'email:rfc,dns',
+        ], ValidationHelper::getEmailRules($this->requiredCondition));
+
+        $this->assertEquals([
+            'nullable',
+            'email:rfc,dns',
+        ], ValidationHelper::getEmailRules(false));
+
+        $this->assertEquals([
+            'required',
+            'email:rfc,dns',
+        ], ValidationHelper::getEmailRules(true));
+    }
 }

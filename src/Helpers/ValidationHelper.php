@@ -99,13 +99,42 @@ class ValidationHelper
         );
     }
 
-    public static function getArrayRules(int $minRules = 0, int $maxRules = null): array
+    public static function getArrayRules(int $min = 0, int $max = null): array
     {
         return self::mergeRules(
-            self::getRequiredRules(is_positive_num($minRules)),
+            self::getRequiredRules(is_positive_num($min)),
             'array',
-            'min:'.$minRules,
-            'max:'.($maxRules ?? config('laravel-helpers.validation.max_array')),
+            'min:'.$min,
+            'max:'.($max ?? config('laravel-helpers.validation.max_array')),
+        );
+    }
+
+    public static function getEmailRules(string|bool $required = null): array
+    {
+        return self::mergeRules(
+            self::getRequiredRules($required),
+            'email:rfc,dns',
+        );
+    }
+
+    public static function getPasswordRules(string|bool $required = null): array
+    {
+        return self::mergeRules(
+            self::getRequiredRules($required),
+            'confirmed',
+            Password::min(config('laravel-helpers.validation.min_password_length'))
+                ->mixedCase()
+                ->numbers()
+                ->symbols()
+                ->uncompromised(),
+        );
+    }
+
+    public static function getUniqueRules(string $table, mixed $ignore, string|bool $required = null): array
+    {
+        return self::mergeRules(
+            self::getRequiredRules($required),
+            Rule::unique($table)->ignore($ignore),
         );
     }
 
@@ -138,37 +167,6 @@ class ValidationHelper
             self::getRequiredRules($required),
             'max:'.config('laravel-helpers.validation.max_string_length'),
             new Enum($enum),
-        );
-    }
-
-    public static function getEmailRules(string|bool $required = null): array
-    {
-        $rule = self::mergeRules(
-            self::getRequiredRules($required),
-            'email:rfc,dns',
-        );
-
-        return $rule;
-    }
-
-    public static function getPasswordRules(string|bool $required = null): array
-    {
-        return self::mergeRules(
-            self::getRequiredRules($required),
-            'confirmed',
-            Password::min(config('laravel-helpers.validation.min_password_length'))
-                ->mixedCase()
-                ->numbers()
-                ->symbols()
-                ->uncompromised(),
-        );
-    }
-
-    public static function getUniqueRules(string $table, mixed $ignore, string|bool $required = null): array
-    {
-        return self::mergeRules(
-            self::getRequiredRules($required),
-            Rule::unique($table)->ignore($ignore),
         );
     }
 
