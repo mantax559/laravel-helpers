@@ -47,21 +47,21 @@ class ValidationHelper
         );
     }
 
-    public static function getNumericRules(int $lowestNumber = 0, string|bool $required = null): array
+    public static function getNumericRules(string|bool $required = null, int $min = 0): array
     {
         return self::mergeRules(
             self::getRequiredRules($required),
             'numeric',
-            'min:'.$lowestNumber,
+            'min:'.$min,
         );
     }
 
-    public static function getIntegerRules(int $lowestNumber = 0, string|bool $required = null): array
+    public static function getIntegerRules(string|bool $required = null, int $min = 0): array
     {
         return self::mergeRules(
             self::getRequiredRules($required),
             'integer',
-            'min:'.$lowestNumber,
+            'min:'.$min,
         );
     }
 

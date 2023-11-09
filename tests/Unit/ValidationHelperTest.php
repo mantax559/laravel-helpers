@@ -146,24 +146,78 @@ class ValidationHelperTest extends TestCase
             'nullable',
             'numeric',
             'min:0',
-        ], ValidationHelper::getNumericRules(0, $this->requiredCondition));
+        ], ValidationHelper::getNumericRules($this->requiredCondition));
+
+        $this->assertEquals([
+            'nullable',
+            'numeric',
+            'min:0',
+        ], ValidationHelper::getNumericRules(false));
 
         $this->assertEquals([
             'required',
             'numeric',
             'min:0',
-        ], ValidationHelper::getNumericRules(0, true));
+        ], ValidationHelper::getNumericRules(true));
 
         $this->assertEquals([
-            'required',
+            $this->requiredCondition,
+            'nullable',
             'numeric',
             'min:15',
-        ], ValidationHelper::getNumericRules(15, true));
+        ], ValidationHelper::getNumericRules($this->requiredCondition, 15));
 
         $this->assertEquals([
             'nullable',
             'numeric',
             'min:15',
-        ], ValidationHelper::getNumericRules(15, false));
+        ], ValidationHelper::getNumericRules(false, 15));
+
+        $this->assertEquals([
+            'required',
+            'numeric',
+            'min:15',
+        ], ValidationHelper::getNumericRules(true, 15));
+    }
+
+    public function test_get_integer_rules()
+    {
+        $this->assertEquals([
+            $this->requiredCondition,
+            'nullable',
+            'integer',
+            'min:0',
+        ], ValidationHelper::getNumericRules($this->requiredCondition));
+
+        $this->assertEquals([
+            'nullable',
+            'integer',
+            'min:0',
+        ], ValidationHelper::getNumericRules(false));
+
+        $this->assertEquals([
+            'required',
+            'integer',
+            'min:0',
+        ], ValidationHelper::getNumericRules(true));
+
+        $this->assertEquals([
+            $this->requiredCondition,
+            'nullable',
+            'integer',
+            'min:15',
+        ], ValidationHelper::getNumericRules($this->requiredCondition, 15));
+
+        $this->assertEquals([
+            'nullable',
+            'integer',
+            'min:15',
+        ], ValidationHelper::getNumericRules(false, 15));
+
+        $this->assertEquals([
+            'required',
+            'integer',
+            'min:15',
+        ], ValidationHelper::getNumericRules(true, 15));
     }
 }
