@@ -47,53 +47,96 @@ class ValidationHelperTest extends TestCase
     public function test_get_string_rules()
     {
         $this->assertEquals([
+            $this->requiredCondition,
+            'nullable',
+            'max:' . config('laravel-helpers.validation.max_string_length'),
+        ], ValidationHelper::getStringRules($this->requiredCondition));
+
+        $this->assertEquals([
+            'nullable',
+            'max:' . config('laravel-helpers.validation.max_string_length'),
+        ], ValidationHelper::getStringRules(false));
+
+        $this->assertEquals([
             'required',
             'max:' . config('laravel-helpers.validation.max_string_length'),
         ], ValidationHelper::getStringRules(true));
 
         $this->assertEquals([
+            $this->requiredCondition,
+            'nullable',
+            'max:15',
+        ], ValidationHelper::getStringRules($this->requiredCondition, 15));
+
+        $this->assertEquals([
+            'nullable',
+            'max:15',
+        ], ValidationHelper::getStringRules(false, 15));
+
+        $this->assertEquals([
             'required',
             'max:15',
         ], ValidationHelper::getStringRules(true, 15));
-
-        $this->assertEquals([
-            'nullable',
-            'max:17',
-        ], ValidationHelper::getStringRules(false, 17));
-
-        $this->assertEquals([
-            $this->requiredCondition,
-            'nullable',
-            'max:9999999',
-        ], ValidationHelper::getStringRules($this->requiredCondition, 9999999));
     }
 
     public function test_get_text_rules()
     {
         $this->assertEquals([
-            'required',
+            $this->requiredCondition,
+            'nullable',
             'min:' . config('laravel-helpers.validation.min_text_length'),
             'max:' . config('laravel-helpers.validation.max_text_length'),
-        ], ValidationHelper::getTextRules());
+        ], ValidationHelper::getTextRules($this->requiredCondition));
+
+        $this->assertEquals([
+            'nullable',
+            'min:' . config('laravel-helpers.validation.min_text_length'),
+            'max:' . config('laravel-helpers.validation.max_text_length'),
+        ], ValidationHelper::getTextRules(false));
 
         $this->assertEquals([
             'required',
-            'min:3',
-            'max:5',
-        ], ValidationHelper::getTextRules(3, 5));
+            'min:' . config('laravel-helpers.validation.min_text_length'),
+            'max:' . config('laravel-helpers.validation.max_text_length'),
+        ], ValidationHelper::getTextRules(true));
+
+        $this->assertEquals([
+            $this->requiredCondition,
+            'nullable',
+            'min:7',
+            'max:9',
+        ], ValidationHelper::getTextRules($this->requiredCondition, 7, 9));
+
+        $this->assertEquals([
+            'nullable',
+            'min:7',
+            'max:9',
+        ], ValidationHelper::getTextRules(false, 7, 9));
+
+        $this->assertEquals([
+            'required',
+            'min:7',
+            'max:9',
+        ], ValidationHelper::getTextRules(true, 7, 9));
     }
 
     public function test_get_boolean_rules()
     {
         $this->assertEquals([
-            'required',
+            $this->requiredCondition,
+            'nullable',
             'boolean',
-        ], ValidationHelper::getBooleanRules(true));
+        ], ValidationHelper::getBooleanRules($this->requiredCondition));
 
         $this->assertEquals([
             'nullable',
             'boolean',
         ], ValidationHelper::getBooleanRules(false));
+
+        $this->assertEquals([
+            'required',
+            'boolean',
+        ], ValidationHelper::getBooleanRules(true));
     }
 
     public function test_get_numeric_rules()

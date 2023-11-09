@@ -30,13 +30,11 @@ class ValidationHelper
         );
     }
 
-    public static function getTextRules(int $min = null, int $max = null): array
+    public static function getTextRules(string|bool $required = null, int $min = null, int $max = null): array
     {
-        $min = $min ?? config('laravel-helpers.validation.min_text_length');
-
         return self::mergeRules(
-            self::getRequiredRules(is_positive_num($min)),
-            'min:'.$min,
+            self::getRequiredRules($required),
+            'min:'.($min ?? config('laravel-helpers.validation.min_text_length')),
             'max:'.($max ?? config('laravel-helpers.validation.max_text_length')),
         );
     }
