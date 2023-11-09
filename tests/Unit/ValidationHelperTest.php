@@ -8,6 +8,7 @@ use Orchestra\Testbench\TestCase;
 class ValidationHelperTest extends TestCase
 {
     private string $requiredCondition;
+
     private string $dateCondition;
 
     protected function setUp(): void
@@ -51,17 +52,17 @@ class ValidationHelperTest extends TestCase
         $this->assertEquals([
             $this->requiredCondition,
             'nullable',
-            'max:' . config('laravel-helpers.validation.max_string_length'),
+            'max:'.config('laravel-helpers.validation.max_string_length'),
         ], ValidationHelper::getStringRules($this->requiredCondition));
 
         $this->assertEquals([
             'nullable',
-            'max:' . config('laravel-helpers.validation.max_string_length'),
+            'max:'.config('laravel-helpers.validation.max_string_length'),
         ], ValidationHelper::getStringRules(false));
 
         $this->assertEquals([
             'required',
-            'max:' . config('laravel-helpers.validation.max_string_length'),
+            'max:'.config('laravel-helpers.validation.max_string_length'),
         ], ValidationHelper::getStringRules(true));
 
         $this->assertEquals([
@@ -86,20 +87,20 @@ class ValidationHelperTest extends TestCase
         $this->assertEquals([
             $this->requiredCondition,
             'nullable',
-            'min:' . config('laravel-helpers.validation.min_text_length'),
-            'max:' . config('laravel-helpers.validation.max_text_length'),
+            'min:'.config('laravel-helpers.validation.min_text_length'),
+            'max:'.config('laravel-helpers.validation.max_text_length'),
         ], ValidationHelper::getTextRules($this->requiredCondition));
 
         $this->assertEquals([
             'nullable',
-            'min:' . config('laravel-helpers.validation.min_text_length'),
-            'max:' . config('laravel-helpers.validation.max_text_length'),
+            'min:'.config('laravel-helpers.validation.min_text_length'),
+            'max:'.config('laravel-helpers.validation.max_text_length'),
         ], ValidationHelper::getTextRules(false));
 
         $this->assertEquals([
             'required',
-            'min:' . config('laravel-helpers.validation.min_text_length'),
-            'max:' . config('laravel-helpers.validation.max_text_length'),
+            'min:'.config('laravel-helpers.validation.min_text_length'),
+            'max:'.config('laravel-helpers.validation.max_text_length'),
         ], ValidationHelper::getTextRules(true));
 
         $this->assertEquals([
@@ -336,14 +337,14 @@ class ValidationHelperTest extends TestCase
             'nullable',
             'array',
             'min:0',
-            'max:' . config('laravel-helpers.validation.max_array'),
+            'max:'.config('laravel-helpers.validation.max_array'),
         ], ValidationHelper::getArrayRules());
 
         $this->assertEquals([
             'nullable',
             'array',
             'min:0',
-            'max:' . config('laravel-helpers.validation.max_array'),
+            'max:'.config('laravel-helpers.validation.max_array'),
         ], ValidationHelper::getArrayRules());
 
         $this->assertEquals([
@@ -378,5 +379,43 @@ class ValidationHelperTest extends TestCase
             'required',
             'email:rfc,dns',
         ], ValidationHelper::getEmailRules(true));
+    }
+
+    public function test_get_password_rules()
+    {
+        // TODO: Create logic
+    }
+
+    public function test_get_unique_rules()
+    {
+        // TODO: Create logic
+    }
+
+    public function test_get_in_array_rules()
+    {
+        // TODO: Create logic
+    }
+
+    public function test_get_model_rules()
+    {
+        // TODO: Create logic
+    }
+
+    public function test_get_enum_rules()
+    {
+        // TODO: Create logic
+    }
+
+    public function test_merge_rules()
+    {
+        $this->assertEquals([
+            'example1',
+            'example2',
+        ], ValidationHelper::mergeRules(['example1', 'example2'], 'example1', ['example2']));
+    }
+
+    public function test_get_with_validator()
+    {
+        // TODO: Create logic
     }
 }
