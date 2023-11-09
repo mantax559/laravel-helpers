@@ -35,7 +35,7 @@ abstract class Component extends BaseComponent
                 substr(
                     str_repeat(
                         md5(mt_rand()),
-                        round(2 + config('laravel-helpers.component.id_length') / 32)
+                        round(2 + config('laravel-helpers.component.id_length') / 32),
                     ),
                     0,
                     config('laravel-helpers.component.id_length')

@@ -94,7 +94,7 @@ abstract class FormComponent extends Component
 
     private function addAttributesToInput(string $key, bool|string|null $value): void
     {
-        if ($value) {
+        if ($value === '0' || $value) {
             if (is_bool($value)) {
                 $this->inputAttributes[$key] = $key;
             } else {
