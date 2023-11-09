@@ -8,7 +8,7 @@ use Orchestra\Testbench\TestCase;
 class ValidationHelperTest extends TestCase
 {
     private string $requiredCondition;
-    private string $afterCondition;
+    private string $dateCondition;
 
     protected function setUp(): void
     {
@@ -259,5 +259,74 @@ class ValidationHelperTest extends TestCase
             'date',
             $this->dateCondition,
         ], ValidationHelper::getDateRules(true, $this->dateCondition));
+    }
+
+    public function test_get_image_rules()
+    {
+        $this->assertEquals([
+            $this->requiredCondition,
+            'nullable',
+            'image',
+            'max:'.config('laravel-helpers.validation.max_file_size'),
+            'dimensions:min_width='.config('laravel-helpers.validation.min_image_dimension').',min_height='.config('laravel-helpers.validation.min_image_dimension'),
+            'mimes:'.config('laravel-helpers.validation.accept_image_extensions'),
+        ], ValidationHelper::getImageRules($this->requiredCondition));
+
+        $this->assertEquals([
+            'nullable',
+            'image',
+            'max:'.config('laravel-helpers.validation.max_file_size'),
+            'dimensions:min_width='.config('laravel-helpers.validation.min_image_dimension').',min_height='.config('laravel-helpers.validation.min_image_dimension'),
+            'mimes:'.config('laravel-helpers.validation.accept_image_extensions'),
+        ], ValidationHelper::getImageRules(false));
+
+        $this->assertEquals([
+            'required',
+            'image',
+            'max:'.config('laravel-helpers.validation.max_file_size'),
+            'dimensions:min_width='.config('laravel-helpers.validation.min_image_dimension').',min_height='.config('laravel-helpers.validation.min_image_dimension'),
+            'mimes:'.config('laravel-helpers.validation.accept_image_extensions'),
+        ], ValidationHelper::getImageRules(true));
+    }
+
+    public function test_get_file_rules()
+    {
+        $this->assertEquals([
+            $this->requiredCondition,
+            'nullable',
+            'max:'.config('laravel-helpers.validation.max_file_size'),
+            'mimes:'.config('laravel-helpers.validation.accept_file_extensions'),
+        ], ValidationHelper::getFileRules($this->requiredCondition));
+
+        $this->assertEquals([
+            'nullable',
+            'max:'.config('laravel-helpers.validation.max_file_size'),
+            'mimes:'.config('laravel-helpers.validation.accept_file_extensions'),
+        ], ValidationHelper::getFileRules(false));
+
+        $this->assertEquals([
+            'required',
+            'max:'.config('laravel-helpers.validation.max_file_size'),
+            'mimes:'.config('laravel-helpers.validation.accept_file_extensions'),
+        ], ValidationHelper::getFileRules(true));
+
+        $this->assertEquals([
+            $this->requiredCondition,
+            'nullable',
+            'max:'.config('laravel-helpers.validation.max_file_size'),
+            'mimes:xlsx',
+        ], ValidationHelper::getFileRules($this->requiredCondition, 'xlsx'));
+
+        $this->assertEquals([
+            'nullable',
+            'max:'.config('laravel-helpers.validation.max_file_size'),
+            'mimes:xlsx',
+        ], ValidationHelper::getFileRules(false, 'xlsx'));
+
+        $this->assertEquals([
+            'required',
+            'max:'.config('laravel-helpers.validation.max_file_size'),
+            'mimes:xlsx',
+        ], ValidationHelper::getFileRules(true, 'xlsx'));
     }
 }
