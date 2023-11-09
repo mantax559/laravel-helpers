@@ -11,7 +11,7 @@ trait EnumTrait
         $array = [];
 
         foreach (self::cases() as $value) {
-            $array[$value->value] = __($value->name);
+            $array[$value->value] = __($value->value);
         }
 
         return $array;
