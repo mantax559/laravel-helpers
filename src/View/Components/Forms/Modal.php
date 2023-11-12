@@ -11,6 +11,7 @@ class Modal extends Component
     public function __construct(
         public string $id,
         public string $title,
+        public ?string $class = null,
         public ?string $action = null,
         public ?string $method = null,
         public ?string $submitText = null,
@@ -18,6 +19,11 @@ class Modal extends Component
         public ?string $submitValue = null,
     ) {
         parent::__construct('form');
+
+        $this->class = $this->mergeClasses([
+            config('laravel-helpers.component.modal.dialog_class'),
+            $class,
+        ]);
 
         $this->buttonAttributes = [
             'class' => $this->mergeClasses([

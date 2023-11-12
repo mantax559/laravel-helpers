@@ -1,5 +1,5 @@
 <div class="{{ config('laravel-helpers.component.modal.class') }}" id="{{ $id }}">
-    <div class="{{ config('laravel-helpers.component.modal.dialog_class') }}">
+    <div class="{{ $class }}">
         <div class="{{ config('laravel-helpers.component.modal.content_class') }}">
             <x-form::form :action="$action" :method="$method">
                 <div class="{{ config('laravel-helpers.component.modal.header_class') }}">
