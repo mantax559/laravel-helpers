@@ -47,7 +47,7 @@ class ValidationHelper
         );
     }
 
-    public static function getNumericRules(string|bool $required = null, int $min = 0): array
+    public static function getNumericRules(string|bool $required = null, float $min = 0): array
     {
         return self::mergeRules(
             self::getRequiredRules($required),
