@@ -148,7 +148,7 @@ if (! function_exists('format_string')) {
             };
         }
 
-        $string = preg_replace('/\s+/', ' ', $string);
+        $string = trim(preg_replace('/\s+/', ' ', $string));
 
         if (empty($string)) {
             return null;
