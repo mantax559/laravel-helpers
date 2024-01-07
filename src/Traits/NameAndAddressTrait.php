@@ -104,8 +104,8 @@ trait NameAndAddressTrait
 
         return match (count($namesList)) {
             0 => null,
-            1 => $namesList[0],
-            2 => "$namesList[0]. $namesList[1]",
+            1 => $namesList[0][0],
+            2 => "{$namesList[0][0]}. {$namesList[1]}",
         };
     }
 
@@ -115,8 +115,8 @@ trait NameAndAddressTrait
 
         return match (count($namesList)) {
             0 => null,
-            1 => "$namesList[0].",
-            2 => "$namesList[0]. $namesList[1].",
+            1 => "{$namesList[0][0]}.",
+            2 => "{$namesList[0][0]}. {$namesList[1][0]}.",
         };
     }
 
