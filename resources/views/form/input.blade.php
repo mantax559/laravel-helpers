@@ -36,6 +36,7 @@
     @push('scripts')
         <script type="text/javascript">
             $('#{{ $id }}').flatpickr({
+                allowInput: true,
                 @if(cmprstr($type, 'datetime'))
                     enableTime: true,
                     dateFormat: 'Y-m-d H:i',
