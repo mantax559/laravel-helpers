@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Traits;
+namespace Mantax559\LaravelHelpers\Traits;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
 
