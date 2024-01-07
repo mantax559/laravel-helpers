@@ -2,10 +2,11 @@
 
 namespace Mantax559\LaravelHelpers\Providers;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,23 +22,37 @@ class AppServiceProvider extends ServiceProvider
 
         $this->loadViewsFrom(self::PATH_VIEWS, 'laravel-helpers');
 
+        $this->registerMacros();
+
         Blade::componentNamespace('Mantax559\\LaravelHelpers\\View\\Components\\Forms', 'form');
+    }
 
-        // TODO: Move to seperate class
-        Builder::macro('whereLike', function ($attributes, string $search) {
-            $this->where(function (Builder $query) use ($attributes, $search) {
-                foreach (Arr::wrap($attributes) as $attribute) {
+    public function register(): void
+    {
+        $this->mergeConfigFrom(self::CONFIG_FILE, 'laravel-helpers');
+    }
+
+    private function registerMacros(): void
+    {
+        Builder::macro('whereLike', function ($columns, string $value) {
+            $this->where(function (Builder $query) use ($columns, $value) {
+                foreach (Arr::wrap($columns) as $column) {
                     $query->when(
-                        str_contains($attribute, '.'),
-                        function (Builder $query) use ($attribute, $search) {
-                            [$relationName, $relationAttribute] = explode('.', $attribute);
+                        Str::contains($column, '.'),
+                        function (Builder $query) use ($column, $value) {
+                            $parts = explode('.', $column);
+                            $relationColumn = array_pop($parts);
+                            $relationName = implode('.', $parts);
 
-                            $query->orWhereHas($relationName, function (Builder $query) use ($relationAttribute, $search) {
-                                $query->where($relationAttribute, 'LIKE', "%{$search}%");
-                            });
+                            return $query->orWhereHas(
+                                $relationName,
+                                function (Builder $query) use ($relationColumn, $value) {
+                                    $query->where($relationColumn, 'LIKE', "%{$value}%");
+                                }
+                            );
                         },
-                        function (Builder $query) use ($attribute, $search) {
-                            $query->orWhere($attribute, 'LIKE', "%{$search}%");
+                        function (Builder $query) use ($column, $value) {
+                            return $query->orWhere($column, 'LIKE', "%{$value}%");
                         }
                     );
                 }
@@ -45,10 +60,33 @@ class AppServiceProvider extends ServiceProvider
 
             return $this;
         });
-    }
 
-    public function register(): void
-    {
-        $this->mergeConfigFrom(self::CONFIG_FILE, 'laravel-helpers');
+        Builder::macro('whenWhere', function ($attributes, ?string $search, string $condition = null) {
+            if (! empty($search)) {
+                if (! empty($condition)) {
+                    $this->where($attributes, $condition, $search);
+                } else {
+                    $this->where($attributes, $search);
+                }
+            }
+
+            return $this;
+        });
+
+        Builder::macro('whenWhereIn', function ($attributes, ?string $search) {
+            if (! empty($search)) {
+                $this->whereIn($attributes, $search);
+            }
+
+            return $this;
+        });
+
+        Builder::macro('whenWhereLike', function ($attributes, ?string $search) {
+            if (! empty($search)) {
+                $this->whereLike($attributes, $search);
+            }
+
+            return $this;
+        });
     }
 }

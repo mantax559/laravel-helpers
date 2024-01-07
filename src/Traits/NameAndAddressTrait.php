@@ -9,70 +9,70 @@ trait NameAndAddressTrait
     protected function firstName(): Attribute
     {
         return Attribute::make(
-            set: fn(?string $value) => format_string($value, 4),
+            set: fn (?string $value) => format_string($value, 4),
         );
     }
 
     protected function lastName(): Attribute
     {
         return Attribute::make(
-            set: fn(?string $value) => format_string($value, 4),
+            set: fn (?string $value) => format_string($value, 4),
         );
     }
 
     protected function companyName(): Attribute
     {
         return Attribute::make(
-            set: fn(?string $value) => format_string($value, 4),
+            set: fn (?string $value) => format_string($value, 4),
         );
     }
 
     protected function companyCode(): Attribute
     {
         return Attribute::make(
-            set: fn(?string $value) => format_string($value, [4, 7]),
+            set: fn (?string $value) => format_string($value, [4, 7]),
         );
     }
 
     protected function companyVatNumber(): Attribute
     {
         return Attribute::make(
-            set: fn(?string $value) => format_string($value, [4, 7]),
+            set: fn (?string $value) => format_string($value, [4, 7]),
         );
     }
 
     protected function city(): Attribute
     {
         return Attribute::make(
-            set: fn(?string $value) => format_string($value, 4),
+            set: fn (?string $value) => format_string($value, 4),
         );
     }
 
     protected function address(): Attribute
     {
         return Attribute::make(
-            set: fn(?string $value) => format_string($value, 4),
+            set: fn (?string $value) => format_string($value, 4),
         );
     }
 
     protected function postcode(): Attribute
     {
         return Attribute::make(
-            set: fn(?string $value) => format_string($value, [4, 7]),
+            set: fn (?string $value) => format_string($value, [4, 7]),
         );
     }
 
     protected function email(): Attribute
     {
         return Attribute::make(
-            set: fn(?string $value) => format_string($value, [3, 7]),
+            set: fn (?string $value) => format_string($value, [3, 7]),
         );
     }
 
     protected function phone(): Attribute
     {
         return Attribute::make(
-            set: fn(?string $value) => format_string($value, 5),
+            set: fn (?string $value) => format_string($value, 5),
         );
     }
 
