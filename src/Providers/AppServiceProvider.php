@@ -62,25 +62,25 @@ class AppServiceProvider extends ServiceProvider
             return $this;
         });
 
-        Builder::macro('whereDateIsLess', function ($attributes, string $date) {
+        Builder::macro('whereDateBefore', function ($attributes, string $date) {
             $this->where($attributes, '>', Carbon::parse($date)->endOfDay());
 
             return $this;
         });
 
-        Builder::macro('whereDateIsLessOrEqual', function ($attributes, string $date) {
+        Builder::macro('whereDateBeforeOrEqual', function ($attributes, string $date) {
             $this->where($attributes, '>=', Carbon::parse($date)->endOfDay());
 
             return $this;
         });
 
-        Builder::macro('whereDateIsMore', function ($attributes, string $date) {
+        Builder::macro('whereDateAfter', function ($attributes, string $date) {
             $this->where($attributes, '<', Carbon::parse($date)->endOfDay());
 
             return $this;
         });
 
-        Builder::macro('whereDateIsMoreOrEqual', function ($attributes, string $date) {
+        Builder::macro('whereDateAfterOrEqual', function ($attributes, string $date) {
             $this->where($attributes, '<=', Carbon::parse($date)->endOfDay());
 
             return $this;
