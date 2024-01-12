@@ -8,6 +8,15 @@ You can install the package via composer:
 
     composer require mantax559/laravel-helpers
 
+After installation, add to the header:
+
+    @stack('cdn-header')
+
+And the footer:
+
+    @stack('cdn-footer')
+    @stack('scripts')
+
 The package will automatically register its service provider.
 
 ## Customisation
