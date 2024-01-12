@@ -2,6 +2,7 @@
 
 namespace Mantax559\LaravelHelpers\Providers;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Blade;
@@ -61,30 +62,26 @@ class AppServiceProvider extends ServiceProvider
             return $this;
         });
 
-        Builder::macro('whenWhere', function ($attributes, ?string $search, string $condition = null) {
-            if (! empty($search)) {
-                if (! empty($condition)) {
-                    $this->where($attributes, $condition, $search);
-                } else {
-                    $this->where($attributes, $search);
-                }
-            }
+        Builder::macro('whereDateIsLess', function ($attributes, string $date) {
+            $this->where($attributes, '>', Carbon::parse($date)->endOfDay());
 
             return $this;
         });
 
-        Builder::macro('whenWhereIn', function ($attributes, ?string $search) {
-            if (! empty($search)) {
-                $this->whereIn($attributes, $search);
-            }
+        Builder::macro('whereDateIsLessOrEqual', function ($attributes, string $date) {
+            $this->where($attributes, '>=', Carbon::parse($date)->endOfDay());
 
             return $this;
         });
 
-        Builder::macro('whenWhereLike', function ($attributes, ?string $search) {
-            if (! empty($search)) {
-                $this->whereLike($attributes, $search);
-            }
+        Builder::macro('whereDateIsMore', function ($attributes, string $date) {
+            $this->where($attributes, '<', Carbon::parse($date)->endOfDay());
+
+            return $this;
+        });
+
+        Builder::macro('whereDateIsMoreOrEqual', function ($attributes, string $date) {
+            $this->where($attributes, '<=', Carbon::parse($date)->endOfDay());
 
             return $this;
         });
