@@ -10,13 +10,10 @@ use ReflectionFunction;
 
 class Select2Helper
 {
-    const SORT_ASC = 0;
+    const SORT_ASC = 'asc';
 
-    const SORT_DESC = 1;
+    const SORT_DESC = 'desc';
 
-    /**
-     * @throws ReflectionException
-     */
     public function getArray(
         Select2Request $request,
         $model,
@@ -25,66 +22,30 @@ class Select2Helper
         array $with = [],
         array $where = [],
         string $sort = null,
-        string $sortDirection = self::SORT_ASC,
+        string $sortDirection = self::SORT_ASC
     ): array {
         $validated = $request->validated();
 
-        if (! in_array('id', $select)) {
-            $select[] = 'id';
-        }
+        $select = $this->ensureIdInSelect($select);
 
-        $reflection = new ReflectionFunction($text);
-        $textIdentifier = implode('-', [$reflection->getFileName(), $reflection->getStartLine(), $reflection->getEndLine()]);
+        $textIdentifier = $this->getTextIdentifier($text);
+        $cacheKey = $this->generateCacheKey($model, $textIdentifier, $select, $with, $where, $sort, $sortDirection);
 
-        $cacheKey = external_code(implode('.', [$model, $textIdentifier, json_encode($select), json_encode($with), json_encode($where), $sort, $sortDirection]), 'select2', 'md5');
-
-        if (Cache::missing($cacheKey)) {
-            $data = $model::query()
-                ->when(! empty($with), function ($query) use ($with) {
-                    $query->with($with);
-                })->when(! empty($where), function ($query) use ($where) {
-                    $query->where($where);
-                })->when(! empty($sort) && cmprint($sortDirection, self::SORT_ASC), function ($query) use ($sort) {
-                    $query->orderBy($sort);
-                })->when(! empty($sort) && cmprint($sortDirection, self::SORT_DESC), function ($query) use ($sort) {
-                    $query->orderByDesc($sort);
-                })->get($select)
-                ->map(function ($item) use ($text) {
-                    return [
-                        'id' => $item->id,
-                        'text' => $text($item),
-                    ];
-                })->when(empty($sort), function ($query) {
-                    $query->sortBy('text');
-                });
-
-            Cache::put(
-                $cacheKey,
-                $data,
-                now()->addSeconds(config('laravel-helpers.select2.data_cache_duration_seconds')),
-            );
-        } else {
-            $data = Cache::get($cacheKey);
-        }
+        $data = Cache::remember(
+            $cacheKey,
+            now()->addSeconds(config('laravel-helpers.select2.data_cache_duration_seconds')),
+            fn () => $this->fetchDataFromModel($model, $select, $with, $where, $sort, $sortDirection, $text)
+        );
 
         if (! empty($validated['values'])) {
-            $data = $data->whereIn(
-                'id',
-                explode(',', $validated['values']),
-            );
+            $data = $this->filterDataByIds($data, $validated['values']);
         } elseif (! empty($validated['query'])) {
-            $data = $data->filter(function ($item) use ($validated) {
-                return stristr($item['text'], $validated['query']);
-            });
+            $data = $this->filterDataByText($data, $validated['query']);
         }
 
-        $data = array_values($data->toArray());
-
-        if (! empty($validated['values']) || empty($validated['page'])) {
-            return $data;
-        } else {
-            return $this->addPagination($data, $validated['page']);
-        }
+        return empty($validated['values']) || empty($validated['page'])
+            ? array_values($data)
+            : $this->addPagination($data, $validated['page']);
     }
 
     public function getJson(
@@ -95,44 +56,70 @@ class Select2Helper
         array $with = [],
         array $where = [],
         string $sort = null,
-        string $sortDirection = self::SORT_ASC,
+        string $sortDirection = self::SORT_ASC
     ): JsonResponse {
-        return response()->json(
-            $this->getArray(
-                $request,
-                $model,
-                $text,
-                $select,
-                $with,
-                $where,
-                $sort,
-                $sortDirection,
-            )
-        );
+        return response()->json($this->getArray($request, $model, $text, $select, $with, $where, $sort, $sortDirection));
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    private function getTextIdentifier($text): string
+    {
+        $reflection = new ReflectionFunction($text);
+
+        return implode('-', [$reflection->getFileName(), $reflection->getStartLine(), $reflection->getEndLine()]);
+    }
+
+    private function generateCacheKey($model, $textIdentifier, array $select, array $with, array $where, string $sort, string $sortDirection): string
+    {
+        return external_code(implode('.', [$model, $textIdentifier, json_encode($select), json_encode($with), json_encode($where), $sort, $sortDirection]), 'select2', 'md5');
+    }
+
+    private function fetchDataFromModel($model, array $select, array $with, array $where, string $sort, string $sortDirection, $text)
+    {
+        return $model::query()
+            ->when(! empty($with), fn ($query) => $query->with($with))
+            ->when(! empty($where), fn ($query) => $query->where($where))
+            ->when(! empty($sort), fn ($query) => $this->applySorting($query, $sort, $sortDirection))
+            ->get($select)
+            ->map(fn ($item) => ['id' => $item->id, 'text' => $text($item)])
+            ->when(empty($sort), fn ($query) => $query->sortBy('text'));
+    }
+
+    private function filterDataByIds($data, $values)
+    {
+        return $data->whereIn('id', explode(',', $values));
+    }
+
+    private function filterDataByText($data, $query)
+    {
+        return $data->filter(fn ($item) => stristr($item['text'], $query));
     }
 
     private function addPagination(array $data, int $page): array
     {
-        $result = [];
-
         $paginationDataPerQuery = config('laravel-helpers.select2.pagination_per_query');
         $totalPages = ceil(count($data) / $paginationDataPerQuery);
         $dataFrom = ($page - 1) * $paginationDataPerQuery;
-        $dataTo = $dataFrom + $paginationDataPerQuery;
-
-        foreach ($data as $index => $item) {
-            if ($dataTo <= $index) {
-                break;
-            } elseif ($dataFrom <= $index) {
-                $result[] = $item;
-            }
-        }
 
         return [
-            'results' => $result,
-            'pagination' => [
-                'more' => ! cmprint($page, $totalPages),
-            ],
+            'results' => array_slice($data, $dataFrom, $paginationDataPerQuery),
+            'pagination' => ['more' => ! cmprint($page, $totalPages)],
         ];
+    }
+
+    private function ensureIdInSelect(array $select): array
+    {
+        if (! in_array('id', $select)) {
+            $select[] = 'id';
+        }
+
+        return $select;
+    }
+
+    private function applySorting($query, string $sort, string $sortDirection)
+    {
+        $query->when(cmprstr($sortDirection, self::SORT_ASC), fn ($q) => $q->orderBy($sort, self::SORT_ASC), fn ($q) => $q->orderBy($sort, self::SORT_DESC));
     }
 }
