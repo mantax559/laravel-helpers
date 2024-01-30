@@ -14,6 +14,8 @@ class Select2Helper
 
     const SORT_DESC = 'desc';
 
+    const DEFAULT_SORT_KEY = 'id';
+
     public function getArray(
         Select2Request $request,
         $model,
@@ -21,7 +23,7 @@ class Select2Helper
         array $select,
         array $with = [],
         array $where = [],
-        string $sort = null,
+        string $sort = self::DEFAULT_SORT_KEY,
         string $sortDirection = self::SORT_ASC
     ): array {
         $validated = $request->validated();
@@ -34,7 +36,7 @@ class Select2Helper
         $data = Cache::remember(
             $cacheKey,
             now()->addSeconds(config('laravel-helpers.select2.data_cache_duration_seconds')),
-            fn () => $this->fetchDataFromModel($model, $select, $with, $where, $sort, $sortDirection, $text)
+            fn () => $this->fetchDataFromModel($model, $text, $select, $with, $where, $sort, $sortDirection)
         );
 
         if (! empty($validated['values'])) {
@@ -43,8 +45,10 @@ class Select2Helper
             $data = $this->filterDataByText($data, $validated['query']);
         }
 
+        $data = array_values($data->toArray());
+
         return empty($validated['values']) || empty($validated['page'])
-            ? array_values($data)
+            ? $data
             : $this->addPagination($data, $validated['page']);
     }
 
@@ -55,7 +59,7 @@ class Select2Helper
         array $select,
         array $with = [],
         array $where = [],
-        string $sort = null,
+        string $sort = self::DEFAULT_SORT_KEY,
         string $sortDirection = self::SORT_ASC
     ): JsonResponse {
         return response()->json($this->getArray($request, $model, $text, $select, $with, $where, $sort, $sortDirection));
@@ -76,7 +80,7 @@ class Select2Helper
         return external_code(implode('.', [$model, $textIdentifier, json_encode($select), json_encode($with), json_encode($where), $sort, $sortDirection]), 'select2', 'md5');
     }
 
-    private function fetchDataFromModel($model, array $select, array $with, array $where, string $sort, string $sortDirection, $text)
+    private function fetchDataFromModel($model, $text, array $select, array $with, array $where, string $sort, string $sortDirection)
     {
         return $model::query()
             ->when(! empty($with), fn ($query) => $query->with($with))
