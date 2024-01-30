@@ -5,27 +5,56 @@ namespace Mantax559\LaravelHelpers\Helpers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Cache;
 use Mantax559\LaravelHelpers\Requests\Select2Request;
+use ReflectionException;
+use ReflectionFunction;
 
 class Select2Helper
 {
-    public function getArray(Select2Request $request, $model, string $key, array $with = [], array $where = [], string $sort = null): array
-    {
+    const SORT_ASC = 0;
+
+    const SORT_DESC = 1;
+
+    /**
+     * @throws ReflectionException
+     */
+    public function getArray(
+        Select2Request $request,
+        $model,
+        $text,
+        array $select,
+        array $with = [],
+        array $where = [],
+        string $sort = null,
+        string $sortDirection = self::SORT_ASC,
+    ): array {
         $validated = $request->validated();
-        $cacheKey = external_code(implode('.', [$model, $key, json_encode($with), json_encode($where)]), 'select2', 'md5');
+
+        if (! in_array('id', $select)) {
+            $select[] = 'id';
+        }
+
+        $reflection = new ReflectionFunction($text);
+        $textIdentifier = implode('-', [$reflection->getFileName(), $reflection->getStartLine(), $reflection->getEndLine()]);
+
+        $cacheKey = external_code(implode('.', [$model, $textIdentifier, json_encode($select), json_encode($with), json_encode($where), $sort, $sortDirection]), 'select2', 'md5');
 
         if (Cache::missing($cacheKey)) {
             $data = $model::query()
-                ->with($with)
-                ->where($where)
-                ->when(isset($sort), function ($query) use ($sort) {
+                ->when(! empty($with), function ($query) use ($with) {
+                    $query->with($with);
+                })->when(! empty($where), function ($query) use ($where) {
+                    $query->where($where);
+                })->when(! empty($sort) && cmprint($sortDirection, self::SORT_ASC), function ($query) use ($sort) {
+                    $query->orderBy($sort);
+                })->when(! empty($sort) && cmprint($sortDirection, self::SORT_DESC), function ($query) use ($sort) {
                     $query->orderByDesc($sort);
-                })->get($this->getSelectableKeys($model, $key))
-                ->map(function ($item) use ($key) {
+                })->get($select)
+                ->map(function ($item) use ($text) {
                     return [
                         'id' => $item->id,
-                        'text' => $item->$key,
+                        'text' => $text($item),
                     ];
-                })->when(! isset($sort), function ($query) {
+                })->when(empty($sort), function ($query) {
                     $query->sortBy('text');
                 });
 
@@ -58,10 +87,27 @@ class Select2Helper
         }
     }
 
-    public function getJson(Select2Request $request, $model, string $key, array $with = [], array $where = [], string $sort = null): JsonResponse
-    {
+    public function getJson(
+        Select2Request $request,
+        $model,
+        $text,
+        array $select,
+        array $with = [],
+        array $where = [],
+        string $sort = null,
+        string $sortDirection = self::SORT_ASC,
+    ): JsonResponse {
         return response()->json(
-            $this->getArray($request, $model, $key, $with, $where, $sort)
+            $this->getArray(
+                $request,
+                $model,
+                $text,
+                $select,
+                $with,
+                $where,
+                $sort,
+                $sortDirection,
+            )
         );
     }
 
@@ -88,16 +134,5 @@ class Select2Helper
                 'more' => ! cmprint($page, $totalPages),
             ],
         ];
-    }
-
-    private function getSelectableKeys($model, string $key): array
-    {
-        $keys = ['id'];
-
-        if (isset(array_flip((new $model())->getFillable())[$key])) {
-            $keys[] = $key;
-        }
-
-        return $keys;
     }
 }

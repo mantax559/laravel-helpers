@@ -2,7 +2,6 @@
 
 namespace Mantax559\LaravelHelpers\Providers;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Blade;
