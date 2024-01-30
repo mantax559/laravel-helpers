@@ -47,7 +47,7 @@ class Select2Helper
 
         $data = array_values($data->toArray());
 
-        return empty($validated['values']) || empty($validated['page'])
+        return ! empty($validated['values']) || empty($validated['page'])
             ? $data
             : $this->addPagination($data, $validated['page']);
     }
@@ -105,11 +105,17 @@ class Select2Helper
     {
         $paginationDataPerQuery = config('laravel-helpers.select2.pagination_per_query');
         $totalPages = ceil(count($data) / $paginationDataPerQuery);
-        $dataFrom = ($page - 1) * $paginationDataPerQuery;
+
+        $dataFrom = max(0, ($page - 1) * $paginationDataPerQuery);
+        $dataTo = min(count($data), $dataFrom + $paginationDataPerQuery);
+
+        $result = array_slice($data, $dataFrom, $dataTo - $dataFrom);
 
         return [
-            'results' => array_slice($data, $dataFrom, $paginationDataPerQuery),
-            'pagination' => ['more' => ! cmprint($page, $totalPages)],
+            'results' => $result,
+            'pagination' => [
+                'more' => ! cmprint($page, $totalPages),
+            ],
         ];
     }
 
