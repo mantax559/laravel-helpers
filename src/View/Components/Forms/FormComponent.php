@@ -77,7 +77,7 @@ abstract class FormComponent extends Component
             'name' => $this->name,
             'type' => $this->getAdjustedType(),
             'id' => $this->id,
-            'value' => $this->value,
+            'value' => escape_html($this->value),
             'title' => $this->title,
             'placeholder' => $this->placeholder,
             'checked' => isset($this->checked) ? ($this->checked && (is_array($this->checked) ? in_array($this->value, $this->checked) : cmprstr($this->value, $this->checked))) : null,
