@@ -15,6 +15,7 @@ class Tooltip extends Component
     ) {
         parent::__construct('form');
 
+        $this->title = escape_html($title);
         $this->class = $this->mergeClasses([
             $class ?? config('laravel-helpers.component.tooltip.class'),
             $icon ?? config('laravel-helpers.component.tooltip.icon'),
