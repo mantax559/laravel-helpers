@@ -84,11 +84,7 @@ if (! function_exists('escape_html')) {
             '&#039;' => "'",
         ];
 
-        foreach ($ampersands as $encoded => $ampersand) {
-            $text = str_replace($encoded, $ampersand, (string) $text);
-        }
-
-        return $text;
+        return str_replace(array_keys($ampersands), array_values($ampersands), (string) $text);
     }
 }
 
