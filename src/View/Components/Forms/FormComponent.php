@@ -3,12 +3,12 @@
 namespace Mantax559\LaravelHelpers\View\Components\Forms;
 
 use Illuminate\Support\Collection;
-use Mantax559\LaravelHelpers\Traits\HandlesValidationErrors;
+use Mantax559\LaravelHelpers\Traits\HandleValidationErrorTrait;
 use Mantax559\LaravelHelpers\View\Components\Component;
 
 abstract class FormComponent extends Component
 {
-    use HandlesValidationErrors;
+    use HandleValidationErrorTrait;
 
     protected const TYPE_CHECKBOX = 'checkbox';
 

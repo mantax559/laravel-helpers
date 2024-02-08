@@ -10,7 +10,7 @@ use Mantax559\LaravelHelpers\View\Components\Forms\Error;
 
 use function request;
 
-trait HandlesValidationErrors
+trait HandleValidationErrorTrait
 {
     protected function getErrorBag(string $bag = Error::DEFAULT_ERROR_BAG): MessageBag
     {
