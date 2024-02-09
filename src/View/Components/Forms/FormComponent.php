@@ -3,12 +3,12 @@
 namespace Mantax559\LaravelHelpers\View\Components\Forms;
 
 use Illuminate\Support\Collection;
-use Mantax559\LaravelHelpers\Traits\HandlesValidationErrors;
+use Mantax559\LaravelHelpers\Traits\HandleValidationErrorTrait;
 use Mantax559\LaravelHelpers\View\Components\Component;
 
 abstract class FormComponent extends Component
 {
-    use HandlesValidationErrors;
+    use HandleValidationErrorTrait;
 
     protected const TYPE_CHECKBOX = 'checkbox';
 
@@ -30,6 +30,8 @@ abstract class FormComponent extends Component
 
     protected const TYPE_PASSWORD = 'password';
 
+    protected const TYPE_FILE = 'file';
+
     public ?string $locale;
 
     public function __construct(
@@ -43,6 +45,7 @@ abstract class FormComponent extends Component
         public ?string $placeholder = null,
         public ?string $tooltip = null,
         public ?string $append = null,
+        public ?string $accept = null,
         public string|array|Collection|null $selected = null,
         public string|array|Collection|null $checked = null,
         public ?bool $autocomplete = null,
@@ -80,6 +83,7 @@ abstract class FormComponent extends Component
             'value' => escape_html($this->value),
             'title' => $this->title,
             'placeholder' => $this->placeholder,
+            'accept' => $this->accept,
             'checked' => isset($this->checked) ? ($this->checked && (is_array($this->checked) ? in_array($this->value, $this->checked) : cmprstr($this->value, $this->checked))) : null,
             'autocomplete' => isset($this->autocomplete) ? ($this->autocomplete ? 'on' : 'off') : null,
             'autofocus' => $this->autofocus,

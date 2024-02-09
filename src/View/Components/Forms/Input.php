@@ -19,6 +19,7 @@ class Input extends FormComponent
         string $placeholder = null,
         string $tooltip = null,
         string $append = null,
+        string $accept = null,
         bool $autocomplete = false,
         bool $autofocus = false,
         bool $disabled = false,
@@ -47,6 +48,7 @@ class Input extends FormComponent
             placeholder: $placeholder,
             tooltip: $tooltip,
             append: $append,
+            accept: $accept,
             autocomplete: $autocomplete,
             autofocus: $autofocus,
             disabled: $disabled,
@@ -67,6 +69,7 @@ class Input extends FormComponent
             self::TYPE_EMAIL,
             self::TYPE_INTEGER,
             self::TYPE_PASSWORD,
+            self::TYPE_FILE,
         ]);
 
         if (! isset($availableTypes[$type])) {

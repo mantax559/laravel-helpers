@@ -15,9 +15,9 @@ class Select2Request extends FormRequest
     public function rules(): array
     {
         return [
-            'query' => ValidationHelper::getStringRules(false),
-            'page' => ValidationHelper::getIntegerRules(false),
-            'values' => ValidationHelper::getStringRules(false),
+            'query' => ValidationHelper::getStringRules(required: false),
+            'page' => ValidationHelper::getIntegerRules(required: false),
+            'values' => ValidationHelper::getStringRules(required: false),
         ];
     }
 }

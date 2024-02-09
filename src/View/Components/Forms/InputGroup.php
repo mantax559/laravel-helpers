@@ -2,12 +2,12 @@
 
 namespace Mantax559\LaravelHelpers\View\Components\Forms;
 
-use Mantax559\LaravelHelpers\Traits\HandlesValidationErrors;
+use Mantax559\LaravelHelpers\Traits\HandleValidationErrorTrait;
 use Mantax559\LaravelHelpers\View\Components\Component;
 
 class InputGroup extends Component
 {
-    use HandlesValidationErrors;
+    use HandleValidationErrorTrait;
 
     public function __construct(
         public string $name,
