@@ -12,11 +12,11 @@ class Checkbox extends FormComponent
      */
     public function __construct(
         string $name,
-        string $type = null,
-        string $class = null,
-        string $id = null,
-        string $value = null,
-        string $title = null,
+        ?string $type = null,
+        ?string $class = null,
+        ?string $id = null,
+        ?string $value = null,
+        ?string $title = null,
         bool $disabled = false,
         bool $required = false,
         public string|array|Collection|null $checked = null,
