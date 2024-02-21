@@ -10,14 +10,14 @@ use Illuminate\Support\Str;
 
 class AppServiceProvider extends ServiceProvider
 {
-    private const CONFIG_FILE = __DIR__.'/../../config/laravel-helpers.php';
+    private const PATH_CONFIG = __DIR__.'/../../config/laravel-helpers.php';
 
     private const PATH_VIEWS = __DIR__.'/../../resources/views';
 
     public function boot(): void
     {
         $this->publishes([
-            self::CONFIG_FILE => config_path('laravel-helpers.php'),
+            self::PATH_CONFIG => config_path('laravel-helpers.php'),
         ], 'config');
 
         $this->loadViewsFrom(self::PATH_VIEWS, 'laravel-helpers');
@@ -29,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
 
     public function register(): void
     {
-        $this->mergeConfigFrom(self::CONFIG_FILE, 'laravel-helpers');
+        $this->mergeConfigFrom(self::PATH_CONFIG, 'laravel-helpers');
     }
 
     private function registerMacros(): void

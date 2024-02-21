@@ -8,12 +8,12 @@ class Select extends FormComponent
 {
     public function __construct(
         string $name,
-        string $class = null,
-        string $id = null,
-        string $title = null,
-        string $placeholder = null,
-        string $tooltip = null,
-        string $append = null,
+        ?string $class = null,
+        ?string $id = null,
+        ?string $title = null,
+        ?string $placeholder = null,
+        ?string $tooltip = null,
+        ?string $append = null,
         bool $autofocus = false,
         bool $disabled = false,
         bool $required = false,

@@ -11,7 +11,7 @@ use Illuminate\Validation\Rules\Password;
 
 class ValidationHelper
 {
-    public static function getRequiredRules(string|bool $required = null): array
+    public static function getRequiredRules(string|bool|null $required = null): array
     {
         if (is_string($required)) {
             return [$required, 'nullable'];
@@ -22,7 +22,7 @@ class ValidationHelper
         }
     }
 
-    public static function getStringRules(string|bool $required = null, int $max = null): array
+    public static function getStringRules(string|bool|null $required = null, ?int $max = null): array
     {
         return self::mergeRules(
             self::getRequiredRules($required),
@@ -30,7 +30,7 @@ class ValidationHelper
         );
     }
 
-    public static function getTextRules(string|bool $required = null, int $min = null, int $max = null): array
+    public static function getTextRules(string|bool|null $required = null, ?int $min = null, ?int $max = null): array
     {
         return self::mergeRules(
             self::getRequiredRules($required),
@@ -39,7 +39,7 @@ class ValidationHelper
         );
     }
 
-    public static function getBooleanRules(string|bool $required = null): array
+    public static function getBooleanRules(string|bool|null $required = null): array
     {
         return self::mergeRules(
             self::getRequiredRules($required),
@@ -47,7 +47,7 @@ class ValidationHelper
         );
     }
 
-    public static function getNumericRules(string|bool $required = null, float $min = 0): array
+    public static function getNumericRules(string|bool|null $required = null, float $min = 0): array
     {
         return self::mergeRules(
             self::getRequiredRules($required),
@@ -56,7 +56,7 @@ class ValidationHelper
         );
     }
 
-    public static function getIntegerRules(string|bool $required = null, int $min = 0): array
+    public static function getIntegerRules(string|bool|null $required = null, int $min = 0): array
     {
         return self::mergeRules(
             self::getRequiredRules($required),
@@ -65,7 +65,7 @@ class ValidationHelper
         );
     }
 
-    public static function getDateRules(string|bool $required = null, string $condition = null): array
+    public static function getDateRules(string|bool|null $required = null, ?string $condition = null): array
     {
         $rule = self::mergeRules(
             self::getRequiredRules($required),
@@ -79,7 +79,7 @@ class ValidationHelper
         return $rule;
     }
 
-    public static function getImageRules(string|bool $required = null): array
+    public static function getImageRules(string|bool|null $required = null): array
     {
         return self::mergeRules(
             self::getRequiredRules($required),
@@ -90,7 +90,7 @@ class ValidationHelper
         );
     }
 
-    public static function getFileRules(string|bool $required = null, string $extensions = null): array
+    public static function getFileRules(string|bool|null $required = null, ?string $extensions = null): array
     {
         return self::mergeRules(
             self::getRequiredRules($required),
@@ -99,7 +99,7 @@ class ValidationHelper
         );
     }
 
-    public static function getArrayRules(int $min = 0, int $max = null): array
+    public static function getArrayRules(int $min = 0, ?int $max = null): array
     {
         return self::mergeRules(
             self::getRequiredRules(is_positive_num($min)),
@@ -109,7 +109,7 @@ class ValidationHelper
         );
     }
 
-    public static function getEmailRules(string|bool $required = null): array
+    public static function getEmailRules(string|bool|null $required = null): array
     {
         return self::mergeRules(
             self::getRequiredRules($required),
@@ -117,7 +117,7 @@ class ValidationHelper
         );
     }
 
-    public static function getPasswordRules(string|bool $required = null): array
+    public static function getPasswordRules(string|bool|null $required = null): array
     {
         $rules = self::mergeRules(
             self::getRequiredRules($required),
@@ -133,7 +133,7 @@ class ValidationHelper
         return $rules;
     }
 
-    public static function getUniqueRules(string $table, mixed $ignore, string|bool $required = null): array
+    public static function getUniqueRules(string $table, mixed $ignore, string|bool|null $required = null): array
     {
         $rules = self::getRequiredRules($required);
 
@@ -142,7 +142,7 @@ class ValidationHelper
         return $rules;
     }
 
-    public static function getInArrayRules(Collection|array $values, string|bool $required = null): array
+    public static function getInArrayRules(Collection|array $values, string|bool|null $required = null): array
     {
         $rules = self::getRequiredRules($required);
 
@@ -151,7 +151,7 @@ class ValidationHelper
         return $rules;
     }
 
-    public static function getModelRules(Builder|string $model, string|bool $required = null): array
+    public static function getModelRules(Builder|string $model, string|bool|null $required = null): array
     {
         if ($model instanceof Builder) {
             $model = $model->pluck('id');
@@ -169,7 +169,7 @@ class ValidationHelper
         return $rules;
     }
 
-    public static function getEnumRules($enum, string|bool $required = null): array
+    public static function getEnumRules($enum, string|bool|null $required = null): array
     {
         $rules = self::mergeRules(
             self::getRequiredRules($required),
