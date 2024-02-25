@@ -4,8 +4,8 @@ namespace Mantax559\LaravelHelpers\Helpers;
 
 use Carbon\Carbon;
 use Exception;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
 
 class CurrencyHelper
 {
@@ -46,9 +46,10 @@ class CurrencyHelper
 
     private static function getCurrencies(string $date): array
     {
-        $cacheKey = 'currency_rates_' . Carbon::parse($date)->format('Y-m-d');
+        $cacheKey = 'currency_rates_'.Carbon::parse($date)->format('Y-m-d');
+
         return Cache::rememberForever($cacheKey, function () use ($date) {
-            $response = Http::get(self::API_URL . $date);
+            $response = Http::get(self::API_URL.$date);
             if ($response->successful()) {
                 return $response->json('rates');
             }
