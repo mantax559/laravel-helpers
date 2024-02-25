@@ -11,36 +11,23 @@ class CurrencyHelper
 {
     private const API_URL = 'https://api.frankfurter.app/';
 
-    public function convertToEur(string $fromCurrency, ?float $amount, string $date): float
+    public static function convertToEur(string $fromCurrency, ?float $amount, string $date): float
     {
-        return $this->convertCurrency($fromCurrency, 'EUR', $amount, $date);
+        return self::convertCurrency($fromCurrency, 'EUR', $amount, $date);
     }
 
-    public function convertFromEur(string $toCurrency, ?float $amount, string $date): float
+    public static function convertFromEur(string $toCurrency, ?float $amount, string $date): float
     {
-        return $this->convertCurrency('EUR', $toCurrency, $amount, $date);
+        return self::convertCurrency('EUR', $toCurrency, $amount, $date);
     }
 
-    private function getCurrencies(string $date): array
-    {
-        $cacheKey = 'currency_rates_' . Carbon::parse($date)->format('Y-m-d');
-        return Cache::rememberForever($cacheKey, function () use ($date) {
-            $response = Http::get(self::API_URL . $date);
-            if ($response->successful()) {
-                return $response->json('rates');
-            }
-
-            throw new Exception("Unable to fetch currency rates for date: {$date}.");
-        });
-    }
-
-    private function convertCurrency(string $fromCurrency, string $toCurrency, ?float $amount, string $date): float
+    private static function convertCurrency(string $fromCurrency, string $toCurrency, ?float $amount, string $date): float
     {
         if (empty($amount)) {
             return 0;
         }
 
-        $rates = $this->getCurrencies($date);
+        $rates = self::getCurrencies($date);
 
         if ($fromCurrency === $toCurrency) {
             return $amount;
@@ -55,5 +42,18 @@ class CurrencyHelper
         }
 
         throw new Exception("The currency '{$fromCurrency}' or '{$toCurrency}' does not exist.");
+    }
+
+    private static function getCurrencies(string $date): array
+    {
+        $cacheKey = 'currency_rates_' . Carbon::parse($date)->format('Y-m-d');
+        return Cache::rememberForever($cacheKey, function () use ($date) {
+            $response = Http::get(self::API_URL . $date);
+            if ($response->successful()) {
+                return $response->json('rates');
+            }
+
+            throw new Exception("Unable to fetch currency rates for date: {$date}.");
+        });
     }
 }
