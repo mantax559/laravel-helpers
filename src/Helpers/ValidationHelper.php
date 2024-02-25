@@ -47,21 +47,23 @@ class ValidationHelper
         );
     }
 
-    public static function getNumericRules(string|bool|null $required = null, float $min = 0): array
+    public static function getNumericRules(string|bool|null $required = null, float $min = 0, float $max = PHP_INT_MAX): array
     {
         return self::mergeRules(
             self::getRequiredRules($required),
             'numeric',
             'min:'.$min,
+            'max:'.$max,
         );
     }
 
-    public static function getIntegerRules(string|bool|null $required = null, int $min = 0): array
+    public static function getIntegerRules(string|bool|null $required = null, int $min = 0, float $max = PHP_INT_MAX): array
     {
         return self::mergeRules(
             self::getRequiredRules($required),
             'integer',
             'min:'.$min,
+            'max:'.$max,
         );
     }
 
@@ -133,11 +135,15 @@ class ValidationHelper
         return $rules;
     }
 
-    public static function getUniqueRules(string $table, mixed $ignore, string|bool|null $required = null): array
+    public static function getUniqueRules(string $table, mixed $ignore = null, string|bool|null $required = null): array
     {
         $rules = self::getRequiredRules($required);
 
-        $rules[] = Rule::unique($table)->ignore($ignore);
+        if (empty($ignore)) {
+            $rules[] = Rule::unique($table);
+        } else {
+            $rules[] = Rule::unique($table)->ignore($ignore);
+        }
 
         return $rules;
     }
