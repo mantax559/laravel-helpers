@@ -57,7 +57,7 @@ class ValidationHelper
         );
     }
 
-    public static function getIntegerRules(string|bool|null $required = null, int $min = 0, float $max = PHP_INT_MAX): array
+    public static function getIntegerRules(string|bool|null $required = null, int $min = 0, int $max = PHP_INT_MAX): array
     {
         return self::mergeRules(
             self::getRequiredRules($required),
