@@ -46,7 +46,8 @@ class CurrencyHelper
 
     private static function getCurrencies(string $date): array
     {
-        $cacheKey = 'currency_rates_'.Carbon::parse($date)->format('Y-m-d');
+        $date = Carbon::parse($date)->format('Y-m-d');
+        $cacheKey = 'currency_rates_'.$date;
 
         return Cache::rememberForever($cacheKey, function () use ($date) {
             $response = Http::get(self::API_URL.$date);
