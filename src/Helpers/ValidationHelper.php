@@ -111,6 +111,14 @@ class ValidationHelper
         );
     }
 
+    public static function getAcceptedRules(string|bool|null $required = null): array
+    {
+        return self::mergeRules(
+            self::getRequiredRules($required),
+            'accepted',
+        );
+    }
+
     public static function getEmailRules(string|bool|null $required = null): array
     {
         return self::mergeRules(
