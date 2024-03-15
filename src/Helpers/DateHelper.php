@@ -6,32 +6,38 @@ use Carbon\Carbon;
 
 class DateHelper
 {
-    public static function convertDateToUTC(Carbon $date, bool $formatToString = true): Carbon|string
+    public static function convertDateToUTC(string|Carbon $date, string $timezone, bool $formatToString = true): Carbon|string
     {
-        return self::convertDateToTimezone($date, 'UTC', $formatToString);
+        return self::convertDateToTimezone($date, $timezone, 'UTC', $formatToString);
     }
 
-    public static function convertDateFromUTC(Carbon $date, bool $formatToString = true): Carbon|string
+    public static function convertDateFromUTC(string|Carbon $date, string $timezone, bool $formatToString = true): Carbon|string
     {
-        return self::convertDateToTimezone($date, 'UTC', $formatToString);
+        return self::convertDateToTimezone($date, 'UTC', $timezone, $formatToString);
     }
 
-    public static function convertDateToGMT(Carbon $date, bool $formatToString = true): Carbon|string
+    public static function convertDateToGMT(string|Carbon $date, string $timezone, bool $formatToString = true): Carbon|string
     {
-        return self::convertDateToTimezone($date, 'GMT', $formatToString);
+        return self::convertDateToTimezone($date, $timezone, 'GMT', $formatToString);
     }
 
-    public static function convertDateFromGMT(Carbon $date, bool $formatToString = true): Carbon|string
+    public static function convertDateFromGMT(string|Carbon $date, string $timezone, bool $formatToString = true): Carbon|string
     {
-        return self::convertDateToTimezone($date, 'GMT', $formatToString);
+        return self::convertDateToTimezone($date, 'GMT', $timezone, $formatToString);
     }
 
-    public static function convertDateToTimezone(Carbon $date, string $toTimezone, bool $formatToString): Carbon|string
+    private static function convertDateToTimezone(string|Carbon $date, string $fromTimezone, string $toTimezone, bool $formatToString): Carbon|string
     {
-        $date = $date->setTimezone($toTimezone);
+        if (is_string($date)) {
+            $date = Carbon::parse($date, $fromTimezone);
+        } else {
+            $date->setTimezone($fromTimezone);
+        }
+
+        $date->setTimezone($toTimezone);
 
         if ($formatToString) {
-            $date->toDateTimeString();
+            return $date->toDateTimeString();
         }
 
         return $date;
