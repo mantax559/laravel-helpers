@@ -30,7 +30,7 @@ class ValidationHelper
         );
     }
 
-    public static function getTextRules(string|bool|null $required = null, ?int $min = null, ?int $max = null): array
+    public static function getTextRules(string|bool|null $required = null, ?int $max = null): array
     {
         return self::mergeRules(
             self::getRequiredRules($required),
