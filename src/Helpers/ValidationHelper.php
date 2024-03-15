@@ -34,7 +34,6 @@ class ValidationHelper
     {
         return self::mergeRules(
             self::getRequiredRules($required),
-            'min:'.($min ?? config('laravel-helpers.validation.min_text_length')),
             'max:'.($max ?? config('laravel-helpers.validation.max_text_length')),
         );
     }

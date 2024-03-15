@@ -3,8 +3,7 @@
 return [
     'validation' => [
         'max_string_length' => 255,
-        'min_text_length' => 3,
-        'max_text_length' => 1000,
+        'max_text_length' => 1000000,
         'max_array' => 100,
         'max_file_size' => 4096,
         'min_image_dimension' => 200,

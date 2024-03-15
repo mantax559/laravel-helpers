@@ -17,8 +17,7 @@ class ValidationHelperTest extends TestCase
 
         config([
             'laravel-helpers.validation.max_string_length' => 255,
-            'laravel-helpers.validation.min_text_length' => 3,
-            'laravel-helpers.validation.max_text_length' => 1000,
+            'laravel-helpers.validation.max_text_length' => 1000000,
             'laravel-helpers.validation.max_array' => 100,
             'laravel-helpers.validation.max_file_size' => 4096,
             'laravel-helpers.validation.min_image_dimension' => 200,
@@ -87,19 +86,16 @@ class ValidationHelperTest extends TestCase
         $this->assertEquals([
             $this->requiredCondition,
             'nullable',
-            'min:'.config('laravel-helpers.validation.min_text_length'),
             'max:'.config('laravel-helpers.validation.max_text_length'),
         ], ValidationHelper::getTextRules($this->requiredCondition));
 
         $this->assertEquals([
             'nullable',
-            'min:'.config('laravel-helpers.validation.min_text_length'),
             'max:'.config('laravel-helpers.validation.max_text_length'),
         ], ValidationHelper::getTextRules(false));
 
         $this->assertEquals([
             'required',
-            'min:'.config('laravel-helpers.validation.min_text_length'),
             'max:'.config('laravel-helpers.validation.max_text_length'),
         ], ValidationHelper::getTextRules(true));
 
