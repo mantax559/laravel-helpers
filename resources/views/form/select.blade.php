@@ -15,13 +15,33 @@
 {{-- TODO: Hardcode --}}
 @if(isset($wireModel) || isset($wireModelDefer))
     <script type="text/javascript">
+        function formatResult(result, container, query) {
+            if (query.term && result.text && !result.loading) {
+                let term = query.term;
+                let text = result.text;
+                let pattern = new RegExp('(' + term + ')', 'gi');
+
+                text = text.replace(pattern, '<b>$1</b>');
+                return text;
+            }
+
+            return result.text;
+        }
+        
         settings = {
             multiple: {{ $multiple ? 'true' : 'false' }},
             theme: 'bootstrap-5',
             language: '{{ $locale }}',
             width: '100%',
             placeholder: '{{ $placeholder }}',
-            allowClear: {{ $multiple && !$required ? 'true' : 'false' }},
+            allowClear: {{ !$multiple && !$required ? 'true' : 'false' }},
+            templateResult: function(result) {
+                let params = $('#{{ $id }}').data('select2').dropdown.$search.val();
+                return formatResult(result, null, {term: params});
+            },
+            escapeMarkup: function(markup) {
+                return markup;
+            }
         }
 
         @if($collection->isNotEmpty())
@@ -85,13 +105,33 @@
 
 @push('scripts')
     <script type="text/javascript">
+        function formatResult(result, container, query) {
+            if (query.term && result.text && !result.loading) {
+                let term = query.term;
+                let text = result.text;
+                let pattern = new RegExp('(' + term + ')', 'gi');
+
+                text = text.replace(pattern, '<b>$1</b>');
+                return text;
+            }
+
+            return result.text;
+        }
+
         settings = {
             multiple: {{ $multiple ? 'true' : 'false' }},
             theme: 'bootstrap-5',
             language: '{{ $locale }}',
             width: '100%',
             placeholder: '{{ $placeholder }}',
-            allowClear: {{ $multiple && !$required ? 'true' : 'false' }},
+            allowClear: {{ !$multiple && !$required ? 'true' : 'false' }},
+            templateResult: function(result) {
+                let params = $('#{{ $id }}').data('select2').dropdown.$search.val();
+                return formatResult(result, null, {term: params});
+            },
+            escapeMarkup: function(markup) {
+                return markup;
+            }
         }
 
         @if($collection->isNotEmpty())
