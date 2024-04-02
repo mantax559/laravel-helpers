@@ -27,7 +27,7 @@
 
             return result.text;
         }
-        
+
         settings = {
             multiple: {{ $multiple ? 'true' : 'false' }},
             theme: 'bootstrap-5',
