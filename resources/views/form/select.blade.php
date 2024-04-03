@@ -8,13 +8,26 @@
         <x-form::tooltip :title="$tooltip"/>
     @endisset
 
-        <select {{ $attributes->merge($inputAttributes)->class([config('laravel-helpers.component.select.class'), config('laravel-helpers.component.error.input_class') => $hasError($name)]) }}></select>
+    <select {{ $attributes->merge($inputAttributes)->class([config('laravel-helpers.component.select.class'), config('laravel-helpers.component.error.input_class') => $hasError($name)]) }}></select>
 
 </x-form::input-group>
 
 {{-- TODO: Hardcode --}}
 @if(isset($wireModel) || isset($wireModelDefer))
     <script type="text/javascript">
+        function formatResult(result, container, query) {
+            if (query.term && result.text && !result.loading) {
+                let term = query.term;
+                let text = result.text;
+                let pattern = new RegExp('(' + term + ')', 'gi');
+
+                text = text.replace(pattern, '<b>$1</b>');
+                return text;
+            }
+
+            return result.text;
+        }
+
         settings = {
             multiple: {{ $multiple ? 'true' : 'false' }},
             theme: 'bootstrap-5',
@@ -22,6 +35,14 @@
             width: '100%',
             placeholder: '{{ $placeholder }}',
             allowClear: {{ !$multiple && !$required ? 'true' : 'false' }},
+            templateResult: function(result) {
+                let searchInput = $('#{{ $id }}').next('.select2').find('.select2-search__field');
+                let params = searchInput.length ? searchInput.val() : '';
+                return formatResult(result, null, {term: params});
+            },
+            escapeMarkup: function(markup) {
+                return markup;
+            }
         }
 
         @if($collection->isNotEmpty())
@@ -47,6 +68,21 @@
         @endif
 
         $('#{{ $id }}').select2(settings).val(null).trigger('change');
+
+        $('#{{ $id }}').on('select2:opening', function(event) {
+            var select2 = $(this);
+            if (select2.val() == null) {
+                var option = new Option('', '', true, true);
+                select2.append(option).trigger('change');
+            }
+        });
+
+        $('#{{ $id }}').on('select2:select', function(event) {
+            var select2 = $(this);
+            if (select2.val() == '') {
+                select2.find('option[value=""]').remove().trigger('change');
+            }
+        });
 
         @if(!empty($selected) || cmprstr($selected, 0) || $disabled)
             $('#{{ $id }}').prop('disabled', true);
@@ -77,14 +113,29 @@
             @endif
         @endif
 
-        $('#{{ $id }}').on('select2:open', () => {
-            document.querySelector('.select2-search__field').focus();
+        $(document).ready(function () {
+            $('#{{ $id }}').on('change', function (e) {
+                @this.set('{{ $convertBracketsToDots($name) }}', $('#{{ $id }}').select2("val"));
+            });
         });
     </script>
 @endif
 
 @push('scripts')
     <script type="text/javascript">
+        function formatResult(result, container, query) {
+            if (query.term && result.text && !result.loading) {
+                let term = query.term;
+                let text = result.text;
+                let pattern = new RegExp('(' + term + ')', 'gi');
+
+                text = text.replace(pattern, '<b>$1</b>');
+                return text;
+            }
+
+            return result.text;
+        }
+
         settings = {
             multiple: {{ $multiple ? 'true' : 'false' }},
             theme: 'bootstrap-5',
@@ -92,6 +143,14 @@
             width: '100%',
             placeholder: '{{ $placeholder }}',
             allowClear: {{ !$multiple && !$required ? 'true' : 'false' }},
+            templateResult: function(result) {
+                let searchInput = $('#{{ $id }}').next('.select2').find('.select2-search__field');
+                let params = searchInput.length ? searchInput.val() : '';
+                return formatResult(result, null, {term: params});
+            },
+            escapeMarkup: function(markup) {
+                return markup;
+            }
         }
 
         @if($collection->isNotEmpty())
@@ -117,6 +176,21 @@
         @endif
 
         $('#{{ $id }}').select2(settings).val(null).trigger('change');
+
+        $('#{{ $id }}').on('select2:opening', function(event) {
+            var select2 = $(this);
+            if (select2.val() == null) {
+                var option = new Option('', '', true, true);
+                select2.append(option).trigger('change');
+            }
+        });
+
+        $('#{{ $id }}').on('select2:select', function(event) {
+            var select2 = $(this);
+            if (select2.val() == '') {
+                select2.find('option[value=""]').remove().trigger('change');
+            }
+        });
 
         @if(!empty($selected) || cmprstr($selected, 0) || $disabled)
             $('#{{ $id }}').prop('disabled', true);
@@ -145,18 +219,6 @@
                     });
                 @endif
             @endif
-        @endif
-
-        $('#{{ $id }}').on('select2:open', () => {
-            document.querySelector('.select2-search__field').focus();
-        });
-
-        @if(isset($wireModel) || isset($wireModelDefer))
-            $(document).ready(function () {
-                $('#{{ $id }}').on('change', function (e) {
-                    @this.set('{{ $convertBracketsToDots($name) }}', $('#{{ $id }}').select2("val"));
-                });
-            });
         @endif
     </script>
 @endpush
