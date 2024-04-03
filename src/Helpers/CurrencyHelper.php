@@ -21,7 +21,7 @@ class CurrencyHelper
         return self::convertCurrency('EUR', $toCurrency, $amount, $date);
     }
 
-    private static function convertCurrency(string $fromCurrency, string $toCurrency, ?float $amount, string $date): float
+    public static function convertCurrency(string $fromCurrency, string $toCurrency, ?float $amount, string $date): float
     {
         if (empty($amount)) {
             return 0;
