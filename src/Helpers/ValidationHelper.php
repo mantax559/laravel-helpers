@@ -107,7 +107,7 @@ class ValidationHelper
             }
 
             if ($maxFileSize) {
-                $fileSizes[] = "max:$maxWidth";
+                $fileSizes[] = "max:$maxFileSize";
             } else {
                 $fileSizes[] = 'max:'.config('laravel-helpers.validation.max_file_size');
             }
@@ -150,17 +150,39 @@ class ValidationHelper
             'image',
             $fileSizes,
             $dimensions,
-            'mimes:'.($mimes ?? config('laravel-helpers.validation.accept_image_extensions')),
+            'mimes:'.($mimes ?? config('laravel-helpers.validation.accept_image_mimes')),
         );
     }
 
-    public static function getFileRules(string|bool|null $required = null, ?string $extensions = null): array
+    public static function getFileRules(
+        string|bool|null $required = null,
+        ?int $fileSize = null,
+        ?int $minFileSize = null,
+        ?int $maxFileSize = null,
+        ?string $mimes = null
+    ): array
     {
+        $fileSizes = [];
+
+        if ($fileSize) {
+            $fileSizes[] = "size:$fileSize";
+        } else {
+            if ($minFileSize) {
+                $fileSizes[] = "min:$minFileSize";
+            }
+
+            if ($maxFileSize) {
+                $fileSizes[] = "max:$maxFileSize";
+            } else {
+                $fileSizes[] = 'max:'.config('laravel-helpers.validation.max_file_size');
+            }
+        }
+
         return self::mergeRules(
             self::getRequiredRules($required),
             'file',
-            'max:'.config('laravel-helpers.validation.max_file_size'),
-            'mimes:'.($extensions ?? config('laravel-helpers.validation.accept_file_extensions')),
+            $fileSizes,
+            'mimes:'.($mimes ?? config('laravel-helpers.validation.accept_file_mimes')),
         );
     }
 
@@ -201,7 +223,6 @@ class ValidationHelper
     {
         return self::mergeRules(
             self::getRequiredRules($required),
-            'max:'.config('laravel-helpers.validation.max_string_length'),
             empty($ignore) ? Rule::unique($table) : Rule::unique($table)->ignore($ignore),
         );
     }
@@ -233,7 +254,6 @@ class ValidationHelper
     {
         return self::mergeRules(
             self::getRequiredRules($required),
-            'max:'.config('laravel-helpers.validation.max_string_length'),
             Rule::in($enum::cases()),
         );
     }
