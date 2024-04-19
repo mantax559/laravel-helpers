@@ -11,33 +11,39 @@ class CurrencyHelper
 {
     private const API_URL = 'https://api.frankfurter.app/';
 
-    public static function convertToEur(string $fromCurrency, ?float $amount, string $date): float
+    private const EUR_CURRENCY_CODE = 'EUR';
+
+    public static function convertToEur(string $fromCurrency, ?float $amount, ?string $date): float
     {
-        return self::convertCurrency($fromCurrency, 'EUR', $amount, $date);
+        return self::convertCurrency($fromCurrency, self::EUR_CURRENCY_CODE, $amount, $date);
     }
 
-    public static function convertFromEur(string $toCurrency, ?float $amount, string $date): float
+    public static function convertFromEur(string $toCurrency, ?float $amount, ?string $date): float
     {
-        return self::convertCurrency('EUR', $toCurrency, $amount, $date);
+        return self::convertCurrency(self::EUR_CURRENCY_CODE, $toCurrency, $amount, $date);
     }
 
-    public static function convertCurrency(string $fromCurrency, string $toCurrency, ?float $amount, string $date): float
+    public static function convertCurrency(string $fromCurrency, string $toCurrency, ?float $amount, ?string $date): float
     {
         if (empty($amount)) {
             return 0;
         }
 
+        if (empty($date)) {
+            $date = now()->toDateString();
+        }
+
         $rates = self::getCurrencies($date);
 
-        if ($fromCurrency === $toCurrency) {
+        if (cmprstr($fromCurrency, $toCurrency)) {
             return $amount;
         }
 
-        if ($fromCurrency !== 'EUR' && isset($rates[$fromCurrency])) {
+        if (! cmprstr($fromCurrency, self::EUR_CURRENCY_CODE) && isset($rates[$fromCurrency])) {
             return $amount / $rates[$fromCurrency];
         }
 
-        if ($toCurrency !== 'EUR' && isset($rates[$toCurrency])) {
+        if (! cmprstr($toCurrency, self::EUR_CURRENCY_CODE) && isset($rates[$toCurrency])) {
             return $amount * $rates[$toCurrency];
         }
 
