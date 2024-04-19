@@ -45,6 +45,14 @@ class ValidationHelper
         );
     }
 
+    public static function getAcceptedRules(string|bool|null $required = null): array
+    {
+        return self::mergeRules(
+            self::getRequiredRules($required),
+            'accepted',
+        );
+    }
+
     public static function getNumericRules(string|bool|null $required = null, float $min = 0, ?float $max = null, string|array|null $additional = null): array
     {
         return self::mergeRules(
@@ -67,18 +75,13 @@ class ValidationHelper
         );
     }
 
-    public static function getDateRules(string|bool|null $required = null, ?string $condition = null): array
+    public static function getDateRules(string|bool|null $required = null, string|array|null $additional = null): array
     {
-        $rule = self::mergeRules(
+        return self::mergeRules(
             self::getRequiredRules($required),
             'date',
+            $additional,
         );
-
-        if (! empty($condition)) {
-            $rule = self::mergeRules($rule, $condition);
-        }
-
-        return $rule;
     }
 
     public static function getImageRules(
@@ -170,58 +173,42 @@ class ValidationHelper
         );
     }
 
-    public static function getAcceptedRules(string|bool|null $required = null): array
+    public static function getEmailRules(string|bool|null $required = null, bool $validateEmail = true): array
     {
         return self::mergeRules(
             self::getRequiredRules($required),
-            'accepted',
-        );
-    }
-
-    public static function getEmailRules(string|bool|null $required = null): array
-    {
-        return self::mergeRules(
-            self::getRequiredRules($required),
-            'email:rfc,dns',
+            $validateEmail ? 'email:rfc,strict,dns,spoof' : 'email',
         );
     }
 
     public static function getPasswordRules(string|bool|null $required = null): array
     {
-        $rules = self::mergeRules(
+        return self::mergeRules(
             self::getRequiredRules($required),
             'confirmed',
+            Password::min(config('laravel-helpers.validation.min_password_length'))
+                ->max(config('laravel-helpers.validation.max_password_length'))
+                ->mixedCase()
+                ->numbers()
+                ->symbols()
+                ->uncompromised(),
         );
-
-        $rules[] = Password::min(config('laravel-helpers.validation.min_password_length'))
-            ->mixedCase()
-            ->numbers()
-            ->symbols()
-            ->uncompromised();
-
-        return $rules;
     }
 
     public static function getUniqueRules(string $table, mixed $ignore = null, string|bool|null $required = null): array
     {
-        $rules = self::getRequiredRules($required);
-
-        if (empty($ignore)) {
-            $rules[] = Rule::unique($table);
-        } else {
-            $rules[] = Rule::unique($table)->ignore($ignore);
-        }
-
-        return $rules;
+        return self::mergeRules(
+            self::getRequiredRules($required),
+            empty($ignore) ? Rule::unique($table) : Rule::unique($table)->ignore($ignore),
+        );
     }
 
     public static function getInArrayRules(Collection|array $values, string|bool|null $required = null): array
     {
-        $rules = self::getRequiredRules($required);
-
-        $rules[] = Rule::in($values);
-
-        return $rules;
+        return self::mergeRules(
+            self::getRequiredRules($required),
+            Rule::in($values),
+        );
     }
 
     public static function getModelRules(Builder|string $model, string|bool|null $required = null): array
@@ -232,14 +219,11 @@ class ValidationHelper
             $model = $model::pluck('id');
         }
 
-        $rules = self::mergeRules(
+        return self::mergeRules(
             self::getRequiredRules($required),
             'integer',
+            Rule::in($model),
         );
-
-        $rules[] = Rule::in($model);
-
-        return $rules;
     }
 
     public static function getEnumRules($enum, string|bool|null $required = null): array

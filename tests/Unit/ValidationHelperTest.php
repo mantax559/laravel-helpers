@@ -2,14 +2,13 @@
 
 namespace Mantax559\LaravelHelpers\Test\Unit;
 
+use Illuminate\Validation\Rules\Password;
 use Mantax559\LaravelHelpers\Helpers\ValidationHelper;
 use Orchestra\Testbench\TestCase;
 
 class ValidationHelperTest extends TestCase
 {
     private string $requiredCondition;
-
-    private string $dateCondition;
 
     protected function setUp(): void
     {
@@ -28,7 +27,6 @@ class ValidationHelperTest extends TestCase
         ]);
 
         $this->requiredCondition = 'required_if:is_active,false';
-        $this->dateCondition = 'after_or_equal:due_date';
     }
 
     public function test_get_required_rules()
@@ -111,6 +109,20 @@ class ValidationHelperTest extends TestCase
         ], ValidationHelper::getBooleanRules(required: $this->requiredCondition));
     }
 
+    public function test_get_accepted_rules()
+    {
+        $this->assertEquals([
+            'required',
+            'accepted',
+        ], ValidationHelper::getAcceptedRules());
+
+        $this->assertEquals([
+            $this->requiredCondition,
+            'nullable',
+            'accepted',
+        ], ValidationHelper::getAcceptedRules(required: $this->requiredCondition));
+    }
+
     public function test_get_numeric_rules()
     {
         $this->assertEquals([
@@ -170,42 +182,26 @@ class ValidationHelperTest extends TestCase
     public function test_get_date_rules()
     {
         $this->assertEquals([
-            $this->requiredCondition,
-            'nullable',
+            'required',
             'date',
-        ], ValidationHelper::getDateRules($this->requiredCondition));
-
-        $this->assertEquals([
-            'nullable',
-            'date',
-        ], ValidationHelper::getDateRules(false));
+        ], ValidationHelper::getDateRules());
 
         $this->assertEquals([
             'required',
             'date',
-        ], ValidationHelper::getDateRules(true));
+            'after:date'
+        ], ValidationHelper::getDateRules(additional: 'after:date'));
 
         $this->assertEquals([
             $this->requiredCondition,
             'nullable',
             'date',
-            $this->dateCondition,
-        ], ValidationHelper::getDateRules($this->requiredCondition, $this->dateCondition));
-
-        $this->assertEquals([
-            'nullable',
-            'date',
-            $this->dateCondition,
-        ], ValidationHelper::getDateRules(false, $this->dateCondition));
-
-        $this->assertEquals([
-            'required',
-            'date',
-            $this->dateCondition,
-        ], ValidationHelper::getDateRules(true, $this->dateCondition));
+            'after:date',
+            'before:date',
+        ], ValidationHelper::getDateRules(required: $this->requiredCondition, additional: ['after:date', 'before:date']));
     }
 
-    public function test_get_image_rules()
+    public function test_get_image_rules() // TODO: Refactor code and update rules
     {
         $this->assertEquals([
             $this->requiredCondition,
@@ -233,7 +229,7 @@ class ValidationHelperTest extends TestCase
         ], ValidationHelper::getImageRules(true));
     }
 
-    public function test_get_file_rules()
+    public function test_get_file_rules() // TODO: Refactor code and update rules
     {
         $this->assertEquals([
             $this->requiredCondition,
@@ -284,44 +280,25 @@ class ValidationHelperTest extends TestCase
         ], ValidationHelper::getArrayRules());
 
         $this->assertEquals([
-            'nullable',
-            'array',
-            'min:0',
-            'max:'.config('laravel-helpers.validation.max_array'),
-        ], ValidationHelper::getArrayRules());
-
-        $this->assertEquals([
             'required',
             'array',
             'min:4',
             'max:8',
-        ], ValidationHelper::getArrayRules(4, 8));
-
-        $this->assertEquals([
-            'required',
-            'array',
-            'min:4',
-            'max:8',
-        ], ValidationHelper::getArrayRules(4, 8));
+        ], ValidationHelper::getArrayRules(min: 4.001, max: 8.999));
     }
 
     public function test_get_email_rules()
     {
         $this->assertEquals([
+            'required',
+            'email:rfc,strict,dns,spoof',
+        ], ValidationHelper::getEmailRules());
+
+        $this->assertEquals([
             $this->requiredCondition,
             'nullable',
-            'email:rfc,dns',
-        ], ValidationHelper::getEmailRules($this->requiredCondition));
-
-        $this->assertEquals([
-            'nullable',
-            'email:rfc,dns',
-        ], ValidationHelper::getEmailRules(false));
-
-        $this->assertEquals([
-            'required',
-            'email:rfc,dns',
-        ], ValidationHelper::getEmailRules(true));
+            'email',
+        ], ValidationHelper::getEmailRules(required: $this->requiredCondition, validateEmail: false));
     }
 
     public function test_get_password_rules()
@@ -354,7 +331,8 @@ class ValidationHelperTest extends TestCase
         $this->assertEquals([
             'example1',
             'example2',
-        ], ValidationHelper::mergeRules(['example1', 'example2'], 'example1', ['example2']));
+            'example3',
+        ], ValidationHelper::mergeRules(['example1', 'example2'], 'example3', ['example2'], 'example1'));
     }
 
     public function test_get_with_validator()
