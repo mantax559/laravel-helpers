@@ -34,7 +34,7 @@ class ValidationHelper
 
     public static function getTextRules(string|bool|null $required = null, ?int $max = null, string|array|null $additional = null): array
     {
-        return self::getStringRules($required, ($max ?? config('laravel-helpers.validation.max_text_length')), $additional);
+        return self::getStringRules($required, $max ?? config('laravel-helpers.validation.max_text_length'), $additional);
     }
 
     public static function getBooleanRules(string|bool|null $required = null): array
@@ -158,6 +158,7 @@ class ValidationHelper
     {
         return self::mergeRules(
             self::getRequiredRules($required),
+            'file',
             'max:'.config('laravel-helpers.validation.max_file_size'),
             'mimes:'.($extensions ?? config('laravel-helpers.validation.accept_file_extensions')),
         );
@@ -177,6 +178,7 @@ class ValidationHelper
     {
         return self::mergeRules(
             self::getRequiredRules($required),
+            'max:'.config('laravel-helpers.validation.max_string_length'),
             $validateEmail ? 'email:rfc,strict,dns,spoof' : 'email',
         );
     }
@@ -199,6 +201,7 @@ class ValidationHelper
     {
         return self::mergeRules(
             self::getRequiredRules($required),
+            'max:'.config('laravel-helpers.validation.max_string_length'),
             empty($ignore) ? Rule::unique($table) : Rule::unique($table)->ignore($ignore),
         );
     }
@@ -211,7 +214,7 @@ class ValidationHelper
         );
     }
 
-    public static function getModelRules(Builder|string $model, string|bool|null $required = null): array
+    public static function getModelRules(Builder|Collection|string $model, string|bool|null $required = null): array
     {
         if ($model instanceof Builder) {
             $model = $model->pluck('id');
@@ -226,16 +229,13 @@ class ValidationHelper
         );
     }
 
-    public static function getEnumRules($enum, string|bool|null $required = null): array
+    public static function getEnumRules(mixed $enum, string|bool|null $required = null): array
     {
-        $rules = self::mergeRules(
+        return self::mergeRules(
             self::getRequiredRules($required),
             'max:'.config('laravel-helpers.validation.max_string_length'),
+            Rule::in($enum::cases()),
         );
-
-        $rules[] = new Enum($enum);
-
-        return $rules;
     }
 
     public static function mergeRules(...$array): array
