@@ -13,24 +13,20 @@ class CurrencyHelper
 
     private const EUR_CURRENCY_CODE = 'EUR';
 
-    public static function convertToEur(string $fromCurrency, ?float $amount, ?string $date): float
+    public static function convertToEur(string $fromCurrency, ?float $amount, Carbon|string|null $date = null): float
     {
         return self::convertCurrency($fromCurrency, self::EUR_CURRENCY_CODE, $amount, $date);
     }
 
-    public static function convertFromEur(string $toCurrency, ?float $amount, ?string $date): float
+    public static function convertFromEur(string $toCurrency, ?float $amount, Carbon|string|null $date = null): float
     {
         return self::convertCurrency(self::EUR_CURRENCY_CODE, $toCurrency, $amount, $date);
     }
 
-    public static function convertCurrency(string $fromCurrency, string $toCurrency, ?float $amount, ?string $date): float
+    public static function convertCurrency(string $fromCurrency, string $toCurrency, ?float $amount, Carbon|string|null $date = null): float
     {
         if (empty($amount)) {
             return 0;
-        }
-
-        if (empty($date)) {
-            $date = now()->toDateString();
         }
 
         $rates = self::getCurrencies($date);
@@ -50,9 +46,16 @@ class CurrencyHelper
         throw new Exception("The currency '{$fromCurrency}' or '{$toCurrency}' does not exist.");
     }
 
-    private static function getCurrencies(string $date): array
+    private static function getCurrencies(Carbon|string|null $date): array
     {
-        $date = Carbon::parse($date)->format('Y-m-d');
+        if (empty($date)) {
+            $date = now()->toDateString();
+        } elseif ($date instanceof Carbon) {
+            $date = $date->toDateString();
+        } else {
+            $date = Carbon::parse($date)->format('Y-m-d');
+        }
+
         $cacheKey = 'currency_rates_'.$date;
 
         return Cache::rememberForever($cacheKey, function () use ($date) {

@@ -277,12 +277,14 @@ class ValidationHelperTest extends TestCase
     {
         $this->assertEquals([
             'required',
+            'max:255',
             'email:rfc,strict,dns,spoof',
         ], ValidationHelper::getEmailRules());
 
         $this->assertEquals([
             $this->requiredCondition,
             'nullable',
+            'max:255',
             'email',
         ], ValidationHelper::getEmailRules(required: $this->requiredCondition, validateEmail: false));
     }
