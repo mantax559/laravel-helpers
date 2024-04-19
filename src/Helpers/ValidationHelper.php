@@ -26,6 +26,7 @@ class ValidationHelper
     {
         return self::mergeRules(
             self::getRequiredRules($required),
+            'string',
             'max:'.($max ?? config('laravel-helpers.validation.max_string_length')),
         );
     }
@@ -80,14 +81,73 @@ class ValidationHelper
         return $rule;
     }
 
-    public static function getImageRules(string|bool|null $required = null): array
-    {
+    public static function getImageRules(
+        string|bool|null $required = null,
+        ?int $fileSize = null,
+        ?int $minFileSize = null,
+        ?int $maxFileSize = null,
+        ?int $width = null,
+        ?int $height = null,
+        ?int $minWidth = null,
+        ?int $minHeight = null,
+        ?int $maxWidth = null,
+        ?int $maxHeight = null,
+        ?string $mimes = null
+    ): array {
+        $fileSizes = [];
+
+        if ($fileSize) {
+            $fileSizes[] = "size:$fileSize";
+        } else {
+            if ($minFileSize) {
+                $fileSizes[] = "min:$minFileSize";
+            }
+
+            if ($maxFileSize) {
+                $fileSizes[] = "max:$maxWidth";
+            } else {
+                $fileSizes[] = 'max:'.config('laravel-helpers.validation.max_file_size');
+            }
+        }
+
+        $dimensions = [];
+
+        if ($width) {
+            $dimensions[] = "width=$width";
+        } else {
+            if ($minWidth) {
+                $dimensions[] = "min_width=$minWidth";
+            } else {
+                $dimensions[] = 'min_width='.config('laravel-helpers.validation.min_image_dimension');
+            }
+
+            if ($maxWidth) {
+                $dimensions[] = "max_width=$maxWidth";
+            }
+        }
+
+        if ($height) {
+            $dimensions[] = "height=$height";
+        } else {
+            if ($minHeight) {
+                $dimensions[] = "min_height=$minHeight";
+            } else {
+                $dimensions[] = 'min_height='.config('laravel-helpers.validation.min_image_dimension');
+            }
+
+            if ($maxHeight) {
+                $dimensions[] = "max_height=$maxHeight";
+            }
+        }
+
+        $dimensions = 'dimensions:'.implode(',', $dimensions);
+
         return self::mergeRules(
             self::getRequiredRules($required),
             'image',
-            'max:'.config('laravel-helpers.validation.max_file_size'),
-            'dimensions:min_width='.config('laravel-helpers.validation.min_image_dimension').',min_height='.config('laravel-helpers.validation.min_image_dimension'),
-            'mimes:'.config('laravel-helpers.validation.accept_image_extensions'),
+            $fileSizes,
+            $dimensions,
+            'mimes:'.($mimes ?? config('laravel-helpers.validation.accept_image_extensions')),
         );
     }
 
