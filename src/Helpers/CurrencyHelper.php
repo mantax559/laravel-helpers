@@ -4,6 +4,7 @@ namespace Mantax559\LaravelHelpers\Helpers;
 
 use Carbon\Carbon;
 use Exception;
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 
@@ -59,9 +60,11 @@ class CurrencyHelper
         $cacheKey = 'currency_rates_'.$date;
 
         return Cache::rememberForever($cacheKey, function () use ($date) {
-            $response = Http::get(self::API_URL.$date);
-            if ($response->successful()) {
-                return $response->json('rates');
+            $client = new Client();
+            $response = $client->request('GET', self::API_URL . $date);
+            if (cmprint($response->getStatusCode(), 200)) {
+                $body = json_decode($response->getBody()->getContents(), true);
+                return $body['rates'] ?? [];
             }
 
             throw new Exception("Unable to fetch currency rates for date: {$date}.");
