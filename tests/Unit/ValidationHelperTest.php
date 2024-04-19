@@ -2,7 +2,6 @@
 
 namespace Mantax559\LaravelHelpers\Test\Unit;
 
-use Illuminate\Validation\Rules\Password;
 use Mantax559\LaravelHelpers\Helpers\ValidationHelper;
 use Orchestra\Testbench\TestCase;
 
@@ -20,6 +19,7 @@ class ValidationHelperTest extends TestCase
             'laravel-helpers.validation.max_array' => 100,
             'laravel-helpers.validation.max_file_size' => 4096,
             'laravel-helpers.validation.max_number' => 9223372036854775807,
+            'laravel-helpers.validation.max_password_length' => 100,
             'laravel-helpers.validation.min_image_dimension' => 200,
             'laravel-helpers.validation.min_password_length' => 18,
             'laravel-helpers.validation.accept_image_extensions' => 'png',
@@ -189,7 +189,7 @@ class ValidationHelperTest extends TestCase
         $this->assertEquals([
             'required',
             'date',
-            'after:date'
+            'after:date',
         ], ValidationHelper::getDateRules(additional: 'after:date'));
 
         $this->assertEquals([
