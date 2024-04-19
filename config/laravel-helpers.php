@@ -6,6 +6,7 @@ return [
         'max_text_length' => 1000000,
         'max_array' => 100,
         'max_file_size' => 4096,
+        'max_number' => 9223372036854775807,
         'min_image_dimension' => 200,
         'min_password_length' => 18,
         'accept_image_extensions' => 'apng,avif,gif,jpg,jpeg,jfif,pjpeg,pjp,png,svg,webp',

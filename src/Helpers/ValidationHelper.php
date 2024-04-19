@@ -22,21 +22,19 @@ class ValidationHelper
         }
     }
 
-    public static function getStringRules(string|bool|null $required = null, ?int $max = null): array
+    public static function getStringRules(string|bool|null $required = null, ?int $max = null, string|array|null $additional = null): array
     {
         return self::mergeRules(
             self::getRequiredRules($required),
             'string',
             'max:'.($max ?? config('laravel-helpers.validation.max_string_length')),
+            $additional,
         );
     }
 
-    public static function getTextRules(string|bool|null $required = null, ?int $max = null): array
+    public static function getTextRules(string|bool|null $required = null, ?int $max = null, string|array|null $additional = null): array
     {
-        return self::mergeRules(
-            self::getRequiredRules($required),
-            'max:'.($max ?? config('laravel-helpers.validation.max_text_length')),
-        );
+        return self::getStringRules($required, ($max ?? config('laravel-helpers.validation.max_text_length')), $additional);
     }
 
     public static function getBooleanRules(string|bool|null $required = null): array
@@ -47,23 +45,25 @@ class ValidationHelper
         );
     }
 
-    public static function getNumericRules(string|bool|null $required = null, float $min = 0, float $max = PHP_INT_MAX): array
+    public static function getNumericRules(string|bool|null $required = null, float $min = 0, ?float $max = null, string|array|null $additional = null): array
     {
         return self::mergeRules(
             self::getRequiredRules($required),
             'numeric',
             'min:'.$min,
-            'max:'.$max,
+            'max:'.($max ?? config('laravel-helpers.validation.max_number')),
+            $additional,
         );
     }
 
-    public static function getIntegerRules(string|bool|null $required = null, int $min = 0, int $max = PHP_INT_MAX): array
+    public static function getIntegerRules(string|bool|null $required = null, int $min = 0, ?int $max = null, string|array|null $additional = null): array
     {
         return self::mergeRules(
             self::getRequiredRules($required),
             'integer',
             'min:'.$min,
-            'max:'.$max,
+            'max:'.($max ?? config('laravel-helpers.validation.max_number')),
+            $additional,
         );
     }
 
@@ -259,6 +259,10 @@ class ValidationHelper
         $rules = [];
 
         foreach ($array as $item) {
+            if (empty($item) && ! cmprstr($item, 0)) {
+                continue;
+            }
+
             if (! is_array($item)) {
                 $item = [$item];
             }
