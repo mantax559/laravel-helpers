@@ -36,19 +36,26 @@ class ValidationHelper
         return self::getStringRules($required, $max ?? config('laravel-helpers.validation.max_text_length'), $additional);
     }
 
-    public static function getBooleanRules(string|bool|null $required = null): array
+    public static function getEmailRules(string|bool|null $required = null, bool $validateEmail = true): array
     {
         return self::mergeRules(
             self::getRequiredRules($required),
-            'boolean',
+            'max:'.config('laravel-helpers.validation.max_string_length'),
+            $validateEmail ? 'email:rfc,strict,dns,spoof' : 'email',
         );
     }
 
-    public static function getAcceptedRules(string|bool|null $required = null): array
+    public static function getPasswordRules(string|bool|null $required = null): array
     {
         return self::mergeRules(
             self::getRequiredRules($required),
-            'accepted',
+            'confirmed',
+            Password::min(config('laravel-helpers.validation.min_password_length'))
+                ->max(config('laravel-helpers.validation.max_password_length'))
+                ->mixedCase()
+                ->numbers()
+                ->symbols()
+                ->uncompromised(),
         );
     }
 
@@ -74,12 +81,59 @@ class ValidationHelper
         );
     }
 
+    public static function getBooleanRules(string|bool|null $required = null): array
+    {
+        return self::mergeRules(
+            self::getRequiredRules($required),
+            'boolean',
+        );
+    }
+
+    public static function getAcceptedRules(string|bool|null $required = null): array
+    {
+        return self::mergeRules(
+            self::getRequiredRules($required),
+            'accepted',
+        );
+    }
+
     public static function getDateRules(string|bool|null $required = null, string|array|null $additional = null): array
     {
         return self::mergeRules(
             self::getRequiredRules($required),
             'date',
             $additional,
+        );
+    }
+
+    public static function getFileRules(
+        string|bool|null $required = null,
+        ?int $fileSize = null,
+        ?int $minFileSize = null,
+        ?int $maxFileSize = null,
+        ?string $mimes = null
+    ): array {
+        $fileSizes = [];
+
+        if ($fileSize) {
+            $fileSizes[] = "size:$fileSize";
+        } else {
+            if ($minFileSize) {
+                $fileSizes[] = "min:$minFileSize";
+            }
+
+            if ($maxFileSize) {
+                $fileSizes[] = "max:$maxFileSize";
+            } else {
+                $fileSizes[] = 'max:'.config('laravel-helpers.validation.max_file_size');
+            }
+        }
+
+        return self::mergeRules(
+            self::getRequiredRules($required),
+            'file',
+            $fileSizes,
+            'mimes:'.($mimes ?? config('laravel-helpers.validation.accept_file_mimes')),
         );
     }
 
@@ -153,37 +207,6 @@ class ValidationHelper
         );
     }
 
-    public static function getFileRules(
-        string|bool|null $required = null,
-        ?int $fileSize = null,
-        ?int $minFileSize = null,
-        ?int $maxFileSize = null,
-        ?string $mimes = null
-    ): array {
-        $fileSizes = [];
-
-        if ($fileSize) {
-            $fileSizes[] = "size:$fileSize";
-        } else {
-            if ($minFileSize) {
-                $fileSizes[] = "min:$minFileSize";
-            }
-
-            if ($maxFileSize) {
-                $fileSizes[] = "max:$maxFileSize";
-            } else {
-                $fileSizes[] = 'max:'.config('laravel-helpers.validation.max_file_size');
-            }
-        }
-
-        return self::mergeRules(
-            self::getRequiredRules($required),
-            'file',
-            $fileSizes,
-            'mimes:'.($mimes ?? config('laravel-helpers.validation.accept_file_mimes')),
-        );
-    }
-
     public static function getArrayRules(int $min = 0, ?int $max = null): array
     {
         return self::mergeRules(
@@ -191,29 +214,6 @@ class ValidationHelper
             'array',
             'min:'.$min,
             'max:'.($max ?? config('laravel-helpers.validation.max_array')),
-        );
-    }
-
-    public static function getEmailRules(string|bool|null $required = null, bool $validateEmail = true): array
-    {
-        return self::mergeRules(
-            self::getRequiredRules($required),
-            'max:'.config('laravel-helpers.validation.max_string_length'),
-            $validateEmail ? 'email:rfc,strict,dns,spoof' : 'email',
-        );
-    }
-
-    public static function getPasswordRules(string|bool|null $required = null): array
-    {
-        return self::mergeRules(
-            self::getRequiredRules($required),
-            'confirmed',
-            Password::min(config('laravel-helpers.validation.min_password_length'))
-                ->max(config('laravel-helpers.validation.max_password_length'))
-                ->mixedCase()
-                ->numbers()
-                ->symbols()
-                ->uncompromised(),
         );
     }
 
