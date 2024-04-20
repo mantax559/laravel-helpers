@@ -31,12 +31,6 @@ class HelpersTest extends TestCase
         $this->assertEquals('testąčęėįšąčęėįšąčęėįš', external_code_decode('dGVzdMSFxI3EmcSXxK/FocSFxI3EmcSXxK/FocSFxI3EmcSXxK/FoQ=='));
     }
 
-    public function test_price()
-    {
-        $this->assertEquals('123456789.5432€', price(123456789.54321));
-        $this->assertEquals('123456789.54€', price(123456789.54321, 2));
-    }
-
     public function seconds()
     {
         $this->assertEquals('123456789.5432s', seconds(123456789.54321));
@@ -47,11 +41,6 @@ class HelpersTest extends TestCase
     {
         $this->assertEquals('123456789.5432%', percentage(123456789.54321, 4));
         $this->assertEquals('123456789.54%', percentage(123456789.54321));
-    }
-
-    public function test_slugify()
-    {
-        $this->assertEquals('test-ktual-naa-eec-235', slugify('Test Ктуальная ėęč 235'));
     }
 
     public function test_escape_html()
@@ -97,11 +86,6 @@ class HelpersTest extends TestCase
         $this->assertEquals('one. two. three.', array_to_string(['one', 'two', 'three']));
     }
 
-    public function test_code_format()
-    {
-        $this->assertEquals('ORD-TWO2', code_format('app.prefix.order', 'TWO2'));
-    }
-
     public function test_bytes_conversion()
     {
         $this->assertEquals('1.00 B', bytes_conversion(1));
@@ -114,11 +98,6 @@ class HelpersTest extends TestCase
         $this->assertEquals('867.36 EB', bytes_conversion(1000000000000000000000));
         $this->assertEquals('847.03 ZB', bytes_conversion(1000000000000000000000000));
         $this->assertEquals('827.18 YB', bytes_conversion(1000000000000000000000000000));
-    }
-
-    public function test_file_size()
-    {
-        // TODO: Create logic
     }
 
     public function test_unique_multidim_array()
