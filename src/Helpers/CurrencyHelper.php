@@ -6,45 +6,46 @@ use Carbon\Carbon;
 use Exception;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Http;
+use InvalidArgumentException;
 
 class CurrencyHelper
 {
-    private const API_URL = 'https://api.frankfurter.app/';
+    public const API_URL = 'https://api.frankfurter.app/';
 
-    private const EUR_CURRENCY_CODE = 'EUR';
+    public const EUR_CURRENCY_CODE = 'EUR';
 
-    public static function convertToEur(string $fromCurrency, ?float $amount, Carbon|string|null $date = null): float
+    public static function convertToEur(string $fromCurrency, ?float $amount, Carbon|string|null $date = null, int $round = 2): float
     {
-        return self::convertCurrency($fromCurrency, self::EUR_CURRENCY_CODE, $amount, $date);
+        return self::convertCurrency($fromCurrency, self::EUR_CURRENCY_CODE, $amount, $date, $round);
     }
 
-    public static function convertFromEur(string $toCurrency, ?float $amount, Carbon|string|null $date = null): float
+    public static function convertFromEur(string $toCurrency, ?float $amount, Carbon|string|null $date = null, int $round = 2): float
     {
-        return self::convertCurrency(self::EUR_CURRENCY_CODE, $toCurrency, $amount, $date);
+        return self::convertCurrency(self::EUR_CURRENCY_CODE, $toCurrency, $amount, $date, $round);
     }
 
-    public static function convertCurrency(string $fromCurrency, string $toCurrency, ?float $amount, Carbon|string|null $date = null): float
+    public static function convertCurrency(string $fromCurrency, string $toCurrency, ?float $amount, Carbon|string|null $date = null, int $round = 2): float
     {
-        if (empty($amount)) {
+        if (empty($amount) || ! is_positive_num($amount)) {
             return 0;
+        }
+
+        if (cmprstr($fromCurrency, $toCurrency)) {
+            return round($amount, $round);
         }
 
         $rates = self::getCurrencies($date);
 
-        if (cmprstr($fromCurrency, $toCurrency)) {
-            return $amount;
+        if (! isset($rates[$fromCurrency]) && ! cmprstr($fromCurrency, self::EUR_CURRENCY_CODE)) {
+            throw new InvalidArgumentException("The currency '$fromCurrency' does not exist.");
+        } elseif (! isset($rates[$toCurrency]) && ! cmprstr($toCurrency, self::EUR_CURRENCY_CODE)) {
+            throw new InvalidArgumentException("The currency '$toCurrency' does not exist.");
         }
 
-        if (! cmprstr($fromCurrency, self::EUR_CURRENCY_CODE) && isset($rates[$fromCurrency])) {
-            return $amount / $rates[$fromCurrency];
-        }
+        $amountInEur = cmprstr($fromCurrency, self::EUR_CURRENCY_CODE) ? $amount : $amount / $rates[$fromCurrency];
+        $amountInEur = cmprstr($toCurrency, self::EUR_CURRENCY_CODE) ? $amountInEur : $amountInEur * $rates[$toCurrency];
 
-        if (! cmprstr($toCurrency, self::EUR_CURRENCY_CODE) && isset($rates[$toCurrency])) {
-            return $amount * $rates[$toCurrency];
-        }
-
-        throw new Exception("The currency '{$fromCurrency}' or '{$toCurrency}' does not exist.");
+        return round($amountInEur, $round);
     }
 
     private static function getCurrencies(Carbon|string|null $date): array
@@ -61,13 +62,24 @@ class CurrencyHelper
 
         return Cache::rememberForever($cacheKey, function () use ($date) {
             $client = new Client();
-            $response = $client->request('GET', self::API_URL . $date);
-            if (cmprint($response->getStatusCode(), 200)) {
-                $body = json_decode($response->getBody()->getContents(), true);
-                return $body['rates'] ?? [];
+
+            $response = $client->request('GET', self::API_URL.$date);
+
+            if (! cmprint($response->getStatusCode(), 200)) {
+                throw new Exception("Unable to fetch currency rates for date: {$date}.");
             }
 
-            throw new Exception("Unable to fetch currency rates for date: {$date}.");
+            $body = json_decode($response->getBody()->getContents(), true);
+
+            if (! cmprint($body['amount'], 1)) {
+                throw new Exception('Expected the amount to be 1 as a base for conversion rates, but received a different value: '.$body['amount']);
+            } elseif (! cmprstr($body['base'], 'EUR')) {
+                throw new Exception('Expected the base currency to be EUR, but received: '.$body['base']);
+            } elseif (! cmprstr($body['date'], $date)) {
+                throw new Exception('The date in the response ('.$body['date'].') does not match the requested date ('.$date.').');
+            }
+
+            return $body['rates'] ?? [];
         });
     }
 }

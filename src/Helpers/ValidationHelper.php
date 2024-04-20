@@ -6,7 +6,6 @@ use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\Enum;
 use Illuminate\Validation\Rules\Password;
 
 class ValidationHelper
@@ -160,8 +159,7 @@ class ValidationHelper
         ?int $minFileSize = null,
         ?int $maxFileSize = null,
         ?string $mimes = null
-    ): array
-    {
+    ): array {
         $fileSizes = [];
 
         if ($fileSize) {
