@@ -221,6 +221,7 @@ class ValidationHelper
     {
         return self::mergeRules(
             self::getRequiredRules($required),
+            'max:'.config('laravel-helpers.validation.max_string_length'),
             empty($ignore) ? Rule::unique($table) : Rule::unique($table)->ignore($ignore),
         );
     }
@@ -229,6 +230,7 @@ class ValidationHelper
     {
         return self::mergeRules(
             self::getRequiredRules($required),
+            'max:'.config('laravel-helpers.validation.max_string_length'),
             Rule::in($values),
         );
     }
@@ -252,6 +254,7 @@ class ValidationHelper
     {
         return self::mergeRules(
             self::getRequiredRules($required),
+            'max:'.config('laravel-helpers.validation.max_string_length'),
             Rule::in($enum::cases()),
         );
     }
