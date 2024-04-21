@@ -70,6 +70,7 @@ class Input extends FormComponent
             self::TYPE_INTEGER,
             self::TYPE_PASSWORD,
             self::TYPE_FILE,
+            self::TYPE_COLOR,
         ]);
 
         if (! isset($availableTypes[$type])) {
