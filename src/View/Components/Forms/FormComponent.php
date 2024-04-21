@@ -32,6 +32,8 @@ abstract class FormComponent extends Component
 
     protected const TYPE_FILE = 'file';
 
+    protected const TYPE_COLOR = 'color';
+
     public ?string $locale;
 
     public function __construct(
