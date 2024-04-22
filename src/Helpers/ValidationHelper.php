@@ -47,16 +47,19 @@ class ValidationHelper
 
     public static function getPasswordRules(string|bool|null $required = null): array
     {
-        return self::mergeRules(
+        $rules = self::mergeRules(
             self::getRequiredRules($required),
             'confirmed',
-            Password::min(config('laravel-helpers.validation.min_password_length'))
-                ->max(config('laravel-helpers.validation.max_password_length'))
-                ->mixedCase()
-                ->numbers()
-                ->symbols()
-                ->uncompromised(),
         );
+
+        $rules[] = Password::min(config('laravel-helpers.validation.min_password_length'))
+            ->max(config('laravel-helpers.validation.max_password_length'))
+            ->mixedCase()
+            ->numbers()
+            ->symbols()
+            ->uncompromised();
+
+        return $rules;
     }
 
     public static function getNumericRules(string|bool|null $required = null, float $min = 0, ?float $max = null, string|array|null $additional = null): array
