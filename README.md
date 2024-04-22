@@ -3,6 +3,8 @@
 ![Packagist](https://img.shields.io/packagist/l/mantax559/laravel-helpers?style=flat-square)
 ![PHP from Packagist](https://img.shields.io/packagist/php-v/mantax559/laravel-helpers?style=flat-square)
 # Laravel Helpers
+## Requirements
+- Intl
 ## Installation & Setup
 You can install the package via composer:
 

@@ -38,10 +38,18 @@ class ValidationHelper
 
     public static function getEmailRules(string|bool|null $required = null, bool $validateEmail = true): array
     {
+        $emailValidation = 'email';
+        if ($validateEmail) {
+            $emailValidation .= ':rfc,strict,dns';
+            if (extension_loaded('intl')) {
+                $emailValidation .= ',spoof';
+            }
+        }
+
         return self::mergeRules(
             self::getRequiredRules($required),
             'max:'.config('laravel-helpers.validation.max_string_length'),
-            $validateEmail ? 'email:rfc,strict,dns,spoof' : 'email',
+            $emailValidation,
         );
     }
 
