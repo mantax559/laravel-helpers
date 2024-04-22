@@ -75,8 +75,6 @@ class CurrencyHelper
                 throw new Exception('Expected the amount to be 1 as a base for conversion rates, but received a different value: '.$body['amount']);
             } elseif (! cmprstr($body['base'], 'EUR')) {
                 throw new Exception('Expected the base currency to be EUR, but received: '.$body['base']);
-            } elseif (! cmprstr($body['date'], $date)) {
-                throw new Exception('The date in the response ('.$body['date'].') does not match the requested date ('.$date.').');
             }
 
             return $body['rates'] ?? [];
