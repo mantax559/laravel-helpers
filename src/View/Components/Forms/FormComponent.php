@@ -42,7 +42,7 @@ abstract class FormComponent extends Component
         public ?string $type = null,
         public ?string $class = null,
         public ?string $id = null,
-        public array|string|null $value = null,
+        public ?string $value = null,
         public ?string $title = null,
         public ?string $placeholder = null,
         public ?string $tooltip = null,
@@ -73,10 +73,6 @@ abstract class FormComponent extends Component
             $this->selected = old($oldName, $this->selected) ?? null;
             $this->value = old($oldName, $this->value) ?? null;
             $this->placeholder = $this->placeholder ?? ($this->title ?? null);
-        }
-
-        if (is_array($this->value)) {
-            $this->value = json_encode($this->value);
         }
 
         $this->locale = $addLocale ? app()->getLocale() : null;
