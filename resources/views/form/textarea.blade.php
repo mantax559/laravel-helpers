@@ -22,13 +22,13 @@
             });
         </script>
     @endpush
-@endif
 
-@once
-    @push('cdn-footer')
-        <script type="text/javascript" src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
-        @if(!cmprstr($locale, 'en'))
-            <script type="text/javascript" src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/translations/{{ $locale }}.js"></script>
-        @endif
-    @endpush
-@endonce
+    @once
+        @push('cdn-footer')
+            <script type="text/javascript" src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
+            @if(!cmprstr($locale, 'en'))
+                <script type="text/javascript" src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/translations/{{ $locale }}.js"></script>
+            @endif
+        @endpush
+    @endonce
+@endif
