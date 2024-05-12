@@ -8,9 +8,7 @@
         <x-form::tooltip :title="$tooltip"/>
     @endisset
 
-    <textarea {{ $attributes->merge($inputAttributes)->class([config('laravel-helpers.component.textarea.class'), config('laravel-helpers.component.error.input_class') => $hasError($name)]) }}>
-        {{ $value }}
-    </textarea>
+    <textarea {{ $attributes->merge($inputAttributes)->class([config('laravel-helpers.component.textarea.class'), config('laravel-helpers.component.error.input_class') => $hasError($name)]) }}>{{ $value }}</textarea>
 
 </x-form::input-group>
 
