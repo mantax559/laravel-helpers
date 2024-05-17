@@ -341,10 +341,12 @@ if (! function_exists('words2bytes')) {
 }
 
 if (! function_exists('image_height')) {
-    function image_height(string $image): int
+    function image_height(?string $image = null): int
     {
         try {
-            if (is_url($image)) {
+            if (empty($image)) {
+                return 0;
+            } elseif (is_url($image)) {
                 return @getimagesize($image)[1];
             } elseif (Storage::disk('file')->exists($image)) {
                 return getimagesize(Storage::disk('file')->path($image))[1];
@@ -358,10 +360,12 @@ if (! function_exists('image_height')) {
 }
 
 if (! function_exists('image_width')) {
-    function image_width(string $image): int
+    function image_width(?string $image = null): int
     {
         try {
-            if (is_url($image)) {
+            if (empty($image)) {
+                return 0;
+            } elseif (is_url($image)) {
                 return @getimagesize($image)[0];
             } elseif (Storage::disk('file')->exists($image)) {
                 return getimagesize(Storage::disk('file')->path($image))[0];
