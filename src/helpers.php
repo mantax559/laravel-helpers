@@ -345,11 +345,17 @@ if (! function_exists('image_height')) {
     {
         try {
             if (empty($image)) {
-                return 0;
+                $value = 0;
             } elseif (is_url($image)) {
-                return @getimagesize($image)[1];
+                $value = @getimagesize($image)[1];
             } elseif (Storage::disk('file')->exists($image)) {
-                return getimagesize(Storage::disk('file')->path($image))[1];
+                $value = getimagesize(Storage::disk('file')->path($image))[1];
+            } else {
+                $value = 0;
+            }
+
+            if (is_int($value)) {
+                return $value;
             } else {
                 return 0;
             }
@@ -364,11 +370,17 @@ if (! function_exists('image_width')) {
     {
         try {
             if (empty($image)) {
-                return 0;
+                $value = 0;
             } elseif (is_url($image)) {
-                return @getimagesize($image)[0];
+                $value = @getimagesize($image)[0];
             } elseif (Storage::disk('file')->exists($image)) {
-                return getimagesize(Storage::disk('file')->path($image))[0];
+                $value = getimagesize(Storage::disk('file')->path($image))[0];
+            } else {
+                $value = 0;
+            }
+
+            if (is_int($value)) {
+                return $value;
             } else {
                 return 0;
             }
