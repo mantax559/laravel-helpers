@@ -84,9 +84,9 @@
             }
         });
 
-        @if(!empty($selected) || cmprstr($selected, 0) || $disabled)
+        @if(!empty($selected) || (!is_array($selected) && cmprstr($selected, 0)) || $disabled)
             $('#{{ $id }}').prop('disabled', true);
-            @if(!empty($selected) || cmprstr($selected, 0))
+            @if(!empty($selected) || (!is_array($selected) && cmprstr($selected, 0)))
                 values = @json($selected);
                 @if($collection->isNotEmpty())
                     $('#{{ $id }}').val(values).trigger('change').prop('disabled', false);
@@ -192,9 +192,9 @@
             }
         });
 
-        @if(!empty($selected) || cmprstr($selected, 0) || $disabled)
+        @if(!empty($selected) || (!is_array($selected) && cmprstr($selected, 0)) || $disabled)
             $('#{{ $id }}').prop('disabled', true);
-            @if(!empty($selected) || cmprstr($selected, 0))
+            @if(!empty($selected) || (!is_array($selected) && cmprstr($selected, 0)))
                 values = @json($selected);
                 @if($collection->isNotEmpty())
                     $('#{{ $id }}').val(values).trigger('change').prop('disabled', false);
