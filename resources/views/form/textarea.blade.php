@@ -8,7 +8,13 @@
         <x-form::tooltip :title="$tooltip"/>
     @endisset
 
-    <textarea {{ $attributes->merge($inputAttributes)->class([config('laravel-helpers.component.textarea.class'), config('laravel-helpers.component.error.input_class') => $hasError($name)]) }}>{{ $value }}</textarea>
+    @if($ckeditor)
+        <textarea {{ $attributes->merge($inputAttributes)->class([config('laravel-helpers.component.textarea.class'), config('laravel-helpers.component.error.input_class') => $hasError($name)]) }}>
+            {{ $value }}
+        </textarea>
+    @else
+        <textarea {{ $attributes->merge($inputAttributes)->class([config('laravel-helpers.component.textarea.class'), config('laravel-helpers.component.error.input_class') => $hasError($name)]) }}>{{ $value }}</textarea>
+    @endif
 
 </x-form::input-group>
 
@@ -23,9 +29,9 @@
 
     @once
         @push('cdn-footer')
-            <script type="text/javascript" src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
+            <script type="text/javascript" src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
             @if(!cmprstr($locale, 'en'))
-                <script type="text/javascript" src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/translations/{{ $locale }}.js"></script>
+                <script type="text/javascript" src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/translations/{{ $locale }}.js"></script>
             @endif
         @endpush
     @endonce
