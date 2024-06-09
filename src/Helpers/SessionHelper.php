@@ -9,10 +9,20 @@ class SessionHelper
         return TableHelper::getName($model).'_page_url';
     }
 
-    public static function setDefaultUrlIfEmpty(string $model, string $route): void
+    public static function setDefaultUrlIfEmpty(string $model, string $route, ?string $permission): void
     {
-        if (session()->missing(self::getUrlKey($model))) {
-            session()->put(self::getUrlKey($model), route($route));
+        $urlKey = self::getUrlKey($model);
+
+        if (empty($permission)) {
+            if (session()->missing($urlKey)) {
+                session()->put($urlKey, route($route));
+            }
+        } else {
+            if (auth()->check() && auth()->user()->can($permission)) {
+                session()->put($urlKey, route($route));
+            } else {
+                session()->forget($urlKey, route($route));
+            }
         }
     }
 }
