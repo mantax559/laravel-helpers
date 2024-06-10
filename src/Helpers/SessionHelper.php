@@ -13,16 +13,12 @@ class SessionHelper
     {
         $urlKey = self::getUrlKey($model);
 
-        if (empty($permission)) {
+        if (empty($permission) || (auth()->check() && auth()->user()->can($permission))) {
             if (session()->missing($urlKey)) {
                 session()->put($urlKey, route($route));
             }
         } else {
-            if (auth()->check() && auth()->user()->can($permission)) {
-                session()->put($urlKey, route($route));
-            } else {
-                session()->forget($urlKey, route($route));
-            }
+            session()->forget($urlKey);
         }
     }
 }
