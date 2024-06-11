@@ -31,6 +31,30 @@ class ValidationHelper
         );
     }
 
+    public static function getUrlRules(string|bool|null $required = null): array
+    {
+        return self::mergeRules(
+            self::getRequiredRules($required),
+            'url',
+        );
+    }
+
+    public static function getHexColorRules(string|bool|null $required = null): array
+    {
+        return self::mergeRules(
+            self::getRequiredRules($required),
+            'regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/',
+        );
+    }
+
+    public static function getPhoneRules(string|bool|null $required = null): array
+    {
+        return self::mergeRules(
+            self::getRequiredRules($required),
+            'regex:/^\+\d+$/',
+        );
+    }
+
     public static function getTextRules(string|bool|null $required = null, ?int $max = null, string|array|null $additional = null): array
     {
         return self::getStringRules($required, $max ?? config('laravel-helpers.validation.max_text_length'), $additional);
