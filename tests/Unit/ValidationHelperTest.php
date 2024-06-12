@@ -70,6 +70,45 @@ class ValidationHelperTest extends TestCase
         ], ValidationHelper::getStringRules(required: $this->requiredCondition, max: 15.999, additional: ['alpha', 'starts_with:foo,bar']));
     }
 
+    public function test_get_url_rules()
+    {
+        $this->assertEquals([
+            'required',
+            'url',
+        ], ValidationHelper::getUrlRules());
+
+        $this->assertEquals([
+            'nullable',
+            'url',
+        ], ValidationHelper::getUrlRules(required: false));
+    }
+
+    public function test_get_hex_color_rules()
+    {
+        $this->assertEquals([
+            'required',
+            'regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/',
+        ], ValidationHelper::getHexColorRules());
+
+        $this->assertEquals([
+            'nullable',
+            'regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/',
+        ], ValidationHelper::getHexColorRules(required: false));
+    }
+
+    public function test_get_phone_rules()
+    {
+        $this->assertEquals([
+            'required',
+            'regex:/^\+\d+$/',
+        ], ValidationHelper::getPhoneRules());
+
+        $this->assertEquals([
+            'nullable',
+            'regex:/^\+\d+$/',
+        ], ValidationHelper::getPhoneRules(required: false));
+    }
+
     public function test_get_text_rules()
     {
         $this->assertEquals([
@@ -278,7 +317,7 @@ class ValidationHelperTest extends TestCase
         $this->assertEquals([
             'required',
             'max:255',
-            'email:rfc,strict,dns,spoof',
+            'email:rfc,strict,dns',
         ], ValidationHelper::getEmailRules());
 
         $this->assertEquals([

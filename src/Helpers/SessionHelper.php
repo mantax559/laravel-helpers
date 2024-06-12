@@ -9,7 +9,7 @@ class SessionHelper
         return TableHelper::getName($model).'_page_url';
     }
 
-    public static function setDefaultUrlIfEmpty(string $model, string $route, ?string $permission): void
+    public static function setDefaultUrlIfEmpty(string $model, string $route, ?string $permission = null): void
     {
         $urlKey = self::getUrlKey($model);
 
