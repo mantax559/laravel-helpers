@@ -34,7 +34,7 @@ class StringValidationTest extends TestCase // TODO: Write all tests
     public function testStringValidation(mixed $value, bool $expected): void
     {
         $rules = [
-            'column' => ValidationHelper::getStringRules()
+            'column' => ValidationHelper::getStringRules(),
         ];
 
         $validator = Validator::make(['column' => $value], $rules);
