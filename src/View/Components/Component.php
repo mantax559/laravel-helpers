@@ -12,9 +12,7 @@ use Illuminate\View\Component as BaseComponent;
 
 abstract class Component extends BaseComponent
 {
-    public function __construct(protected string $namespace)
-    {
-    }
+    public function __construct(protected string $namespace) {}
 
     public function render(): View|Factory|Htmlable|string|Closure|Application
     {
