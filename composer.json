@@ -12,6 +12,7 @@
   "require": {
     "php": "^8.2",
     "guzzlehttp/guzzle": "^7.0",
+    "jbroadway/urlify": "^1.2",
     "laravel/framework": "^10.0",
     "spatie/laravel-collection-macros": "^7.0"
   },

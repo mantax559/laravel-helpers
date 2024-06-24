@@ -68,7 +68,7 @@ if (! function_exists('percentage')) {
 if (! function_exists('slugify')) {
     function slugify($string): string
     {
-        //return (new SlugGenerator())->generate((string)$string);
+        return URLify::slug($string);
     }
 }
 
